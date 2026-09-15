@@ -22,6 +22,7 @@ zip -r "$OUT_FILE" . \
      'docs/*' \
      'store/*' \
      'scripts/*' \
+     'source-bundle/*' \
      '.gitignore' \
      'README.md' \
      'CHANGELOG.md' \
