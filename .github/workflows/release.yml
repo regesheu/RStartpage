@@ -1,6 +1,7 @@
 name: Build GitHub Release
 
 on:
+  workflow_dispatch:
   push:
     tags:
       - 'v*.*.*'
@@ -11,36 +12,56 @@ permissions:
 jobs:
   build-release:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Validate tag and manifest version
+      - name: Read and validate version
+        id: version
         shell: bash
         run: |
-          TAG_VERSION="${GITHUB_REF_NAME#v}"
-          MANIFEST_VERSION="$(python3 - <<'PY'
+          VERSION="$(python3 - <<'PY'
           import json
-          print(json.load(open('manifest.json'))['version'])
+          print(json.load(open('manifest.json', encoding='utf-8'))['version'])
           PY
           )"
-          if [ "$TAG_VERSION" != "$MANIFEST_VERSION" ]; then
-            echo "Tag version $TAG_VERSION does not match manifest version $MANIFEST_VERSION" >&2
-            exit 1
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+          if [[ "$GITHUB_REF" == refs/tags/* ]]; then
+            TAG_VERSION="${GITHUB_REF_NAME#v}"
+            if [ "$TAG_VERSION" != "$VERSION" ]; then
+              echo "Tag version $TAG_VERSION does not match manifest version $VERSION" >&2
+              exit 1
+            fi
           fi
 
       - name: Build extension ZIP
         run: ./scripts/build.sh
 
-      - name: Create GitHub release
+      - name: Create stable latest asset
+        shell: bash
+        run: |
+          cp "dist/RStartpage-${{ steps.version.outputs.version }}.zip" "dist/RStartpage-latest.zip"
+
+      - name: Create or update GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        shell: bash
         run: |
-          VERSION="$(python3 - <<'PY'
-          import json
-          print(json.load(open('manifest.json'))['version'])
-          PY
-          )"
-          gh release create "v${VERSION}" "dist/RStartpage-${VERSION}.zip" \
-            --title "RStartpage ${VERSION}" \
-            --generate-notes
+          TAG="v${VERSION}"
+
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" \
+              "dist/RStartpage-${VERSION}.zip" \
+              "dist/RStartpage-latest.zip" \
+              --clobber
+          else
+            gh release create "$TAG" \
+              "dist/RStartpage-${VERSION}.zip" \
+              "dist/RStartpage-latest.zip" \
+              --target "$GITHUB_SHA" \
+              --title "RStartpage ${VERSION}" \
+              --generate-notes
+          fi
