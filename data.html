@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Import & export — RStartpage</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="data.css">
+</head>
+<body class="data-body">
+  <header class="data-topbar">
+    <div class="data-topbar-inner">
+      <div class="brand static-brand"><img src="icons/icon32.png" width="28" height="28" alt=""><span>RStartpage</span></div>
+      <button id="backButton" class="button" type="button" data-i18n="data.back">← New tab</button>
+    </div>
+  </header>
+
+  <main class="data-page">
+    <section class="data-hero">
+      <div class="eyebrow" data-i18n="data.eyebrow">Data</div>
+      <h1 data-i18n="data.title">Import & export</h1>
+      <p data-i18n="data.intro">Move RStartpage between computers, import generic JSON, or copy an existing Chrome Bookmarks folder.</p>
+    </section>
+
+    <div id="pageNotice" class="page-notice" hidden></div>
+
+    <section class="data-card">
+      <div class="data-card-heading">
+        <div><h2 data-i18n="data.exportTitle">Export RStartpage</h2><p data-i18n="data.exportText">Saves sections, groups, links, descriptions, pins, card sizes, section/group colors and icons, and interface settings.</p></div>
+        <button id="exportButton" class="button primary" type="button" data-i18n="data.download">Download JSON</button>
+      </div>
+      <div class="export-proxy-options">
+        <label class="option-check"><input id="exportProxies" type="checkbox" checked><span id="exportProxiesLabel">Include proxy profiles</span></label>
+        <label class="option-check"><input id="exportSessions" type="checkbox" checked><span id="exportSessionsLabel">Include saved sessions</span></label>
+        <label class="option-check"><input id="exportProxyPasswords" type="checkbox"><span id="exportProxyPasswordsLabel">Include proxy passwords in export</span></label>
+      </div>
+      <div class="callout" data-i18n="data.exportNote">The export contains only RStartpage data. Other Chrome bookmarks are not included.</div>
+    </section>
+
+    <section class="data-card">
+      <div class="data-card-heading compact-heading">
+        <div><h2 data-i18n="data.importTitle">Import JSON</h2><p data-i18n="data.importText">Supports RStartpage backups and the generic JSON structure below.</p></div>
+      </div>
+
+      <label class="file-drop" id="fileDrop">
+        <input id="jsonFileInput" type="file" accept="application/json,.json">
+        <span class="file-drop-icon">⇧</span>
+        <strong id="fileDropTitle" data-i18n="data.chooseFile">Choose a JSON file</strong>
+        <span id="fileDropHint" data-i18n="data.dropHint">or drop it here</span>
+      </label>
+
+      <div id="importPreview" class="import-preview" hidden>
+        <div><strong id="previewFormat"></strong><span id="previewCounts"></span></div>
+      </div>
+
+      <div class="import-options">
+        <fieldset>
+          <legend data-i18n="data.mode">Mode</legend>
+          <label><input type="radio" name="importMode" value="merge" checked> <span><strong data-i18n="data.merge">Merge</strong><small data-i18n="data.mergeText">Add imported data to what you already have. This is the safe default.</small></span></label>
+          <label><input type="radio" name="importMode" value="replace"> <span><strong data-i18n="data.replace">Replace RStartpage data</strong><small data-i18n="data.replaceText">Replace RStartpage bookmarks and any selected proxy/session data with the contents of the import.</small></span></label>
+        </fieldset>
+        <label class="option-check"><input id="skipDuplicates" type="checkbox" checked><span data-i18n="data.skipDuplicates">Skip exact duplicate links</span></label>
+        <label class="option-check"><input id="importSettings" type="checkbox" checked><span data-i18n="data.importSettings">Import interface settings when present in the file</span></label>
+        <label class="option-check"><input id="importProxies" type="checkbox" checked><span id="importProxiesLabel">Import proxy profiles when present</span></label>
+        <label class="option-check"><input id="importSessions" type="checkbox" checked><span id="importSessionsLabel">Import saved sessions when present</span></label>
+      </div>
+
+      <div class="data-actions"><button id="importButton" class="button primary" type="button" disabled data-i18n="data.importButton">Import JSON</button></div>
+    </section>
+
+    <section class="data-card">
+      <div class="data-card-heading">
+        <div><h2 data-i18n="data.chromeTitle">Import from Chrome Bookmarks</h2><p data-i18n="data.chromeText">Choose an existing folder. RStartpage copies its contents and does not remove the original bookmarks.</p></div>
+      </div>
+      <div class="folder-import-row">
+        <select id="bookmarkFolderSelect" class="select"><option data-i18n="data.loadingFolders">Loading folders…</option></select>
+        <button id="folderImportButton" class="button" type="button" data-i18n="data.copyButton">Copy to RStartpage</button>
+      </div>
+      <p class="muted-note" data-i18n="data.chromeNote">The selected folder becomes a section. Nested folders become groups; deeper nesting is represented with “ / ” in the group name.</p>
+    </section>
+
+    <section class="data-card instructions-card">
+      <div class="data-card-heading compact-heading"><div><h2 data-i18n="data.schemaTitle">Minimum generic JSON structure</h2><p data-i18n="data.schemaText">If you generate JSON yourself, sections use the technical key workspaces, followed by groups and bookmarks.</p></div></div>
+      <pre><code>{
+  "workspaces": [
+    {
+      "title": "Work",
+      "color": "green",
+      "icon": "work",
+      "groups": [
+        {
+          "title": "Development",
+          "description": "Developer tools and dashboards",
+          "color": "blue",
+          "icon": "code",
+          "bookmarks": [
+            {
+              "title": "GitHub",
+              "url": "https://github.com",
+              "description": "Repositories and pull requests",
+              "pinned": true,
+              "size": "wide"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</code></pre>
+      <div class="schema-grid">
+        <div><strong data-i18n="data.required">Required</strong><p><span data-i18n="data.requiredText">workspaces[], groups[], bookmarks[], plus title and url for every link.</span></p></div>
+        <div><strong data-i18n="data.optional">Optional</strong><p><span data-i18n="data.optionalText">Sections and groups may have color and icon; groups and links may have description; links may also have pinned and size.</span></p></div>
+      </div>
+      <p class="muted-note"><code>color</code>: none / green / blue / purple / orange / red / graphite. <code>icon</code>: any built-in icon name such as <code>none</code>, <code>folder</code>, <code>grid</code>, <code>bookmark</code>, <code>briefcase</code>, <code>code</code>, <code>server</code>, <code>database</code>, <code>globe</code>, <code>music</code>, <code>shopping</code> and many others. <code>size</code>: small / normal / wide.</p>
+    </section>
+
+
+    <section class="danger-zone data-card">
+      <div class="data-card-heading">
+        <div><h2 data-i18n="data.resetTitle">Reset RStartpage</h2><p data-i18n="data.resetText">Deletes only RStartpage data and visual metadata. Other Chrome Bookmarks are not affected.</p></div>
+        <button id="resetButton" class="button danger-button" type="button" data-i18n="data.reset">Reset</button>
+      </div>
+    </section>
+    <footer class="app-author-footer page-author-footer">
+      <span>made by g.khudiakov for self and others</span>
+      <span>contact: <a href="mailto:me@regesh.ru">me@regesh.ru</a></span>
+    </footer>
+  </main>
+
+  <script src="shared.js"></script>
+  <script src="proxy-shared.js"></script>
+  <script src="tools-shared.js"></script>
+  <script src="data.js"></script>
+</body>
+</html>
