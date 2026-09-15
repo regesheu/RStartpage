@@ -1,0 +1,46 @@
+name: Build GitHub Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate tag and manifest version
+        shell: bash
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          MANIFEST_VERSION="$(python3 - <<'PY'
+          import json
+          print(json.load(open('manifest.json'))['version'])
+          PY
+          )"
+          if [ "$TAG_VERSION" != "$MANIFEST_VERSION" ]; then
+            echo "Tag version $TAG_VERSION does not match manifest version $MANIFEST_VERSION" >&2
+            exit 1
+          fi
+
+      - name: Build extension ZIP
+        run: ./scripts/build.sh
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION="$(python3 - <<'PY'
+          import json
+          print(json.load(open('manifest.json'))['version'])
+          PY
+          )"
+          gh release create "v${VERSION}" "dist/RStartpage-${VERSION}.zip" \
+            --title "RStartpage ${VERSION}" \
+            --generate-notes
