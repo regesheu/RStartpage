@@ -8,7 +8,7 @@ cd "$ROOT_DIR"
 # chunked source bundle so they can be restored deterministically before a
 # release is built.
 if [[ -d "$ROOT_DIR/source-bundle" ]]; then
-  "$ROOT_DIR/scripts/bootstrap-source.sh"
+  bash "$ROOT_DIR/scripts/bootstrap-source.sh"
 fi
 
 VERSION="$(python3 - <<'PY'
