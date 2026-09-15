@@ -49,30 +49,31 @@ See [PRIVACY.md](PRIVACY.md) for details.
 
 ## Development
 
-Clone the repository and load the repository root as an unpacked Chrome extension.
+Clone the repository and restore the extension source bundle:
 
 ```bash
 git clone https://github.com/regesheu/RStartpage.git
 cd RStartpage
+bash scripts/bootstrap-source.sh
 ```
 
-Build the distributable ZIP:
+After that, load the repository root as an unpacked Chrome extension or build the distributable ZIP:
 
 ```bash
-./scripts/build.sh
+bash scripts/build.sh
 ```
 
 Change the release version:
 
 ```bash
-./scripts/set-version.sh 1.0.1
+bash scripts/set-version.sh 1.0.1
 ```
 
 ## Releases
 
 The GitHub Actions release workflow can be started manually from **Actions → Build GitHub Release → Run workflow**, or by pushing a tag such as `v1.0.1`.
 
-It builds two release assets:
+It restores the source bundle, builds the extension and publishes two assets:
 
 - `RStartpage-<version>.zip` — versioned archive.
 - `RStartpage-latest.zip` — stable URL used by the project page and README.
