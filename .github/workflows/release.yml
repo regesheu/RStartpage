@@ -1,11 +1,8 @@
 name: Build GitHub Release
 
-# Temporary main-branch trigger is used to repair the v1.0.0 GitHub release.
 on:
   workflow_dispatch:
   push:
-    branches:
-      - main
     tags:
       - 'v*.*.*'
 
