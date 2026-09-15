@@ -1,0 +1,120 @@
+.data-body { min-height: 100vh; background: var(--bg); }
+.data-topbar { position: sticky; top: 0; z-index: 20; border-bottom: 1px solid color-mix(in srgb, var(--border) 75%, transparent); background: color-mix(in srgb, var(--bg) 90%, transparent); backdrop-filter: blur(12px); }
+.data-topbar-inner { width: min(calc(100% - 36px), 1020px); min-height: 68px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+.static-brand { cursor: default; }
+.data-page { width: min(calc(100% - 36px), 1020px); margin: 0 auto; padding: 46px 0 70px; }
+.data-hero { margin-bottom: 28px; }
+.data-hero h1 { margin: 4px 0 8px; font-size: clamp(30px, 4vw, 42px); line-height: 1.08; letter-spacing: -1.2px; }
+.data-hero p { max-width: 780px; margin: 0; color: var(--muted); font-size: 15px; }
+.data-card { margin-top: 16px; padding: 22px; border: 1px solid var(--border); border-radius: 16px; background: var(--surface); box-shadow: 0 1px 1px rgba(20,40,28,.025); }
+.data-card-heading { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.data-card-heading h2 { margin: 0; font-size: 19px; letter-spacing: -.25px; }
+.data-card-heading p { max-width: 720px; margin: 5px 0 0; color: var(--muted); }
+.compact-heading { display: block; }
+.callout { margin-top: 16px; padding: 11px 13px; border-radius: 10px; color: var(--muted); background: var(--surface-2); font-size: 12px; }
+.file-drop { margin-top: 18px; min-height: 155px; display: grid; place-content: center; justify-items: center; border: 1px dashed var(--border); border-radius: 13px; background: var(--bg); cursor: pointer; transition: .15s ease; }
+.file-drop:hover, .file-drop.drag-over { border-color: var(--green); background: var(--green-soft); }
+.file-drop input { position: absolute; opacity: 0; pointer-events: none; }
+.file-drop-icon { width: 38px; height: 38px; display: grid; place-items: center; margin-bottom: 8px; border-radius: 50%; background: var(--green-soft); color: var(--green); font-size: 20px; font-weight: 700; }
+.file-drop strong { font-size: 15px; }
+.file-drop > span:last-child { margin-top: 3px; color: var(--muted); font-size: 12px; }
+.import-preview { margin-top: 13px; padding: 11px 13px; border: 1px solid color-mix(in srgb, var(--green) 38%, var(--border)); border-radius: 10px; background: var(--green-soft); }
+.import-preview > div { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.import-preview span { color: var(--muted); font-size: 12px; }
+.import-options { margin-top: 16px; display: grid; gap: 11px; }
+.import-options fieldset { margin: 0; padding: 12px; display: grid; gap: 7px; border: 1px solid var(--border); border-radius: 10px; }
+.import-options legend { padding: 0 6px; color: var(--muted); font-size: 12px; font-weight: 650; }
+.import-options fieldset label { display: grid; grid-template-columns: auto 1fr; gap: 9px; align-items: start; padding: 5px 2px; }
+.import-options input { accent-color: var(--green); }
+.import-options fieldset span { display: grid; gap: 1px; }
+.import-options small { color: var(--muted); }
+.option-check { display: flex; align-items: center; gap: 8px; }
+.data-actions { margin-top: 18px; display: flex; justify-content: flex-end; }
+.folder-import-row { margin-top: 16px; display: grid; grid-template-columns: 1fr auto; gap: 10px; }
+.muted-note { margin: 10px 0 0; color: var(--muted); font-size: 12px; }
+.instructions-card pre { margin: 17px 0 0; padding: 16px; overflow: auto; border: 1px solid var(--border); border-radius: 11px; background: #18211b; color: #dcebe1; font: 12.5px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.instructions-card code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.instructions-card p code, .schema-grid code { padding: 1px 4px; border-radius: 5px; background: var(--surface-2); color: var(--text); }
+.schema-grid { margin-top: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.schema-grid > div { padding: 13px; border: 1px solid var(--border); border-radius: 10px; }
+.schema-grid p { margin: 4px 0 0; color: var(--muted); font-size: 12px; }
+.danger-zone { border-color: color-mix(in srgb, var(--danger) 28%, var(--border)); }
+.danger-button { border-color: color-mix(in srgb, var(--danger) 50%, var(--border)); color: var(--danger); }
+.danger-button:hover { background: color-mix(in srgb, var(--danger) 10%, var(--surface)); }
+.page-notice { margin-bottom: 16px; padding: 12px 14px; border: 1px solid color-mix(in srgb, var(--green) 35%, var(--border)); border-radius: 11px; background: var(--green-soft); }
+.page-notice.error { border-color: color-mix(in srgb, var(--danger) 40%, var(--border)); background: color-mix(in srgb, var(--danger) 9%, var(--surface)); color: var(--danger); }
+@media (max-width: 700px) {
+  .data-page { padding-top: 30px; }
+  .data-card { padding: 17px; }
+  .data-card-heading, .folder-import-row { grid-template-columns: 1fr; display: grid; align-items: stretch; }
+  .schema-grid { grid-template-columns: 1fr; }
+  .data-card-heading .button { width: 100%; }
+}
+
+/* RStartpage 1.3 — data page visual refresh */
+.data-topbar {
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  backdrop-filter: blur(18px);
+}
+
+.data-topbar-inner,
+.data-page {
+  width: min(calc(100% - 44px), 1080px);
+}
+
+.data-hero {
+  margin-bottom: 30px;
+}
+
+.data-hero h1 {
+  letter-spacing: -0.05em;
+}
+
+.data-card {
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 24px;
+  border-color: color-mix(in srgb, var(--border) 84%, transparent);
+}
+
+.data-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,0) 34%);
+}
+
+.data-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.callout,
+.import-preview,
+.instructions-card pre,
+.import-options fieldset,
+.settings-link,
+.file-drop,
+.page-notice {
+  border-radius: 16px;
+}
+
+.instructions-card pre {
+  background: #0f1722;
+}
+
+.file-drop {
+  min-height: 170px;
+}
+
+@media (max-width: 700px) {
+  .data-topbar-inner,
+  .data-page {
+    width: min(calc(100% - 24px), 1080px);
+  }
+}
+
+.export-proxy-options { margin-top:14px; display:flex; flex-wrap:wrap; gap:10px 18px; }
+.export-proxy-options .option-check { color:var(--text); font-size:12px; }
+.export-proxy-options input { accent-color:var(--green); }
