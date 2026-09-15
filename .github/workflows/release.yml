@@ -17,6 +17,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Restore extension source
+        run: bash scripts/bootstrap-source.sh
+
       - name: Read and validate version
         id: version
         shell: bash
@@ -37,7 +40,7 @@ jobs:
           fi
 
       - name: Build extension ZIP
-        run: ./scripts/build.sh
+        run: bash scripts/build.sh
 
       - name: Create stable latest asset
         shell: bash
