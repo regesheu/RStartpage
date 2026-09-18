@@ -6,8 +6,6 @@ on:
       - main
     paths:
       - '.github/workflows/diagnose-proxy.yml'
-      - 'source-bundle/**'
-      - 'scripts/**'
 
 permissions:
   contents: read
@@ -19,33 +17,17 @@ jobs:
       - uses: actions/checkout@v4
       - name: Restore extension source
         run: bash scripts/bootstrap-source.sh
-      - name: Print proxy source context
+      - name: Print PAC generator only
         shell: bash
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          needles = ['FindProxyForURL', 'pacScript', 'buildPac', 'bypass', 'smartRouting', 'smartRules']
           for p in sorted(Path('.').glob('*.js')):
-              try:
-                  s = p.read_text(encoding='utf-8')
-              except Exception:
-                  continue
-              hits = [n for n in needles if n.lower() in s.lower()]
-              if not hits:
-                  continue
-              print(f'######## FILE {p} hits={hits} ########')
-              for needle in needles:
-                  start = 0
-                  count = 0
-                  while True:
-                      i = s.lower().find(needle.lower(), start)
-                      if i < 0 or count >= 8:
-                          break
-                      a = max(0, i - 2200)
-                      b = min(len(s), i + 4200)
-                      print(f'===== {needle} offset {i} =====')
-                      print(s[a:b])
-                      print()
-                      start = i + len(needle)
-                      count += 1
+              s = p.read_text(encoding='utf-8')
+              for needle in ['FindProxyForURL', 'buildPac', 'pac_script', 'pacScript']:
+                  idx = s.lower().find(needle.lower())
+                  if idx >= 0:
+                      print(f'FILE={p} NEEDLE={needle} OFFSET={idx}')
+                      print(s[max(0, idx-5000):min(len(s), idx+12000)])
+                      print('END_EXCERPT')
           PY
