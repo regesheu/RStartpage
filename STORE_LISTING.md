@@ -1,4 +1,4 @@
-# Chrome Web Store submission — RStartpage 1.0.0
+# Chrome Web Store submission — RStartpage 1.1.0
 
 ## Suggested category
 
@@ -17,13 +17,16 @@ Organize your links into sections and groups, search instantly, reorder items wi
 RStartpage also includes optional tools for people who want more control over their browser workspace:
 
 - Session Manager for saving and restoring tab sets
-- Duplicate Finder for bookmark cleanup
+- Sticky shared navigation and a full-page settings editor
+- Duplicate Finder with inline editing and per-link or batch checks
 - Link Checker with inline status on bookmark cards
 - User-configured HTTP, HTTPS, SOCKS4 and SOCKS5 proxy profiles
 - Quick proxy switching from the Chrome toolbar
 - Proxy authentication where Chrome supports it
 - Bypass lists and latency testing
 - Smart Proxy Rules for routing matching domains or IPs through DIRECT or a selected proxy
+- Proxy JSON import/export and a dedicated routing help page
+- Quick Add Link form in the toolbar popup, prefilled from the active tab
 - Portable JSON backup and restore
 
 RStartpage is local-first. It has no separate account, no advertising, no analytics, no remotely hosted code, and no developer-operated cloud backend. Chrome Sync is used only through Chrome's own bookmark and extension-storage features when the user has synchronization enabled.
@@ -37,13 +40,16 @@ RStartpage заменяет стандартную страницу новой �
 Дополнительные возможности:
 
 - сохранение и восстановление наборов вкладок;
-- поиск дубликатов закладок;
+- общее sticky-меню и отдельная полноэкранная страница настроек;
+- поиск дубликатов с редактированием и проверкой одной или всех ссылок;
 - проверка доступности ссылок прямо на карточках;
 - пользовательские HTTP, HTTPS, SOCKS4 и SOCKS5 proxy-профили;
 - быстрое переключение proxy из панели Chrome;
 - авторизация proxy там, где она поддерживается Chrome;
 - списки исключений и тестирование задержки;
 - Smart Proxy Rules для маршрутизации доменов/IP через DIRECT или выбранный proxy;
+- отдельный импорт/экспорт proxy JSON и справка по приоритетам маршрутизации;
+- быстрое добавление текущей вкладки в закладки из popup;
 - экспорт и импорт резервной копии JSON.
 
 RStartpage не использует рекламу, аналитику, удалённый исполняемый код или собственный облачный сервер.

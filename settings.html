@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Settings — RStartpage</title>
+  <link rel="icon" data-app-favicon href="icons/icon32.png">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="settings.css">
+</head>
+<body class="settings-page-body">
+  <header class="app-navigation-shell"><div id="appNavigation"></div></header>
+
+  <main class="settings-page">
+    <section class="settings-hero">
+      <div>
+        <div id="settingsEyebrow" class="eyebrow">Workspace</div>
+        <h1 id="settingsTitle">Settings</h1>
+        <p id="settingsIntro">Customize the workspace, navigation and appearance.</p>
+      </div>
+      <div id="settingsSaved" class="settings-save-state" role="status" aria-live="polite">Saved</div>
+    </section>
+
+    <form id="settingsForm" class="settings-page-form" novalidate>
+      <section class="settings-section">
+        <div class="settings-section-heading">
+          <h2 id="generalTitle">General</h2>
+          <p id="generalText">These preferences sync through Chrome.</p>
+        </div>
+        <div class="settings-panel-grid">
+          <label class="setting span-2"><span id="productNameLabel">Application name</span><input id="productNameInput" class="input" type="text" maxlength="80" autocomplete="off" aria-describedby="productNameHint"><small id="productNameHint">Used everywhere in the interface and browser-tab titles.</small></label>
+          <label class="setting"><span id="languageLabel">Language</span><select id="languageSelect" class="select"><option value="en">English</option><option value="ru">Русский</option></select></label>
+          <label class="setting"><span id="themeLabel">Theme</span><select id="themeSelect" class="select"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
+          <label class="setting"><span id="densityLabel">Density</span><select id="densitySelect" class="select"><option value="comfortable">Comfortable</option><option value="compact">Compact</option></select></label>
+          <label class="setting"><span id="layoutLabel">Group layout</span><select id="layoutSelect" class="select"><option value="board">Board</option><option value="stack">List</option></select></label>
+          <label class="setting"><span id="cardsLabel">Cards</span><select id="cardStyleSelect" class="select"><option value="cards">Cards</option><option value="minimal">Minimal</option></select></label>
+          <div></div>
+          <label class="checkbox-setting"><input id="showHostsInput" type="checkbox"><span id="showHostsLabel">Show domain under title</span></label>
+          <label class="checkbox-setting"><input id="openInNewTabInput" type="checkbox"><span id="openInNewTabLabel">Open links in a new tab</span></label>
+          <label class="checkbox-setting span-2"><input id="showTabIconInput" type="checkbox"><span><strong id="showTabIconLabel">Show icon in browser tabs</strong><small id="showTabIconHint">Turn this off to use a transparent favicon on extension pages.</small></span></label>
+        </div>
+      </section>
+
+      <section class="settings-section">
+        <div class="settings-section-heading">
+          <h2 id="navigationTitle">Top menu</h2>
+          <p id="navigationText">Home is always visible. Choose the other sections shown in the shared header.</p>
+        </div>
+        <div class="navigation-choices">
+          <label class="navigation-choice"><input id="showProxyNavInput" type="checkbox"><span><strong id="showProxyNavLabel">Proxy</strong><small id="showProxyNavHint">Profiles and Smart Proxy Rules</small></span></label>
+          <label class="navigation-choice"><input id="showSessionsNavInput" type="checkbox"><span><strong id="showSessionsNavLabel">Sessions</strong><small id="showSessionsNavHint">Saved browser windows</small></span></label>
+          <label class="navigation-choice"><input id="showToolsNavInput" type="checkbox"><span><strong id="showToolsNavLabel">Tools</strong><small id="showToolsNavHint">Duplicate finder and link checker</small></span></label>
+        </div>
+      </section>
+
+      <section class="settings-section">
+        <div class="settings-section-heading">
+          <h2 id="appearanceTitle">Appearance</h2>
+          <p id="appearanceText">Accent and wallpaper settings apply to all full pages.</p>
+        </div>
+        <div class="appearance-grid">
+          <div class="appearance-card">
+            <div><strong id="accentTitle">Accent color</strong><p id="accentText">Used for buttons, focus rings and active states.</p></div>
+            <label class="checkbox-setting"><input id="accentEnabledInput" type="checkbox"><span id="accentEnabledLabel">Use custom accent color</span></label>
+            <div class="appearance-actions"><input id="accentColorInput" class="accent-color-input" type="color" value="#22c55e" aria-label="Accent color"><button id="accentResetButton" class="button" type="button" disabled data-js-action>Default accent</button></div>
+          </div>
+          <div class="appearance-card">
+            <div><strong id="backgroundTitle">Background</strong><p id="backgroundText">A custom image stays only on this browser.</p></div>
+            <label class="field"><span id="backgroundModeLabel">Background style</span><select id="backgroundModeSelect" class="select"><option value="aurora">Aurora</option><option value="clean">Clean</option><option value="custom">Custom image</option></select></label>
+            <div class="appearance-actions"><input id="backgroundFileInput" type="file" accept="image/*" hidden><button id="backgroundUploadButton" class="button" type="button" disabled data-js-action>Choose image</button><button id="backgroundRemoveButton" class="button" type="button" disabled data-js-action>Remove image</button></div>
+            <label class="range-setting"><span><span id="backgroundBlurLabel">Background blur</span><output id="backgroundBlurValue">0 px</output></span><input id="backgroundBlurInput" type="range" min="0" max="24" step="1" value="0"></label>
+            <label class="range-setting"><span><span id="backgroundDimLabel">Background dimming</span><output id="backgroundDimValue">18%</output></span><input id="backgroundDimInput" type="range" min="0" max="70" step="1" value="18"></label>
+          </div>
+        </div>
+      </section>
+
+      <section class="settings-section">
+        <div class="settings-section-heading">
+          <h2 id="destinationsTitle">Data and sections</h2>
+          <p id="destinationsText">Open a dedicated page for larger tasks.</p>
+        </div>
+        <div class="settings-destinations">
+          <a class="settings-destination" href="data.html"><span><strong id="dataLinkTitle">Import & export</strong><small id="dataLinkText">Bookmarks, interface settings and backups</small></span><b>›</b></a>
+          <a class="settings-destination" href="proxy.html"><span><strong id="proxyLinkTitle">Proxy</strong><small id="proxyLinkText">Profiles, routing rules and proxy JSON</small></span><b>›</b></a>
+          <a class="settings-destination" href="sessions.html"><span><strong id="sessionsLinkTitle">Sessions</strong><small id="sessionsLinkText">Save and restore browser windows</small></span><b>›</b></a>
+          <a class="settings-destination" href="tools.html"><span><strong id="toolsLinkTitle">Tools</strong><small id="toolsLinkText">Duplicates and link diagnostics</small></span><b>›</b></a>
+        </div>
+      </section>
+    </form>
+  </main>
+
+  <script src="shared.js"></script>
+  <script src="settings.js"></script>
+</body>
+</html>

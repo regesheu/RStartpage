@@ -1,0 +1,24 @@
+{
+  "profile": "product-admin",
+  "sourceRoots": ["."],
+  "locale": "en-US",
+  "canonicalMap": "UX-CONTRACT.md",
+  "requiredCapabilities": [
+    "Select/Listbox",
+    "Form",
+    "Scrollbar",
+    "Toast",
+    "CRUD"
+  ],
+  "ownership": {
+    "Select/Listbox": "native"
+  },
+  "requiredCommands": [
+    "verify",
+    "build"
+  ],
+  "commands": {
+    "verify": "bash scripts/check.sh",
+    "build": "bash scripts/build.sh"
+  }
+}

@@ -11,6 +11,7 @@ window.addEventListener('DOMContentLoaded', initDataPage);
 async function initDataPage() {
   cache();
   bind();
+  RS.enableScriptActions();
   await applyPageSettings();
   await refreshFolderSelect();
 }
@@ -18,23 +19,20 @@ async function initDataPage() {
 async function applyPageSettings() {
   const settings = await RS.loadSettings();
   const backgroundImage = await RS.loadBackgroundImage();
-  RS.setLanguage(settings.language);
-  document.documentElement.dataset.theme = settings.theme;
-  RS.applyAccent(document.documentElement, settings);
-  RS.applyBackground(document.documentElement, settings, backgroundImage);
-  RS.translateDocument(document);
+  RS.applyPageSettings(settings, backgroundImage, document);
+  RS.mountNavigation(ui.appNavigation, settings);
   const language = settings.language === 'ru' ? 'ru' : 'en';
   if (ui.exportProxiesLabel) ui.exportProxiesLabel.textContent = language === 'ru' ? 'Включить профили прокси' : 'Include proxy profiles';
   if (ui.exportProxyPasswordsLabel) ui.exportProxyPasswordsLabel.textContent = ProxyStore.t(language, 'exportPasswords');
   if (ui.importProxiesLabel) ui.importProxiesLabel.textContent = ProxyStore.t(language, 'importProxies');
   if (ui.exportSessionsLabel) ui.exportSessionsLabel.textContent = language === 'ru' ? 'Включить сохранённые сессии' : 'Include saved sessions';
   if (ui.importSessionsLabel) ui.importSessionsLabel.textContent = language === 'ru' ? 'Импортировать сохранённые сессии' : 'Import saved sessions when present';
-  document.title = `${t('data.title')} — RStartpage`;
+  document.title = RS.pageTitle(t('data.title'));
 }
 
 function cache() {
   Object.assign(ui, {
-    backButton: document.querySelector('#backButton'),
+    appNavigation: document.querySelector('#appNavigation'),
     exportButton: document.querySelector('#exportButton'),
     exportProxies: document.querySelector('#exportProxies'),
     exportProxyPasswords: document.querySelector('#exportProxyPasswords'),
@@ -64,7 +62,6 @@ function cache() {
 }
 
 function bind() {
-  ui.backButton.addEventListener('click', () => { location.href = 'newtab.html'; });
   ui.exportButton.addEventListener('click', exportData);
   ui.jsonFileInput.addEventListener('change', () => handleFile(ui.jsonFileInput.files?.[0]));
   ui.importButton.addEventListener('click', runJsonImport);
@@ -127,7 +124,7 @@ async function handleFile(file) {
     pendingImport = { portable, proxies: proxyBundle, sessions: sessionBundle };
     ui.fileDropTitle.textContent = file.name;
     ui.fileDropHint.textContent = t('data.fileParsed', { size: formatBytes(file.size) });
-    ui.previewFormat.textContent = portable?.format || (hasProxies ? 'RStartpage Proxy' : (hasSessions ? 'RStartpage Sessions' : 'JSON'));
+    ui.previewFormat.textContent = RS.productText(portable?.format || (hasProxies ? 'RStartpage Proxy' : (hasSessions ? 'RStartpage Sessions' : 'JSON')));
     const proxyCount = proxyBundle?.profiles?.length || 0;
     const sessionCount = sessionBundle?.sessions?.length || 0;
     ui.previewCounts.textContent = `${t('data.previewCounts', { sections: counts.workspaces, groups: counts.groups, links: counts.bookmarks })}${proxyCount ? ` · ${proxyCount} proxy` : ''}${sessionCount ? ` · ${sessionCount} sessions` : ''}`;
@@ -145,7 +142,10 @@ async function handleFile(file) {
 async function runJsonImport() {
   if (!pendingImport) return;
   const mode = document.querySelector('input[name="importMode"]:checked')?.value || 'merge';
-  if (mode === 'replace' && !confirm(t('data.confirmReplace'))) return;
+  if (mode === 'replace') {
+    const accepted = await RS.confirmAction({ title: t('data.replace'), message: t('data.confirmReplace'), confirmLabel: t('data.replace') });
+    if (!accepted) return;
+  }
   setBusy(ui.importButton, true, t('data.importBusy'));
   try {
     let result = { createdWorkspaces: 0, createdGroups: 0, createdBookmarks: 0, skippedBookmarks: 0 };
@@ -226,7 +226,8 @@ async function runFolderImport() {
 }
 
 async function resetData() {
-  if (!confirm(t('data.confirmReset'))) return;
+  const accepted = await RS.confirmAction({ title: t('data.resetTitle'), message: t('data.confirmReset'), confirmLabel: t('data.reset') });
+  if (!accepted) return;
   ui.resetButton.disabled = true;
   try {
     const root = await RS.ensureRoot();

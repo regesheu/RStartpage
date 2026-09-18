@@ -12,10 +12,13 @@ RStartpage is a local-first Chrome New Tab workspace for bookmarks, saved browse
 - Light, dark and system themes, custom accent color and custom background.
 - English interface by default with optional Russian UI.
 - Session Manager for saving and restoring tab sets.
-- Duplicate Finder and inline Link Checker for bookmark maintenance.
+- Separate sticky navigation for the start page, Proxy, Sessions and Tools, with user-selectable menu sections.
+- Full-page settings with a product-wide custom name and an optional tab favicon.
+- Duplicate Finder with inline editing and per-link/batch checks, plus Link Checker for bookmark maintenance.
 - Proxy profiles with HTTP/HTTPS/SOCKS support, authentication where supported, bypass lists, latency testing and toolbar switching.
 - Smart Proxy Rules for routing matching domains/IPs to DIRECT or a selected proxy profile.
-- JSON backup/restore and Chrome bookmark-folder import.
+- Proxy-specific JSON import/export and a dedicated help page with routing priorities and examples.
+- JSON backup/restore, Chrome bookmark-folder import and a popup form prefilled from the active tab.
 - No advertising, analytics, remote code, or developer-operated backend.
 
 ## Install from GitHub
@@ -66,12 +69,12 @@ bash scripts/build.sh
 Change the release version:
 
 ```bash
-bash scripts/set-version.sh 1.0.1
+bash scripts/set-version.sh 1.1.0
 ```
 
 ## Releases
 
-The GitHub Actions release workflow can be started manually from **Actions → Build GitHub Release → Run workflow**, or by pushing a tag such as `v1.0.1`.
+The GitHub Actions release workflow can be started manually from **Actions → Build GitHub Release → Run workflow**, or by pushing a tag such as `v1.1.0`.
 
 It restores the source bundle, builds the extension and publishes two assets:
 
@@ -80,5 +83,4 @@ It restores the source bundle, builds the extension and publishes two assets:
 
 ## Author
 
-made by g.khudiakov for self and others  
-contact: me@regesh.ru
+Extension made by [regesh](mailto:me@regesh.ru).

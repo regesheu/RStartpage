@@ -28,9 +28,18 @@ REQUIRED_FILES=(
   popup.js
   proxy-shared.js
   proxy.js
+  proxy-help.html
+  proxy-help.js
+  proxy-help.css
   tools-shared.js
   tools.js
+  sessions.html
+  sessions.js
+  settings.html
+  settings.js
+  settings.css
   data.js
+  icons/transparent.svg
 )
 
 for file in "${REQUIRED_FILES[@]}"; do
@@ -59,12 +68,17 @@ zip -r "$OUT_FILE" . \
      'store/*' \
      'scripts/*' \
      'source-bundle/*' \
+     'pw-profile-*' \
+     'pw-tmp/*' \
      '.gitignore' \
      'README.md' \
      'CHANGELOG.md' \
      'PRIVACY.md' \
      'STORE_LISTING.md' \
      'SECURITY.md' \
+     'DESIGN.md' \
+     'UX-CONTRACT.md' \
+     'premium-ui.json' \
      '*.DS_Store' >/dev/null
 
 echo "$OUT_FILE"

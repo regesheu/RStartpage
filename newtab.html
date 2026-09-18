@@ -5,104 +5,56 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <title>RStartpage</title>
+  <link rel="icon" data-app-favicon href="icons/icon32.png">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="app-shell">
-    <header class="topbar">
-      <button id="brandButton" class="brand" type="button" title="RStartpage">
-        <img src="icons/icon32.png" width="28" height="28" alt="">
-        <span>RStartpage</span>
-      </button>
-
+    <header class="app-navigation-shell"><div id="appNavigation"></div></header>
+    <div class="topbar home-toolbar">
       <div class="search-wrap">
         <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35m1.35-5.65a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"></path></svg>
         <input id="searchInput" type="search" autocomplete="off" spellcheck="false" placeholder="Search RStartpage" aria-label="Search bookmarks" data-i18n-placeholder="search.placeholder" data-i18n-aria-label="search.aria">
+        <button id="searchClearButton" class="search-clear-button" type="button" aria-label="Clear search" disabled data-js-action hidden>×</button>
         <kbd id="searchShortcut" class="shortcut-chip">Ctrl K</kbd>
       </div>
 
       <div class="top-actions">
         <div class="menu-host">
-          <button id="addButton" class="button primary" type="button" aria-haspopup="menu" aria-expanded="false">
+          <button id="addButton" class="button primary" type="button" disabled data-js-action aria-haspopup="menu" aria-expanded="false">
             <span class="button-icon">＋</span><span class="button-label" data-i18n="add.label">Add</span>
           </button>
           <div id="addMenu" class="menu" role="menu" hidden>
-            <button type="button" role="menuitem" data-add="bookmark"><span data-i18n="add.link">Link</span><kbd>⇧ A</kbd></button>
-            <button type="button" role="menuitem" data-add="group"><span data-i18n="add.group">Group</span></button>
-            <button type="button" role="menuitem" data-add="workspace"><span data-i18n="add.section">Section</span></button>
+            <button type="button" disabled data-js-action role="menuitem" data-add="bookmark"><span data-i18n="add.link">Link</span><kbd>⇧ A</kbd></button>
+            <button type="button" disabled data-js-action role="menuitem" data-add="group"><span data-i18n="add.group">Group</span></button>
+            <button type="button" disabled data-js-action role="menuitem" data-add="workspace"><span data-i18n="add.section">Section</span></button>
           </div>
         </div>
-        <button id="proxyQuickButton" class="proxy-quick-button" type="button" title="Proxy"><span class="proxy-quick-dot"></span><span id="proxyQuickText">Proxy Off</span></button>
-        <button id="sessionQuickButton" class="session-quick-button" type="button" title="Sessions"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="13" height="11" rx="2"></rect><path d="M8 19h10a2 2 0 0 0 2-2V9"></path></svg><span id="sessionQuickText">Sessions</span></button>
-        <button id="helpButton" class="icon-button" type="button" title="Keyboard shortcuts" aria-label="Keyboard shortcuts" data-i18n-title="help.shortcuts" data-i18n-aria-label="help.shortcuts">?</button>
-        <button id="settingsButton" class="icon-button" type="button" title="Settings" aria-label="Settings" data-i18n-title="settings.title" data-i18n-aria-label="settings.title">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15.5A3.5 3.5 0 1 0 12 8a3.5 3.5 0 0 0 0 7.5Z"></path><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06A1.7 1.7 0 0 0 15 19.37a1.7 1.7 0 0 0-1 .63 1.7 1.7 0 0 0-.37 1.07V21h-4v-.08A1.7 1.7 0 0 0 8.6 19.4a1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.23 15a1.7 1.7 0 0 0-.63-1 1.7 1.7 0 0 0-1.07-.37H2.5v-4h.08A1.7 1.7 0 0 0 4.1 8.6a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 8.5 4.23a1.7 1.7 0 0 0 1-.63 1.7 1.7 0 0 0 .37-1.07V2.5h4v.08A1.7 1.7 0 0 0 15 4.1a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.37 8c.4.26.75.6 1 .99.23.32.36.7.37 1.1v.03H21v4h-.08A1.7 1.7 0 0 0 19.4 15Z"></path></svg>
-        </button>
+        <button id="helpButton" class="icon-button" type="button" disabled data-js-action title="Keyboard shortcuts" aria-label="Keyboard shortcuts" data-i18n-title="help.shortcuts" data-i18n-aria-label="help.shortcuts">?</button>
       </div>
-    </header>
+    </div>
 
     <nav id="workspaceTabs" class="workspace-tabs" aria-label="Sections" data-i18n-aria-label="sections.aria"></nav>
     <main id="content" class="content" aria-live="polite"><div class="loading" data-i18n="loading">Loading…</div></main>
-    <footer class="app-author-footer">
-      <span>made by g.khudiakov for self and others</span>
-      <span>contact: <a href="mailto:me@regesh.ru">me@regesh.ru</a></span>
-    </footer>
   </div>
 
   <div id="contextMenu" class="context-menu" role="menu" hidden></div>
-  <div id="toast" class="toast" role="status" hidden></div>
 
   <dialog id="editorDialog" class="dialog">
-    <form id="editorForm" method="dialog">
+    <form id="editorForm" method="dialog" novalidate>
       <div class="dialog-header">
         <div><div id="editorEyebrow" class="eyebrow"></div><h2 id="editorTitle">Add</h2></div>
-        <button class="icon-button small" type="button" data-close-dialog aria-label="Close" data-i18n-aria-label="common.close">×</button>
+        <button class="icon-button small" type="button" disabled data-js-action data-close-dialog aria-label="Close" data-i18n-aria-label="common.close">×</button>
       </div>
       <div id="editorFields" class="dialog-fields"></div>
       <div id="editorError" class="form-error" role="alert"></div>
-      <div class="dialog-actions"><button class="button" type="button" data-close-dialog data-i18n="common.cancel">Cancel</button><button id="editorSubmit" class="button primary" type="submit" data-i18n="common.save">Save</button></div>
-    </form>
-  </dialog>
-
-  <dialog id="settingsDialog" class="dialog settings-dialog">
-    <form method="dialog">
-      <div class="dialog-header">
-        <div><div class="eyebrow">RStartpage</div><h2 data-i18n="settings.heading">Appearance</h2></div>
-        <button class="icon-button small" type="button" data-close-settings aria-label="Close" data-i18n-aria-label="common.close">×</button>
-      </div>
-      <div class="settings-grid">
-        <label class="setting"><span data-i18n="settings.language">Language</span><select id="languageSelect" class="select"><option value="en" data-i18n="language.en">English</option><option value="ru" data-i18n="language.ru">Русский</option></select></label>
-        <label class="setting"><span data-i18n="settings.theme">Theme</span><select id="themeSelect" class="select"><option value="system" data-i18n="theme.system">System</option><option value="light" data-i18n="theme.light">Light</option><option value="dark" data-i18n="theme.dark">Dark</option></select></label>
-        <label class="setting"><span data-i18n="settings.density">Density</span><select id="densitySelect" class="select"><option value="comfortable" data-i18n="density.comfortable">Comfortable</option><option value="compact" data-i18n="density.compact">Compact</option></select></label>
-        <label class="setting"><span data-i18n="settings.layout">Group layout</span><select id="layoutSelect" class="select"><option value="board" data-i18n="layout.board">Board</option><option value="stack" data-i18n="layout.stack">List</option></select></label>
-        <label class="setting"><span data-i18n="settings.cards">Cards</span><select id="cardStyleSelect" class="select"><option value="cards" data-i18n="cards.cards">Cards</option><option value="minimal" data-i18n="cards.minimal">Minimal</option></select></label>
-        <label class="setting tab-title-setting"><span data-i18n="settings.tabTitle">New tab title</span><input id="tabTitleInput" class="input" type="text" maxlength="80" placeholder="RStartpage" data-i18n-placeholder="settings.tabTitlePlaceholder"><small data-i18n="settings.tabTitleNote">Shown in the browser tab. This setting syncs with your other RStartpage settings.</small></label>
-        <div class="setting accent-setting">
-          <div class="accent-setting-head"><span data-i18n="settings.accent">Accent color</span><small data-i18n="settings.accentNote">Applies to buttons, focus rings, highlights and active states.</small></div>
-          <label class="checkbox-setting accent-inline"><input id="accentEnabledInput" type="checkbox"><span data-i18n="settings.accentCustom">Use custom accent color</span></label>
-          <div class="accent-picker-row"><input id="accentColorInput" class="accent-color-input" type="color" value="#22c55e" aria-label="Accent color picker"><button id="accentResetButton" class="button" type="button" data-i18n="settings.accentReset">Default accent</button></div>
-        </div>
-        <div class="setting background-setting">
-          <div class="accent-setting-head"><span data-i18n="settings.background">Background</span><small data-i18n="settings.backgroundLocal">A custom image is stored locally on this browser and is not uploaded anywhere.</small></div>
-          <label class="field compact-setting"><span data-i18n="settings.backgroundMode">Background style</span><select id="backgroundModeSelect" class="select"><option value="aurora" data-i18n="background.aurora">Aurora</option><option value="clean" data-i18n="background.clean">Clean</option><option value="custom" data-i18n="background.custom">Custom image</option></select></label>
-          <div class="background-actions"><input id="backgroundFileInput" type="file" accept="image/*" hidden><button id="backgroundUploadButton" class="button" type="button" data-i18n="settings.backgroundUpload">Choose image</button><button id="backgroundRemoveButton" class="button" type="button" data-i18n="settings.backgroundRemove">Remove image</button></div>
-          <label class="range-setting"><span><span data-i18n="settings.backgroundBlur">Background blur</span><output id="backgroundBlurValue">0 px</output></span><input id="backgroundBlurInput" type="range" min="0" max="24" step="1" value="0"></label>
-          <label class="range-setting"><span><span data-i18n="settings.backgroundDim">Background dimming</span><output id="backgroundDimValue">18%</output></span><input id="backgroundDimInput" type="range" min="0" max="70" step="1" value="18"></label>
-        </div>
-        <label class="setting checkbox-setting"><input id="showHostsInput" type="checkbox"><span data-i18n="settings.showHosts">Show domain under title</span></label>
-        <label class="setting checkbox-setting"><input id="openInNewTabInput" type="checkbox"><span data-i18n="settings.openNewTab">Open links in a new tab</span></label>
-      </div>
-      <div class="settings-info"><strong data-i18n="settings.syncTitle">Sync</strong><p data-i18n="settings.syncText">Bookmarks are stored in Chrome Bookmarks, while visual settings are stored in Chrome Sync. RStartpage has no separate account or server.</p></div>
-      <button id="proxyPageButton" class="settings-link" type="button"><span><strong>Proxy</strong><small id="proxySettingsSubtitle">Profiles, authentication, bypass rules, sync and testing</small></span><span>›</span></button>
-      <button id="toolsPageButton" class="settings-link" type="button"><span><strong id="toolsSettingsTitle">Tools</strong><small id="toolsSettingsSubtitle">Sessions, duplicate finder and link checker</small></span><span>›</span></button>
-      <button id="dataPageButton" class="settings-link" type="button"><span><strong data-i18n="settings.dataTitle">Import & export</strong><small data-i18n="settings.dataSubtitle">RStartpage JSON, generic JSON, Chrome Bookmarks and backups</small></span><span>›</span></button>
-      <div class="dialog-actions"><button class="button primary" type="button" data-close-settings data-i18n="common.done">Done</button></div>
+      <div class="dialog-actions"><button class="button" type="button" disabled data-js-action data-close-dialog data-i18n="common.cancel">Cancel</button><button id="editorSubmit" class="button primary" type="submit" data-i18n="common.save">Save</button></div>
     </form>
   </dialog>
 
   <dialog id="shortcutsDialog" class="dialog shortcuts-dialog">
-    <form method="dialog">
-      <div class="dialog-header"><div><div class="eyebrow" data-i18n="shortcuts.eyebrow">Navigation</div><h2 data-i18n="shortcuts.heading">Keyboard shortcuts</h2></div><button class="icon-button small" type="button" data-close-shortcuts aria-label="Close" data-i18n-aria-label="common.close">×</button></div>
+    <form method="dialog" novalidate>
+      <div class="dialog-header"><div><div class="eyebrow" data-i18n="shortcuts.eyebrow">Navigation</div><h2 data-i18n="shortcuts.heading">Keyboard shortcuts</h2></div><button class="icon-button small" type="button" disabled data-js-action data-close-shortcuts aria-label="Close" data-i18n-aria-label="common.close">×</button></div>
       <div class="shortcut-list">
         <div><span data-i18n="shortcuts.search">Search</span><kbd>Ctrl/⌘ K</kbd></div>
         <div><span data-i18n="shortcuts.addLink">Add link</span><kbd>Shift A</kbd></div>
@@ -110,7 +62,7 @@
         <div><span data-i18n="shortcuts.showHelp">Show this help</span><kbd>?</kbd></div>
         <div><span data-i18n="shortcuts.close">Close menu/dialog</span><kbd>Esc</kbd></div>
       </div>
-      <div class="dialog-actions"><button class="button primary" type="button" data-close-shortcuts data-i18n="common.done">Done</button></div>
+      <div class="dialog-actions"><button class="button primary" type="button" disabled data-js-action data-close-shortcuts data-i18n="common.done">Done</button></div>
     </form>
   </dialog>
 

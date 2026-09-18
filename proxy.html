@@ -5,65 +5,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <title>Proxy — RStartpage</title>
+  <link rel="icon" data-app-favicon href="icons/icon32.png">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="proxy.css">
 </head>
 <body class="proxy-body">
   <div class="page-background" aria-hidden="true"></div>
-  <header class="proxy-topbar">
-    <div class="proxy-topbar-inner">
-      <button id="backButton" class="button" type="button">← RStartpage</button>
-      <div class="brand static-brand"><img src="icons/icon32.png" width="28" height="28" alt=""><span>RStartpage</span></div>
-      <label class="master-switch"><span id="masterSwitchLabel">Proxy</span><input id="masterToggle" type="checkbox"><i></i></label>
-    </div>
-  </header>
+  <header class="app-navigation-shell"><div id="appNavigation"></div></header>
 
   <main class="proxy-page">
-    <section class="proxy-hero">
-      <div>
-        <div class="eyebrow">RStartpage</div>
-        <h1 id="pageTitle">Proxy profiles</h1>
-        <p id="pageIntro"></p>
-      </div>
+    <section class="proxy-hero compact-proxy-hero">
+      <div><div class="eyebrow" data-product-name>RStartpage</div><h1 id="pageTitle">Proxy profiles</h1></div>
       <div id="heroStatus" class="hero-status off"><span class="hero-dot"></span><div><strong id="heroStatusTitle">Proxy is off</strong><small id="heroStatusDetail"></small></div><b id="heroStatusBadge">OFF</b></div>
     </section>
 
-    <section class="proxy-toolbar">
-      <div class="toolbar-left">
-        <button id="addProxyButton" class="button primary" type="button">＋ Add proxy</button>
-        <button id="testAllButton" class="button" type="button">Test all</button>
+    <section class="proxy-toolbar proxy-action-bar" aria-label="Proxy actions">
+      <div class="toolbar-left proxy-action-cluster">
+        <label class="master-switch proxy-master-switch"><span id="masterSwitchLabel">Proxy</span><input id="masterToggle" type="checkbox"><i></i></label>
+        <button id="addProxyButton" class="button primary" type="button" disabled data-js-action>＋ Add proxy</button>
+        <button id="testAllButton" class="button" type="button" disabled data-js-action>Test all</button>
+        <button id="exportProxyButton" class="button" type="button" disabled data-js-action>Export</button>
+        <button id="importProxyButton" class="button" type="button" disabled data-js-action>Import</button>
+        <a id="proxyHelpButton" class="button proxy-help-button" href="proxy-help.html">? Help</a>
       </div>
       <label class="sort-control"><span id="sortLabel">Order</span><select id="sortSelect" class="select"><option value="custom">Custom order</option><option value="name">Sort by name</option><option value="latency">Sort by latency</option></select></label>
     </section>
 
     <div id="pageNotice" class="proxy-notice" hidden></div>
     <div id="proxyList" class="proxy-list"></div>
-    <div id="emptyState" class="proxy-empty" hidden><div class="empty-icon">↗</div><h2 id="emptyTitle">No proxies yet</h2><p id="emptyText">Add your first proxy.</p><button id="emptyAddButton" class="button primary" type="button">＋ Add proxy</button></div>
+    <div id="emptyState" class="proxy-empty" hidden><div class="empty-icon">↗</div><h2 id="emptyTitle">No proxies yet</h2><p id="emptyText">Add your first proxy.</p><button id="emptyAddButton" class="button primary" type="button" disabled data-js-action>＋ Add proxy</button></div>
 
     <section class="smart-rules-card">
       <div class="smart-rules-head">
-        <div><h2 id="smartRulesTitle">Smart Proxy Rules</h2><p id="smartRulesText"></p></div>
-        <div class="smart-rules-actions"><label class="master-switch smart-switch"><span id="smartToggleLabel">Smart Routing</span><input id="smartToggle" type="checkbox"><i></i></label><button id="addRuleButton" class="button" type="button">＋ Add rule</button></div>
+        <div><h2 id="smartRulesTitle">Smart Proxy Rules</h2></div>
+        <div class="smart-rules-actions"><label class="master-switch smart-switch"><span id="smartToggleLabel">Smart Routing</span><input id="smartToggle" type="checkbox"><i></i></label><button id="addRuleButton" class="button" type="button" disabled data-js-action>＋ Add rule</button></div>
       </div>
-      <p id="smartFallbackText" class="smart-fallback"></p>
       <div id="ruleList" class="rule-list"></div>
       <div id="ruleEmpty" class="rule-empty" hidden></div>
     </section>
-
-    <section class="proxy-footnote">
-      <p id="syncNote"></p>
-      <p id="testNote"></p>
-      <p id="limitNote"></p>
-    </section>
-    <footer class="app-author-footer page-author-footer">
-      <span>made by g.khudiakov for self and others</span>
-      <span>contact: <a href="mailto:me@regesh.ru">me@regesh.ru</a></span>
-    </footer>
   </main>
 
   <dialog id="editorDialog" class="dialog proxy-editor-dialog">
-    <form id="editorForm" method="dialog">
-      <div class="dialog-header"><div><div class="eyebrow">RStartpage Proxy</div><h2 id="editorTitle">Add proxy</h2></div><button id="editorClose" class="icon-button small" type="button">×</button></div>
+    <form id="editorForm" method="dialog" novalidate>
+      <div class="dialog-header"><div><div class="eyebrow"><span data-product-name>RStartpage</span> Proxy</div><h2 id="editorTitle">Add proxy</h2></div><button id="editorClose" class="icon-button small" type="button" disabled data-js-action aria-label="Close">×</button></div>
       <div class="proxy-form-grid">
         <label class="field span-2"><span id="nameLabel">Name</span><input id="nameInput" class="input" maxlength="80" required></label>
         <label class="field"><span id="badgeLabel">Badge</span><input id="badgeInput" class="input" maxlength="2" placeholder="DE"></label>
@@ -74,31 +58,51 @@
           <div class="auth-heading"><div><strong id="authTitle">Authentication</strong><small id="localPasswordNote"></small></div><span id="authModeLabel">Optional</span></div>
           <div class="auth-fields">
             <label class="field"><span id="usernameLabel">Username</span><input id="usernameInput" class="input" autocomplete="off"></label>
-            <label class="field"><span id="passwordLabel">Password</span><input id="passwordInput" class="input" type="password" autocomplete="new-password"></label>
+            <label class="field"><span id="passwordLabel">Password</span><span class="secret-field-wrap"><input id="passwordInput" class="input" type="password" autocomplete="new-password"><button id="passwordRevealButton" class="secret-toggle" type="button" disabled data-js-action aria-pressed="false">Show</button></span></label>
           </div>
           <label class="checkbox-setting"><input id="syncPasswordInput" type="checkbox"><span id="syncPasswordLabel">Sync password between devices</span></label>
-          <p id="syncWarning" class="auth-warning"></p>
-          <p id="socksAuthWarning" class="auth-warning" hidden></p>
+          <p id="syncWarning" class="auth-warning"></p><p id="socksAuthWarning" class="auth-warning" hidden></p>
         </div>
-        <label class="field span-2"><span id="bypassLabel">Bypass list</span><textarea id="bypassInput" class="input bypass-textarea" rows="6" placeholder="*.regesh.ru&#10;10.0.0.0/8&#10;<local>"></textarea><small id="bypassHint"></small></label>
+        <label class="field span-2"><span id="bypassLabel">Bypass list</span><textarea id="bypassInput" class="input bypass-textarea resize-none" rows="6" placeholder="*.regesh.ru&#10;10.0.0.0/8&#10;&lt;local&gt;"></textarea><small id="bypassHint"></small></label>
         <p id="badgeHelp" class="form-hint span-2"></p>
       </div>
-      <div id="editorError" class="form-error"></div>
-      <div class="dialog-actions"><button id="cancelButton" class="button" type="button">Cancel</button><button id="saveButton" class="button primary" type="submit">Save</button></div>
+      <div id="editorError" class="form-error" role="alert"></div>
+      <div class="dialog-actions"><button id="cancelButton" class="button" type="button" disabled data-js-action>Cancel</button><button id="saveButton" class="button primary" type="submit">Save</button></div>
     </form>
   </dialog>
 
   <dialog id="ruleDialog" class="dialog rule-editor-dialog">
-    <form id="ruleForm" method="dialog">
-      <div class="dialog-header"><div><div class="eyebrow">RStartpage Proxy</div><h2 id="ruleEditorTitle">Add rule</h2></div><button id="ruleEditorClose" class="icon-button small" type="button">×</button></div>
+    <form id="ruleForm" method="dialog" novalidate>
+      <div class="dialog-header"><div><div class="eyebrow"><span data-product-name>RStartpage</span> Proxy</div><h2 id="ruleEditorTitle">Add rule</h2></div><button id="ruleEditorClose" class="icon-button small" type="button" disabled data-js-action aria-label="Close">×</button></div>
       <div class="proxy-form-grid">
         <label class="field span-2"><span id="ruleNameLabel">Rule name</span><input id="ruleNameInput" class="input" maxlength="100" placeholder="Internal sites"></label>
         <label class="field span-2"><span id="rulePatternLabel">Domain / IP / URL mask</span><input id="rulePatternInput" class="input" maxlength="500" placeholder="*.regesh.ru" required><small id="rulePatternHint"></small></label>
         <label class="field span-2"><span id="ruleRouteLabel">Route through</span><select id="ruleTargetSelect" class="select"></select></label>
         <label class="checkbox-setting span-2"><input id="ruleEnabledInput" type="checkbox" checked><span id="ruleEnabledLabel">Enabled</span></label>
       </div>
-      <div id="ruleEditorError" class="form-error"></div>
-      <div class="dialog-actions"><button id="ruleCancelButton" class="button" type="button">Cancel</button><button id="ruleSaveButton" class="button primary" type="submit">Save</button></div>
+      <div id="ruleEditorError" class="form-error" role="alert"></div>
+      <div class="dialog-actions"><button id="ruleCancelButton" class="button" type="button" disabled data-js-action>Cancel</button><button id="ruleSaveButton" class="button primary" type="submit">Save</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="exportProxyDialog" class="dialog proxy-transfer-dialog">
+    <form id="exportProxyForm" method="dialog" novalidate>
+      <div class="dialog-header"><div><div class="eyebrow" data-product-name>RStartpage</div><h2 id="exportProxyTitle">Export proxy settings</h2></div><button id="exportProxyClose" class="icon-button small" type="button" disabled data-js-action aria-label="Close">×</button></div>
+      <p id="exportProxyText" class="dialog-copy">Download profiles, order and Smart Rules as a JSON file.</p>
+      <label class="checkbox-setting transfer-option"><input id="exportPasswordsInput" type="checkbox"><span id="exportPasswordsLabel">Include passwords</span></label>
+      <div id="exportPasswordsWarning" class="transfer-warning"></div>
+      <div class="dialog-actions"><button id="exportProxyCancel" class="button" type="button" disabled data-js-action>Cancel</button><button id="exportProxyDownload" class="button primary" type="submit">Download JSON</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="importProxyDialog" class="dialog proxy-transfer-dialog">
+    <form id="importProxyForm" method="dialog" novalidate>
+      <div class="dialog-header"><div><div class="eyebrow" data-product-name>RStartpage</div><h2 id="importProxyTitle">Import proxy settings</h2></div><button id="importProxyClose" class="icon-button small" type="button" disabled data-js-action aria-label="Close">×</button></div>
+      <label class="proxy-file-picker"><input id="proxyJsonFileInput" type="file" accept="application/json,.json"><span id="proxyFilePickerTitle">Choose JSON file</span><small id="proxyFilePickerHint">Profiles exported from this extension are supported.</small></label>
+      <div id="proxyImportPreview" class="import-preview" hidden><strong id="proxyImportPreviewTitle"></strong><span id="proxyImportPreviewText"></span></div>
+      <fieldset class="proxy-import-mode"><legend id="proxyImportModeTitle">Mode</legend><label><input type="radio" name="proxyImportMode" value="merge" checked><span><strong id="proxyMergeTitle">Merge</strong><small id="proxyMergeText">Keep current profiles and skip matching endpoints.</small></span></label><label><input type="radio" name="proxyImportMode" value="replace"><span><strong id="proxyReplaceTitle">Replace</strong><small id="proxyReplaceText">Delete current profiles and rules before importing.</small></span></label></fieldset>
+      <div id="proxyImportError" class="form-error" role="alert"></div>
+      <div class="dialog-actions"><button id="importProxyCancel" class="button" type="button" disabled data-js-action>Cancel</button><button id="importProxySubmit" class="button primary" type="submit" disabled>Import</button></div>
     </form>
   </dialog>
 

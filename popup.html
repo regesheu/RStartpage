@@ -3,36 +3,42 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>RStartpage Proxy</title>
+  <title>RStartpage</title>
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
   <main class="popup-shell">
     <header class="popup-header">
-      <div class="popup-brand"><img src="icons/icon32.png" width="28" height="28" alt=""><div><strong>RStartpage</strong><span id="proxyLabel">Proxy</span></div></div>
-      <label class="switch" aria-label="Proxy toggle"><input id="masterToggle" type="checkbox"><span></span></label>
+      <div class="popup-brand"><img src="icons/icon32.png" width="28" height="28" alt=""><div><strong id="popupProductName">RStartpage</strong><span id="proxyLabel">Proxy</span></div></div>
+      <div class="popup-header-actions">
+        <button id="homeButton" class="popup-icon-button" type="button" disabled data-js-action aria-label="Home" title="Home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5"></path><path d="M6.5 10.5V19h11v-8.5"></path></svg></button>
+        <label class="switch" aria-label="Proxy toggle"><input id="masterToggle" type="checkbox"><span></span></label>
+      </div>
     </header>
 
-    <section id="statusCard" class="status-card off">
-      <div class="status-dot"></div>
-      <div class="status-copy"><strong id="statusTitle">Proxy is off</strong><span id="statusDetail"></span></div>
-      <span id="statusBadge" class="status-badge">OFF</span>
+    <button id="addLinkToggle" class="add-link-toggle" type="button" disabled data-js-action aria-expanded="false"><span id="addLinkToggleLabel">＋ Add link</span><span class="add-link-chevron">⌄</span></button>
+    <section id="addLinkPanel" class="add-link-panel" hidden>
+      <form id="addLinkForm" novalidate>
+        <label><span id="linkNameLabel">Name</span><input id="linkNameInput" type="text" maxlength="300" required></label>
+        <label><span id="linkUrlLabel">URL</span><input id="linkUrlInput" type="url" required></label>
+        <label><span id="linkGroupLabel">Group</span><select id="linkGroupSelect" required></select></label>
+        <label><span id="linkDescriptionLabel">Description</span><textarea id="linkDescriptionInput" class="resize-none" maxlength="500" rows="3"></textarea></label>
+        <div id="addLinkError" class="popup-form-error" role="alert"></div>
+        <div class="add-link-actions"><button id="addLinkCancel" class="popup-button" type="button" disabled data-js-action>Cancel</button><button id="addLinkSubmit" class="popup-button primary" type="submit">Add link</button></div>
+      </form>
     </section>
+    <div id="popupNotice" class="popup-notice" role="status" aria-live="polite" hidden></div>
 
+    <section id="statusCard" class="status-card off">
+      <div class="status-dot"></div><div class="status-copy"><strong id="statusTitle">Proxy is off</strong><span id="statusDetail"></span></div><span id="statusBadge" class="status-badge">OFF</span>
+    </section>
     <div id="profileList" class="profile-list"></div>
 
     <section class="session-quick-section">
-      <div class="session-quick-head"><div><strong id="sessionsLabel">Sessions</strong><span id="sessionsHint">Save or restore a browser session</span></div><button id="saveSessionQuickButton" class="session-save-button" type="button">＋ Save</button></div>
+      <div class="session-quick-head"><div><strong id="sessionsLabel">Sessions</strong><span id="sessionsHint">Save or restore a browser session</span></div><button id="saveSessionQuickButton" class="session-save-button" type="button" disabled data-js-action>＋ Save</button></div>
       <div id="sessionQuickNotice" class="session-quick-notice" hidden></div>
       <div id="sessionQuickList" class="session-quick-list"></div>
-      <button id="manageSessionsButton" class="session-manage-button popup-nav-button" type="button"><span id="manageSessionsLabel">Manage sessions</span><span>›</span></button>
     </section>
-
-    <footer class="popup-footer">
-      <button id="manageButton" class="manage-button popup-nav-button" type="button"><span id="manageLabel">Manage proxies</span><span>›</span></button>
-      <p id="toolbarHint"></p>
-      <div class="popup-credit"><span>made by g.khudiakov for self and others</span><span>contact: <a href="mailto:me@regesh.ru">me@regesh.ru</a></span></div>
-    </footer>
   </main>
   <script src="shared.js"></script>
   <script src="tools-shared.js"></script>

@@ -5,3 +5,15 @@ Thumbs.db
 *.log
 dist/*
 !dist/.gitkeep
+
+# Restored from source-bundle by scripts/bootstrap-source.sh.
+/app.js
+/background.js
+/proxy-shared.js
+/proxy.css
+/proxy.js
+/shared.js
+/styles.css
+/tools-shared.js
+/tools.css
+/tools.js

@@ -5,69 +5,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <title>Tools — RStartpage</title>
+  <link rel="icon" data-app-favicon href="icons/icon32.png">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="tools.css">
 </head>
 <body class="tools-body">
   <div class="page-background" aria-hidden="true"></div>
-  <header class="tools-topbar">
-    <div class="tools-topbar-inner">
-      <button id="backButton" class="button" type="button">← RStartpage</button>
-      <div class="brand static-brand"><img src="icons/icon32.png" width="28" height="28" alt=""><span>RStartpage</span></div>
-      <div></div>
-    </div>
-  </header>
+  <header class="app-navigation-shell"><div id="appNavigation"></div></header>
 
   <main class="tools-page">
     <section class="tools-hero">
-      <div class="eyebrow">RStartpage</div>
+      <div class="eyebrow" data-product-name>RStartpage</div>
       <h1 id="toolsTitle">Tools</h1>
-      <p id="toolsIntro">Sessions and bookmark diagnostics.</p>
+      <p id="toolsIntro">Find duplicate bookmarks and diagnose unavailable links.</p>
     </section>
 
     <div id="toolsNotice" class="tools-notice" hidden></div>
 
-    <section class="tool-card" id="sessionsSection">
-      <div class="tool-card-head">
-        <div><h2 id="sessionsTitle">Session Manager</h2><p id="sessionsText">Save the current window and reopen it later.</p></div>
-        <button id="saveSessionButton" class="button primary" type="button">＋ Save current window</button>
-      </div>
-      <div id="sessionsList" class="sessions-list"></div>
-      <div id="sessionsEmpty" class="tool-empty" hidden><strong id="sessionsEmptyTitle">No saved sessions</strong><span id="sessionsEmptyText">Save your current tabs as a session.</span></div>
-    </section>
-
-    <section class="tool-card" id="duplicatesSection">
+    <section id="duplicatesSection" class="tool-card">
       <div class="tool-card-head">
         <div><h2 id="duplicatesTitle">Duplicate Finder</h2><p id="duplicatesText">Find bookmarks that point to the same URL.</p></div>
-        <div class="tool-actions-inline"><select id="duplicateScope" class="select"><option value="rstartpage">RStartpage</option><option value="all">All Chrome bookmarks</option></select><button id="findDuplicatesButton" class="button" type="button">Find duplicates</button></div>
+        <div class="tool-actions-inline">
+          <select id="duplicateScope" class="select" aria-label="Duplicate search scope"><option value="rstartpage">RStartpage</option><option value="all">All Chrome bookmarks</option></select>
+          <button id="findDuplicatesButton" class="button primary" type="button" disabled data-js-action>Find duplicates</button>
+          <button id="checkAllDuplicatesButton" class="button" type="button" disabled data-js-action hidden>Check all</button>
+        </div>
       </div>
+      <div id="duplicateProgress" class="progress-block" hidden><div class="progress-track"><i id="duplicateProgressBar"></i></div><span id="duplicateProgressText"></span></div>
       <div id="duplicateSummary" class="tool-summary" hidden></div>
       <div id="duplicateResults" class="diagnostic-list"></div>
     </section>
 
-    <section class="tool-card" id="linksSection">
+    <section id="linksSection" class="tool-card">
       <div class="tool-card-head">
         <div><h2 id="linksTitle">Link Checker</h2><p id="linksText">Check bookmarks for HTTP errors, timeouts and unreachable sites. Nothing is deleted automatically.</p></div>
-        <div class="tool-actions-inline"><select id="linkScope" class="select"><option value="rstartpage">RStartpage</option><option value="all">All Chrome bookmarks</option></select><button id="checkLinksButton" class="button" type="button">Check links</button></div>
+        <div class="tool-actions-inline"><select id="linkScope" class="select" aria-label="Link check scope"><option value="rstartpage">RStartpage</option><option value="all">All Chrome bookmarks</option></select><button id="checkLinksButton" class="button primary" type="button" disabled data-js-action>Check links</button></div>
       </div>
       <div id="linkProgress" class="progress-block" hidden><div class="progress-track"><i id="linkProgressBar"></i></div><span id="linkProgressText"></span></div>
       <div id="linkSummary" class="tool-summary" hidden></div>
       <div id="linkResults" class="diagnostic-list"></div>
     </section>
-
-    <footer class="app-author-footer page-author-footer">
-      <span>made by g.khudiakov for self and others</span>
-      <span>contact: <a href="mailto:me@regesh.ru">me@regesh.ru</a></span>
-    </footer>
   </main>
-
-  <dialog id="sessionDialog" class="dialog session-dialog">
-    <form id="sessionForm" method="dialog">
-      <div class="dialog-header"><div><div class="eyebrow">RStartpage</div><h2 id="sessionDialogTitle">Save session</h2></div><button id="sessionDialogClose" class="icon-button small" type="button">×</button></div>
-      <label class="field"><span id="sessionNameLabel">Session name</span><input id="sessionNameInput" class="input" maxlength="100" placeholder="Work"></label>
-      <div class="dialog-actions"><button id="sessionCancelButton" class="button" type="button">Cancel</button><button id="sessionSaveButton" class="button primary" type="submit">Save</button></div>
-    </form>
-  </dialog>
 
   <script src="shared.js"></script>
   <script src="tools-shared.js"></script>

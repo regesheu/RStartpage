@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Proxy help — RStartpage</title>
+  <link rel="icon" data-app-favicon href="icons/icon32.png">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="proxy-help.css">
+</head>
+<body class="proxy-help-body">
+  <div class="page-background" aria-hidden="true"></div>
+  <header class="app-navigation-shell"><div id="appNavigation"></div></header>
+  <main class="proxy-help-page">
+    <section class="proxy-help-hero">
+      <a id="backToProxy" class="text-link" href="proxy.html">← Proxy</a>
+      <div class="eyebrow" data-product-name>RStartpage</div>
+      <h1 id="helpTitle">How proxy routing works</h1>
+      <p id="helpIntro">A practical guide to profiles, exclusions and Smart Rules.</p>
+    </section>
+
+    <section class="help-card priority-card">
+      <div class="help-card-number">01</div>
+      <div><h2 id="priorityTitle">Execution priority</h2><p id="priorityIntro">The first matching condition wins for every request.</p>
+        <ol class="priority-list">
+          <li><b>1</b><div><strong id="priorityBypassTitle">All profile bypass lists</strong><span id="priorityBypassText">In Smart mode, matching addresses always connect directly.</span></div></li>
+          <li><b>2</b><div><strong id="priorityRulesTitle">First matching Smart Rule</strong><span id="priorityRulesText">Rules run from top to bottom and route through DIRECT or a selected profile.</span></div></li>
+          <li><b>3</b><div><strong id="priorityFallbackTitle">Active profile</strong><span id="priorityFallbackText">Everything else uses the enabled profile.</span></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="help-grid">
+      <article class="help-card"><div class="help-card-number">02</div><h2 id="profilesTitle">Profiles</h2><p id="profilesText"></p><div class="example-box"><code>HTTP · proxy.example.com · 8080</code><code>SOCKS5 · 127.0.0.1 · 1080</code></div></article>
+      <article class="help-card"><div class="help-card-number">03</div><h2 id="bypassTitle">Bypass examples</h2><p id="bypassText"></p><div class="example-box"><code>&lt;local&gt;</code><code>*.company.test</code><code>10.0.0.0/8</code><code>127.0.0.1</code></div></article>
+      <article class="help-card"><div class="help-card-number">04</div><h2 id="rulesTitle">Smart Rule examples</h2><p id="rulesText"></p><div class="example-table"><div><code>*.ru</code><span id="exampleRu">Route all .ru sites</span></div><div><code>api.example.com</code><span id="exampleExact">Match one host</span></div><div><code>10.*</code><span id="exampleIp">Match a private IP range</span></div><div><code>https://example.com/private/*</code><span id="exampleUrl">Match a URL path</span></div></div></article>
+      <article class="help-card"><div class="help-card-number">05</div><h2 id="testingTitle">Testing and status</h2><p id="testingText"></p><ul class="help-bullets"><li id="testingOne"></li><li id="testingTwo"></li><li id="testingThree"></li></ul></article>
+      <article class="help-card"><div class="help-card-number">06</div><h2 id="authTitle">Passwords and sync</h2><p id="authText"></p><ul class="help-bullets"><li id="authOne"></li><li id="authTwo"></li><li id="authThree"></li></ul></article>
+      <article class="help-card"><div class="help-card-number">07</div><h2 id="workflowTitle">Recommended setup</h2><ol class="workflow-list"><li id="workflowOne"></li><li id="workflowTwo"></li><li id="workflowThree"></li><li id="workflowFour"></li></ol></article>
+    </section>
+
+    <div class="help-cta"><a id="openProxyButton" class="button primary" href="proxy.html">Open proxy settings</a></div>
+  </main>
+  <script src="shared.js"></script>
+  <script src="proxy-help.js"></script>
+</body>
+</html>

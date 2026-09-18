@@ -5,16 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <title>Import & export — RStartpage</title>
+  <link rel="icon" data-app-favicon href="icons/icon32.png">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="data.css">
 </head>
 <body class="data-body">
-  <header class="data-topbar">
-    <div class="data-topbar-inner">
-      <div class="brand static-brand"><img src="icons/icon32.png" width="28" height="28" alt=""><span>RStartpage</span></div>
-      <button id="backButton" class="button" type="button" data-i18n="data.back">← New tab</button>
-    </div>
-  </header>
+  <div class="page-background" aria-hidden="true"></div>
+  <header class="app-navigation-shell"><div id="appNavigation"></div></header>
 
   <main class="data-page">
     <section class="data-hero">
@@ -28,7 +25,7 @@
     <section class="data-card">
       <div class="data-card-heading">
         <div><h2 data-i18n="data.exportTitle">Export RStartpage</h2><p data-i18n="data.exportText">Saves sections, groups, links, descriptions, pins, card sizes, section/group colors and icons, and interface settings.</p></div>
-        <button id="exportButton" class="button primary" type="button" data-i18n="data.download">Download JSON</button>
+        <button id="exportButton" class="button primary" type="button" disabled data-js-action data-i18n="data.download">Download JSON</button>
       </div>
       <div class="export-proxy-options">
         <label class="option-check"><input id="exportProxies" type="checkbox" checked><span id="exportProxiesLabel">Include proxy profiles</span></label>
@@ -75,7 +72,7 @@
       </div>
       <div class="folder-import-row">
         <select id="bookmarkFolderSelect" class="select"><option data-i18n="data.loadingFolders">Loading folders…</option></select>
-        <button id="folderImportButton" class="button" type="button" data-i18n="data.copyButton">Copy to RStartpage</button>
+        <button id="folderImportButton" class="button" type="button" disabled data-js-action data-i18n="data.copyButton">Copy to RStartpage</button>
       </div>
       <p class="muted-note" data-i18n="data.chromeNote">The selected folder becomes a section. Nested folders become groups; deeper nesting is represented with “ / ” in the group name.</p>
     </section>
@@ -119,13 +116,9 @@
     <section class="danger-zone data-card">
       <div class="data-card-heading">
         <div><h2 data-i18n="data.resetTitle">Reset RStartpage</h2><p data-i18n="data.resetText">Deletes only RStartpage data and visual metadata. Other Chrome Bookmarks are not affected.</p></div>
-        <button id="resetButton" class="button danger-button" type="button" data-i18n="data.reset">Reset</button>
+        <button id="resetButton" class="button danger-button" type="button" disabled data-js-action data-i18n="data.reset">Reset</button>
       </div>
     </section>
-    <footer class="app-author-footer page-author-footer">
-      <span>made by g.khudiakov for self and others</span>
-      <span>contact: <a href="mailto:me@regesh.ru">me@regesh.ru</a></span>
-    </footer>
   </main>
 
   <script src="shared.js"></script>

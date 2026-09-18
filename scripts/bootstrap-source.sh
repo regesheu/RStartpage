@@ -26,7 +26,10 @@ with tempfile.NamedTemporaryFile(suffix='.tar.gz') as tmp:
             target = (root / member.name).resolve()
             if root.resolve() not in target.parents and target != root.resolve():
                 raise SystemExit(f'Unsafe path in source bundle: {member.name}')
-        tar.extractall(root)
+        try:
+            tar.extractall(root, filter='data')
+        except TypeError:  # Python < 3.12
+            tar.extractall(root)
 
 print(f'Restored {len(parts)} source bundle parts into {root}')
 PY
