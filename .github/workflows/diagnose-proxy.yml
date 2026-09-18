@@ -1,0 +1,51 @@
+name: Diagnose Proxy Routing
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/diagnose-proxy.yml'
+      - 'source-bundle/**'
+      - 'scripts/**'
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore extension source
+        run: bash scripts/bootstrap-source.sh
+      - name: Print PAC generator context
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('background.js')
+          s = p.read_text(encoding='utf-8')
+          needles = [
+              'FindProxyForURL',
+              'pacScript',
+              'bypass',
+              'smartRules',
+              'smart',
+          ]
+          for needle in needles:
+              print(f'===== {needle} =====')
+              start = 0
+              count = 0
+              while True:
+                  i = s.lower().find(needle.lower(), start)
+                  if i < 0 or count >= 12:
+                      break
+                  a = max(0, i - 1600)
+                  b = min(len(s), i + 2600)
+                  print(f'--- offset {i} ---')
+                  print(s[a:b])
+                  print()
+                  start = i + len(needle)
+                  count += 1
+          PY
