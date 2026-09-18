@@ -1,0 +1,81 @@
+name: Build Proxy Routing Fix
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/build-proxy-fix.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build extension ZIP
+        run: bash scripts/build.sh
+
+      - name: Verify SMART bypass priority
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          source = Path('proxy-shared.js').read_text(encoding='utf-8')
+          marker = 'Profile bypass lists are global safety exclusions in SMART mode.'
+          if marker not in source:
+              raise SystemExit('SMART bypass priority patch is missing')
+
+          fn = source.index('function buildPacScript(')
+          priority = source.index('const priorityBypass = bypassCondition(', fn)
+          loop = source.index('for (const rule of rules.filter', fn)
+          if not priority < loop:
+              raise SystemExit('Bypass priority check is not before SMART rules')
+
+          if 'profiles.flatMap((profile) => Array.isArray(profile.bypass) ? profile.bypass : [])' not in source:
+              raise SystemExit('Not all proxy profile bypass lists are included')
+
+          print('Verified: all proxy-profile exclusions are evaluated before SMART rules')
+          PY
+
+      - name: Read version
+        id: version
+        shell: bash
+        run: |
+          VERSION="$(python3 - <<'PY'
+          import json
+          print(json.load(open('manifest.json', encoding='utf-8'))['version'])
+          PY
+          )"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Prepare latest asset
+        shell: bash
+        run: |
+          cp "dist/RStartpage-${{ steps.version.outputs.version }}.zip" "dist/RStartpage-latest.zip"
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: RStartpage-${{ steps.version.outputs.version }}
+          path: |
+            dist/RStartpage-${{ steps.version.outputs.version }}.zip
+            dist/RStartpage-latest.zip
+          if-no-files-found: error
+
+      - name: Create or update release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        shell: bash
+        run: |
+          TAG="v${VERSION}"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG"               "dist/RStartpage-${VERSION}.zip"               "dist/RStartpage-latest.zip"               --clobber
+          else
+            gh release create "$TAG"               "dist/RStartpage-${VERSION}.zip"               "dist/RStartpage-latest.zip"               --target "$GITHUB_SHA"               --title "RStartpage ${VERSION}"               --notes "Fix SMART routing so proxy-profile bypass exclusions have priority over all Smart Proxy Rules."
+          fi
