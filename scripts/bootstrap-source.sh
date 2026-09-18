@@ -30,3 +30,7 @@ with tempfile.NamedTemporaryFile(suffix='.tar.gz') as tmp:
 
 print(f'Restored {len(parts)} source bundle parts into {root}')
 PY
+
+if [[ -f "$ROOT_DIR/scripts/patch-proxy-routing.py" ]]; then
+  python3 "$ROOT_DIR/scripts/patch-proxy-routing.py"
+fi
