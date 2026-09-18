@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.1 — 2026-09-18
+
+### Proxy
+- Smart Proxy Rules continue to provide ordered DIRECT/proxy routing.
+- Proxy profile bypass lists now have higher priority than all Smart Proxy Rules while SMART routing is enabled.
+- All exclusions configured in proxy profiles are compiled into the PAC script before SMART routing rules, so matching destinations always use DIRECT.
+
 ## 1.0.0 — 2026-09-15
 
 First public release of RStartpage.
