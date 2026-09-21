@@ -19,7 +19,7 @@ window.addEventListener('DOMContentLoaded', init);
 async function init() {
   cache();
   const settings = await RS.loadSettings(); language = settings.language === 'ru' ? 'ru' : 'en'; RS.setLanguage(language); RS.setProductName(settings.productName || settings.tabTitle); document.documentElement.dataset.theme = settings.theme; RS.applyAccent(document.documentElement, settings);
-  document.title = RS.getProductName(); ui.popupProductName.textContent = RS.getProductName(); applyText(); bind(); RS.enableScriptActions(); await Promise.all([refreshProxy(), refreshSessions()]);
+  document.title = RS.getProductName(); ui.popupProductName.textContent = RS.getProductName(); applyText(); bind(); ui.createNoteButton?.addEventListener('click', () => chrome.tabs.create({ url: chrome.runtime.getURL('notes.html?new=1') })); RS.enableScriptActions(); await Promise.all([refreshProxy(), refreshSessions()]);
 }
 
 function cache() { document.querySelectorAll('[id]').forEach((node) => { ui[node.id] = node; }); }

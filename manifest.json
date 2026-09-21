@@ -11,8 +11,9 @@
     "proxy",
     "webRequest",
     "webRequestAuthProvider",
-    "tabs"
-    ,"contextMenus"
+    "tabs",
+    "contextMenus",
+    "identity"
   ],
   "chrome_url_overrides": {
     "newtab": "newtab.html"
@@ -30,6 +31,10 @@
   "host_permissions": [
     "<all_urls>"
   ],
+  "oauth2": {
+    "client_id": "REPLACE_WITH_CHROME_EXTENSION_OAUTH_CLIENT_ID.apps.googleusercontent.com",
+    "scopes": ["https://www.googleapis.com/auth/drive.appdata"]
+  },
   "background": {
     "service_worker": "background.js"
   },

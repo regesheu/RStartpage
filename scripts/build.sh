@@ -38,6 +38,7 @@ REQUIRED_FILES=(
   notes.html
   notes.js
   notes-shared.js
+  drive-shared.js
   settings.html
   settings.js
   settings.css

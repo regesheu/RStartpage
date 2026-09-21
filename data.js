@@ -56,7 +56,7 @@ function cache() {
     importSessionsLabel: document.querySelector('#importSessionsLabel'),
     bookmarkFolderSelect: document.querySelector('#bookmarkFolderSelect'),
     folderImportButton: document.querySelector('#folderImportButton'),
-    resetButton: document.querySelector('#resetButton'),
+    resetButton: document.querySelector('#resetButton'), exportNotesDataButton: document.querySelector('#exportNotesDataButton'), importNotesDataButton: document.querySelector('#importNotesDataButton'), notesDataFile: document.querySelector('#notesDataFile'),
     pageNotice: document.querySelector('#pageNotice'),
   });
 }
@@ -67,6 +67,9 @@ function bind() {
   ui.importButton.addEventListener('click', runJsonImport);
   ui.folderImportButton.addEventListener('click', runFolderImport);
   ui.resetButton.addEventListener('click', resetData);
+  ui.exportNotesDataButton?.addEventListener('click', async () => { RS.downloadJson(`rstartpage-notes-${RS.slugDate()}.json`, await RNotes.exportNotes()); showNotice('Экспорт заметок готов.'); });
+  ui.importNotesDataButton?.addEventListener('click', () => ui.notesDataFile.click());
+  ui.notesDataFile?.addEventListener('change', async () => { const file = ui.notesDataFile.files?.[0]; ui.notesDataFile.value = ''; if (!file) return; try { const count = await RNotes.importNotes(JSON.parse(await file.text()), { merge: true }); showNotice(`Импортировано заметок: ${count}.`); } catch (error) { showNotice(error.message || 'Не удалось импортировать заметки.', true); } });
 
   ['dragenter', 'dragover'].forEach((name) => ui.fileDrop.addEventListener(name, (event) => {
     event.preventDefault();

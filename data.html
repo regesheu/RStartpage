@@ -24,6 +24,10 @@
     <div id="pageNotice" class="page-notice" hidden></div>
 
     <section class="data-card">
+      <div class="data-card-heading"><div><h2>Заметки</h2><p>Отдельный экспорт и импорт заметок без изменения закладок.</p></div><div class="data-actions"><button id="exportNotesDataButton" class="button" type="button">Экспорт заметок</button><button id="importNotesDataButton" class="button" type="button">Импорт заметок</button><input id="notesDataFile" type="file" accept="application/json,.json" hidden></div></div>
+    </section>
+
+    <section class="data-card">
       <div class="data-card-heading">
         <div><h2 data-i18n="data.exportTitle">Export RStartpage</h2><p data-i18n="data.exportText">Saves sections, groups, links, descriptions, pins, card sizes, section/group colors and icons, and interface settings.</p></div>
         <button id="exportButton" class="button primary" type="button" disabled data-js-action data-i18n="data.download">Download JSON</button>
@@ -125,6 +129,7 @@
   <script src="shared.js"></script>
   <script src="proxy-shared.js"></script>
   <script src="tools-shared.js"></script>
+  <script src="notes-shared.js"></script>
   <script src="data.js"></script>
 </body>
 </html>

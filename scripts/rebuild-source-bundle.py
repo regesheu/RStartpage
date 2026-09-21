@@ -22,6 +22,7 @@ SOURCE_FILES = (
     "tools-shared.js",
     "tools.css",
     "tools.js",
+    "drive-shared.js",
 )
 PART_FILES = (
     "part00a",
