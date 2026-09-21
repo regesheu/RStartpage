@@ -8,6 +8,7 @@
   <link rel="icon" data-app-favicon href="icons/icon32.png">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="proxy.css">
+  <link rel="stylesheet" href="glass.css">
 </head>
 <body class="proxy-body">
   <div class="page-background" aria-hidden="true"></div>
@@ -39,6 +40,10 @@
       <div class="smart-rules-head">
         <div><h2 id="smartRulesTitle">Smart Proxy Rules</h2></div>
         <div class="smart-rules-actions"><label class="master-switch smart-switch"><span id="smartToggleLabel">Smart Routing</span><input id="smartToggle" type="checkbox"><i></i></label><button id="addRuleButton" class="button" type="button" disabled data-js-action>＋ Add rule</button></div>
+      </div>
+      <div class="rules-transfer-actions">
+        <button id="exportRulesButton" class="button" type="button" disabled data-js-action>Export rules</button>
+        <button id="importRulesButton" class="button" type="button" disabled data-js-action>Import rules</button>
       </div>
       <div id="ruleList" class="rule-list"></div>
       <div id="ruleEmpty" class="rule-empty" hidden></div>

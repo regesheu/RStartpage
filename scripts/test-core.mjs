@@ -79,6 +79,14 @@ const safeExport = await ProxyStore.exportData({ includePasswords: false });
 assert.equal('password' in safeExport.profiles.find((item) => item.id === 'a'), false);
 const secretExport = await ProxyStore.exportData({ includePasswords: true });
 assert.equal(secretExport.profiles.find((item) => item.id === 'a').password, 'secret');
+const rulesExport = await ProxyStore.exportRules();
+assert.equal(rulesExport.format, 'RStartpage Smart Proxy Rules');
+assert.equal(rulesExport.rules.length, 1);
+assert.equal(rulesExport.targets[0].id, 'b');
+const rulesImport = await ProxyStore.importRules({ ...rulesExport, rules: [...rulesExport.rules, { name: 'Internal', pattern: '*.internal.test', targetId: 'b', enabled: true }] });
+assert.equal(rulesImport.rulesImported, 1);
+assert.equal((await ProxyStore.getRules()).length, 2);
+await assert.rejects(() => ProxyStore.prepareRulesImport({ format: 'RStartpage Smart Proxy Rules', version: 1, targets: [], rules: [{ name: 'Missing', pattern: '*.missing.test', targetId: 'unknown', enabled: true }] }), /RULES_TARGET/);
 
 const RTools = load('tools-shared.js', 'RTools');
 assert.equal(RTools.normalizedDuplicateUrl('HTTPS://Example.COM:443/#section'), 'https://example.com');

@@ -1,17 +1,17 @@
 ---
 version: alpha
 name: "RStartpage"
-description: "A local-first Chrome workspace with a restrained translucent control-desk interface."
+description: "A local-first Chrome workspace with an Alpine Glass browser-shell interface."
 colors:
-  primary: "#0B8043"
-  primary-dark: "#65D995"
-  background: "#F7F9F8"
-  surface: "#FFFFFF"
-  surface-muted: "#F1F4F2"
-  text: "#1F2521"
-  text-muted: "#66706A"
-  border: "#D8DFDA"
-  danger: "#B3261E"
+  primary: "#58DEC0"
+  primary-dark: "#83EAD2"
+  background: "#07111A"
+  surface: "#142332"
+  surface-muted: "#1C3042"
+  text: "#EDF4FA"
+  text-muted: "#A4B8CA"
+  border: "#385165"
+  danger: "#FFAAA5"
 typography:
   sans:
     fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Arial, sans-serif"
@@ -84,7 +84,7 @@ components:
 
 ### Creative North Star
 
-RStartpage should feel like a quiet personal control desk built into the browser: compact, immediately legible, and softly separated from the user's wallpaper. The visual signature is a single translucent navigation rail that stays fixed while the tools below it change.
+RStartpage should feel like a browser workspace floating over an alpine night scene: compact, immediately legible, and softly separated from the wallpaper. The visual signature is the glass route rail and emerald-teal active state; home keeps the user's original section/group/bookmark model visible and task-first.
 
 ### Product context and register
 
@@ -93,7 +93,7 @@ RStartpage should feel like a quiet personal control desk built into the browser
 - **Locale(s) and language policy:** English and Russian. New owned copy must be present in both; English is the fallback.
 - **Usage scene:** desktop Chrome, frequent short interactions, high information density, keyboard and pointer input.
 - **Register:** product. Task clarity and reliable state take priority over brand expression.
-- **Memorable signature:** the persistent glass-like route rail with one green active marker.
+- **Memorable signature:** the centered glass route rail over the alpine wallpaper, with a teal active marker and compact bookmark surfaces.
 - **Restraint:** forms, proxy controls, diagnostics, confirmations, and dense lists remain flat and utilitarian.
 - **Anti-references:** not a marketing dashboard, neon cyberpunk proxy client, newspaper layout, or card-heavy generic SaaS template.
 - **Token ownership/runtime mapping:** the established CSS custom properties in `styles.css` remain canonical. This file mirrors their accepted values and intent. Shared page styles and components consume those variables directly; `DESIGN.md` lint plus the premium static audit are the drift gates.
@@ -108,7 +108,7 @@ The browser-native system sans stack is canonical because the extension is a com
 
 ## Layout
 
-Full pages share one sticky navigation shell. Page content owns normal document scrolling; long forms are never trapped inside a viewport-height page shell. The primary content maximum is `page-max`, while task-focused pages use narrower local maxima. Controls follow `control-height`; cards and sections use the documented gaps. At narrow widths, navigation scrolls horizontally and toolbars wrap without hiding actions.
+Full pages share one sticky navigation shell. Page content owns normal document scrolling; long forms are never trapped inside a viewport-height page shell. The primary content maximum is `page-max`, while task-focused pages use narrower local maxima. Controls follow `control-height`; cards and sections use the documented gaps. The desktop route rail stays within one row without a horizontal scrollbar; at narrow widths labels collapse to named icon controls.
 
 ## Elevation & Depth
 
