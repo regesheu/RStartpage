@@ -40,6 +40,8 @@ REQUIRED_FILES=(
   settings.css
   data.js
   icons/transparent.svg
+  glass.css
+  assets/alpine-night.png
 )
 
 for file in "${REQUIRED_FILES[@]}"; do
