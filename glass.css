@@ -107,6 +107,9 @@ body { position:relative; isolation:isolate; }
 body::before { z-index:0 !important; pointer-events:none; }
 body::after { z-index:0 !important; pointer-events:none; background:linear-gradient(135deg,rgba(3,10,18,.42),rgba(3,10,18,.12)) !important; }
 .app-shell, body > main, body > header, body > dialog { position:relative; z-index:1; }
+body { background:linear-gradient(180deg,rgba(7,18,26,.25),rgba(7,17,26,.82)),url('assets/alpine-night.png') center/cover fixed !important; }
+:root[data-background-mode="clean"] body { background:var(--bg) !important; }
+:root[data-background-mode="custom"] body { background:var(--custom-background-image) center/cover fixed !important; }
 .quick-access-empty { margin:0; color:var(--muted); font-size:12px; }
 .session-toolbar { display:flex; align-items:center; justify-content:flex-end; gap:8px; flex-wrap:wrap; }
 .session-import-dialog { max-width:520px; }
@@ -119,12 +122,19 @@ body::after { z-index:0 !important; pointer-events:none; background:linear-gradi
 .notes-search { display:flex; align-items:center; gap:8px; min-height:40px; padding:0 12px; border:1px solid var(--edge); border-radius:10px; background:color-mix(in srgb,var(--bg) 72%,transparent); }
 .notes-search input { width:100%; border:0; outline:0; color:var(--text); background:transparent; }
 .notes-tag-bar,.note-tags { display:flex; gap:6px; flex-wrap:wrap; margin:14px 0; }
+.notes-sync-meter { display:grid; grid-template-columns:auto minmax(100px,1fr) auto; align-items:center; gap:10px; margin-top:14px; color:var(--muted); font-size:11px; }
+.notes-sync-track { height:6px; overflow:hidden; border-radius:999px; background:var(--surface-3); }
+.notes-sync-track i { display:block; width:0; height:100%; border-radius:inherit; background:var(--green); transition:width .2s ease; }
+.notes-sync-track i.near-limit { background:#f0a64a; }
 .note-tag { display:inline-flex; border:1px solid var(--edge); border-radius:999px; padding:4px 9px; color:var(--muted); background:var(--glass); font-size:11px; }
 button.note-tag { cursor:pointer; }
 .note-tag.active { color:var(--text); border-color:var(--green); background:var(--green-soft); }
 .notes-list { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
 .note-card { min-height:190px; padding:16px; border:1px solid var(--edge); border-radius:14px; background:linear-gradient(145deg,var(--surface-2),var(--glass)); }
 .note-card-head { display:flex; justify-content:space-between; gap:12px; }
+.note-card-actions { display:flex; align-items:center; gap:6px; }
+.note-sync-chip { display:flex; gap:4px; align-items:center; color:var(--muted); font:11px ui-monospace,monospace; }
+.note-sync-chip input { accent-color:var(--green); }
 .note-card h2 { margin:0; font-size:16px; }
 .note-meta,.note-dates,.note-source,.note-source-link { color:var(--muted); font-size:11px; }
 .note-content { margin:12px 0; color:var(--text); font-size:13px; line-height:1.55; white-space:normal; overflow-wrap:anywhere; }
@@ -132,6 +142,10 @@ button.note-tag { cursor:pointer; }
 .note-dialog { max-width:680px; }
 .note-content-input { min-height:220px; resize:vertical; }
 .field-hint { color:var(--muted); font-size:11px; }
+.sync-note-toggle { display:flex; gap:10px; align-items:flex-start; padding:12px; border:1px solid var(--edge); border-radius:10px; background:var(--glass); }
+.sync-note-toggle input { margin-top:3px; accent-color:var(--green); }
+.sync-note-toggle span { display:grid; gap:3px; font-size:12px; }.sync-note-toggle small { color:var(--muted); font-size:11px; }
+.notes-help-dialog { max-width:620px; }.notes-help-content { display:grid; gap:10px; color:var(--muted); line-height:1.55; }.notes-help-content p { margin:0; }.notes-help-content strong { color:var(--text); }
 @media(max-width:1000px){.notes-toolbar{grid-template-columns:1fr 1fr}.notes-toolbar .notes-search{grid-column:1/-1}.notes-list{grid-template-columns:repeat(2,minmax(0,1fr));}}
 @media(max-width:600px){.notes-list{grid-template-columns:1fr}.notes-toolbar{grid-template-columns:1fr}.notes-toolbar .notes-search{grid-column:auto}}
 @media(max-width:900px) {

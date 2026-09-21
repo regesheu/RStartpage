@@ -61,7 +61,7 @@ def parse_page(name: str) -> tuple[str, PageParser]:
 def main() -> None:
     manifest = json.loads((ROOT / "manifest.json").read_text(encoding="utf-8"))
     require(manifest["options_ui"]["page"] == "settings.html", "manifest: settings must be the options page")
-    require(manifest["version"] == "1.6.0", "manifest: unexpected version")
+    require(manifest["version"] == "1.7.0", "manifest: unexpected version")
 
     for page in FULL_PAGES:
         source, parser = parse_page(page)
