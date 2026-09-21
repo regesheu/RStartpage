@@ -102,6 +102,19 @@ body::before { position:fixed; inset:0; content:""; z-index:-2; background-posit
 .data-card::before { display:none; }
 .data-body .file-drop { background:var(--glass); border-color:var(--border); }
 body:has(.popup-header) { background:linear-gradient(135deg,var(--surface-2),var(--bg)); }
+html, body { background:transparent !important; }
+body { position:relative; isolation:isolate; }
+body::before { z-index:-2 !important; }
+body::after { z-index:-1 !important; background:linear-gradient(135deg,rgba(3,10,18,.42),rgba(3,10,18,.12)) !important; }
+.app-shell, body > main, body > header { position:relative; z-index:0; }
+.quick-access-empty { margin:0; color:var(--muted); font-size:12px; }
+.session-toolbar { display:flex; align-items:center; justify-content:flex-end; gap:8px; flex-wrap:wrap; }
+.session-import-dialog { max-width:520px; }
+.import-summary { margin:0 0 18px; color:var(--muted); }
+.import-mode-fieldset { display:grid; gap:10px; margin:0 0 18px; padding:14px; border:1px solid var(--edge); border-radius:12px; color:var(--text); }
+.import-mode-fieldset legend { padding:0 5px; color:var(--muted); font-size:11px; }
+.import-mode-fieldset label { display:flex; gap:8px; align-items:center; font-size:13px; }
+.app-credit { display:none !important; }
 @media(max-width:900px) {
   .app-navigation-inner { gap:8px; grid-template-columns:auto minmax(0,1fr) auto; }
   .app-navigation-brand span { display:none; }

@@ -60,7 +60,7 @@ def parse_page(name: str) -> tuple[str, PageParser]:
 def main() -> None:
     manifest = json.loads((ROOT / "manifest.json").read_text(encoding="utf-8"))
     require(manifest["options_ui"]["page"] == "settings.html", "manifest: settings must be the options page")
-    require(manifest["version"] == "1.4.0", "manifest: unexpected version")
+    require(manifest["version"] == "1.5.0", "manifest: unexpected version")
 
     for page in FULL_PAGES:
         source, parser = parse_page(page)
@@ -87,7 +87,7 @@ def main() -> None:
     all_js = "\n".join(path.read_text(encoding="utf-8") for path in ROOT.glob("*.js"))
     require(not re.search(r"(?<![A-Za-z])confirm\s*\(", all_js), "JavaScript: native confirm() remains")
     require("updateBookmarkEntry" in all_js and "checkDuplicateItems" in all_js, "duplicates: inline edit/check implementation missing")
-    require("Extention made by <a href=\"mailto:me@regesh.ru\">regesh</a>" in all_js, "shared credit missing")
+    require("Extention made by" not in all_js and "mailto:me@regesh.ru" not in all_js, "author/contact content must be removed")
 
     print(f"Validated {len(FULL_PAGES) + 1} pages and UI contracts")
 
