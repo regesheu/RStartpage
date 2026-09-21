@@ -23,7 +23,19 @@
 
     <div id="pageNotice" class="page-notice" hidden></div>
 
-    <section class="data-card">
+    <section class="data-card data-overview-card">
+      <div class="data-card-heading"><div><div class="eyebrow">CONTROL CENTER</div><h2>Данные и разделы</h2><p>Единый центр переноса, локального архива и облачных резервных копий RStartpage.</p></div><span class="data-status-pill"><i></i> Local-first</span></div>
+      <div class="data-overview-grid"><div><strong id="localArchiveTitle">Локальный архив</strong><span id="localArchiveText">Сохранить всё расширение в один JSON-файл и восстановить его позже.</span></div><div><strong id="cloudArchiveTitle">Облачные копии</strong><span id="cloudArchiveText">Google Drive AppFolder хранит копии отдельно от ваших обычных файлов.</span></div><div><strong id="notesArchiveTitle">Заметки отдельно</strong><span id="notesArchiveText">Импорт и экспорт заметок остаются доступны независимо от общего архива.</span></div></div>
+    </section>
+
+    <section class="data-card drive-data-card">
+      <div class="data-card-heading"><div><div class="eyebrow">GOOGLE DRIVE · APPFOLDER</div><h2>Резервные копии</h2><p id="driveDataDescription">Подключите Drive для облачных копий всех настроек и данных расширения.</p></div><div class="drive-data-actions"><span id="driveDataStatus" class="data-status-pill muted">Не подключён</span><button id="driveDataConnectButton" class="button primary" type="button">Подключить Google Drive</button></div></div>
+      <div id="driveDataMessage" class="callout warning">Google Drive пока не подключён. Облачные действия станут доступны после авторизации.</div>
+      <div id="driveDataBackups" class="drive-backups" aria-live="polite"><div class="drive-empty"><strong>Копии появятся здесь</strong><span>После подключения Drive вы сможете создать, скачать, восстановить или удалить любую копию.</span></div></div>
+      <div class="drive-data-footer"><button id="driveDataBackupButton" class="button" type="button" disabled>Создать копию</button><button id="driveDataRefreshButton" class="button ghost" type="button">Обновить список</button></div>
+    </section>
+
+    <section class="data-card notes-data-card">
       <div class="data-card-heading"><div><h2>Заметки</h2><p>Отдельный экспорт и импорт заметок без изменения закладок.</p></div><div class="data-actions"><button id="exportNotesDataButton" class="button" type="button">Экспорт заметок</button><button id="importNotesDataButton" class="button" type="button">Импорт заметок</button><input id="notesDataFile" type="file" accept="application/json,.json" hidden></div></div>
     </section>
 
@@ -130,6 +142,7 @@
   <script src="proxy-shared.js"></script>
   <script src="tools-shared.js"></script>
   <script src="notes-shared.js"></script>
+  <script src="drive-shared.js"></script>
   <script src="data.js"></script>
 </body>
 </html>

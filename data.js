@@ -14,6 +14,7 @@ async function initDataPage() {
   RS.enableScriptActions();
   await applyPageSettings();
   await refreshFolderSelect();
+  await refreshDriveData();
 }
 
 async function applyPageSettings() {
@@ -56,7 +57,7 @@ function cache() {
     importSessionsLabel: document.querySelector('#importSessionsLabel'),
     bookmarkFolderSelect: document.querySelector('#bookmarkFolderSelect'),
     folderImportButton: document.querySelector('#folderImportButton'),
-    resetButton: document.querySelector('#resetButton'), exportNotesDataButton: document.querySelector('#exportNotesDataButton'), importNotesDataButton: document.querySelector('#importNotesDataButton'), notesDataFile: document.querySelector('#notesDataFile'),
+    resetButton: document.querySelector('#resetButton'), exportNotesDataButton: document.querySelector('#exportNotesDataButton'), importNotesDataButton: document.querySelector('#importNotesDataButton'), notesDataFile: document.querySelector('#notesDataFile'), driveDataStatus: document.querySelector('#driveDataStatus'), driveDataConnectButton: document.querySelector('#driveDataConnectButton'), driveDataMessage: document.querySelector('#driveDataMessage'), driveDataBackups: document.querySelector('#driveDataBackups'), driveDataBackupButton: document.querySelector('#driveDataBackupButton'), driveDataRefreshButton: document.querySelector('#driveDataRefreshButton'),
     pageNotice: document.querySelector('#pageNotice'),
   });
 }
@@ -70,6 +71,9 @@ function bind() {
   ui.exportNotesDataButton?.addEventListener('click', async () => { RS.downloadJson(`rstartpage-notes-${RS.slugDate()}.json`, await RNotes.exportNotes()); showNotice('Экспорт заметок готов.'); });
   ui.importNotesDataButton?.addEventListener('click', () => ui.notesDataFile.click());
   ui.notesDataFile?.addEventListener('change', async () => { const file = ui.notesDataFile.files?.[0]; ui.notesDataFile.value = ''; if (!file) return; try { const count = await RNotes.importNotes(JSON.parse(await file.text()), { merge: true }); showNotice(`Импортировано заметок: ${count}.`); } catch (error) { showNotice(error.message || 'Не удалось импортировать заметки.', true); } });
+  ui.driveDataConnectButton?.addEventListener('click', toggleDriveData);
+  ui.driveDataBackupButton?.addEventListener('click', createDriveDataBackup);
+  ui.driveDataRefreshButton?.addEventListener('click', refreshDriveData);
 
   ['dragenter', 'dragover'].forEach((name) => ui.fileDrop.addEventListener(name, (event) => {
     event.preventDefault();
@@ -85,7 +89,7 @@ function bind() {
 async function exportData() {
   ui.exportButton.disabled = true;
   try {
-    const data = await RS.exportPortable();
+    const data = await buildFullArchive();
     if (ui.exportProxies?.checked) data.proxies = await ProxyStore.exportData({ includePasswords: !!ui.exportProxyPasswords?.checked });
     if (ui.exportSessions?.checked) data.sessions = await RTools.exportSessions();
     RS.downloadJson(`rstartpage-backup-${RS.slugDate()}.json`, data);
@@ -96,6 +100,59 @@ async function exportData() {
   } finally {
     ui.exportButton.disabled = false;
   }
+}
+
+async function buildFullArchive(full = false) {
+  const data = await RS.exportPortable();
+  if (full || ui.exportProxies?.checked) data.proxies = await ProxyStore.exportData({ includePasswords: !!ui.exportProxyPasswords?.checked });
+  if (full || ui.exportSessions?.checked) data.sessions = await RTools.exportSessions();
+  data.notes = await RNotes.exportNotes();
+  data.archive = { name: 'RStartpage complete archive', createdAt: new Date().toISOString(), includes: ['bookmarks', 'settings', 'notes', 'proxies', 'sessions'] };
+  return data;
+}
+
+async function toggleDriveData() {
+  ui.driveDataConnectButton.disabled = true;
+  try {
+    const connected = (await RDrive.state()).connected;
+    if (connected) { await RDrive.disconnect(); showNotice('Google Drive отключён. Локальный архив по-прежнему доступен.'); }
+    else { await RDrive.connect(); showNotice('Google Drive подключён. Теперь можно создавать облачные копии.'); }
+    await refreshDriveData();
+  } catch (error) {
+    showNotice('Не удалось подключить Google Drive. Проверьте OAuth Client ID и разрешение Drive AppFolder.', true);
+  } finally { ui.driveDataConnectButton.disabled = false; }
+}
+
+async function refreshDriveData() {
+  if (!ui.driveDataStatus) return;
+  try {
+    const connected = (await RDrive.state()).connected;
+    ui.driveDataStatus.textContent = connected ? 'Подключён' : 'Не подключён';
+    ui.driveDataStatus.classList.toggle('success', connected);
+    ui.driveDataConnectButton.textContent = connected ? 'Отключить Google Drive' : 'Подключить Google Drive';
+    ui.driveDataBackupButton.disabled = !connected;
+    if (!connected) { ui.driveDataMessage.textContent = 'Google Drive пока не подключён. Облачные действия станут доступны после авторизации.'; return; }
+    ui.driveDataMessage.textContent = 'Копии хранятся в защищённой папке приложения Google Drive (AppFolder).';
+    const result = await RDrive.list();
+    const files = result.files || [];
+    ui.driveDataBackups.innerHTML = files.length ? files.map((file) => `<div class="drive-backup-row"><div><strong>${RS.escapeHtml(file.name)}</strong><span>${new Date(file.createdTime || file.modifiedTime).toLocaleString()}</span></div><div class="drive-backup-actions"><button class="button small" type="button" data-drive-download="${file.id}">Скачать</button><button class="button small" type="button" data-drive-restore="${file.id}">Восстановить</button><button class="button small danger-quiet" type="button" data-drive-delete="${file.id}">Удалить</button></div></div>`).join('') : '<div class="drive-empty"><strong>Копий пока нет</strong><span>Создайте первую копию всех данных расширения.</span></div>';
+    ui.driveDataBackups.querySelectorAll('[data-drive-download]').forEach((button) => button.onclick = () => downloadDriveBackup(button.dataset.driveDownload));
+    ui.driveDataBackups.querySelectorAll('[data-drive-restore]').forEach((button) => button.onclick = () => restoreDriveBackup(button.dataset.driveRestore));
+    ui.driveDataBackups.querySelectorAll('[data-drive-delete]').forEach((button) => button.onclick = () => deleteDriveBackup(button.dataset.driveDelete));
+  } catch (error) { ui.driveDataMessage.textContent = 'Не удалось получить список копий Google Drive. Проверьте подключение.'; }
+}
+
+async function createDriveDataBackup() { try { ui.driveDataBackupButton.disabled = true; await RDrive.upload(`rstartpage-archive-${Date.now()}.json`, await buildFullArchive(true)); showNotice('Резервная копия всех данных сохранена в Google Drive.'); await refreshDriveData(); } catch (error) { showNotice('Не удалось сохранить копию в Google Drive.', true); } finally { ui.driveDataBackupButton.disabled = false; } }
+async function downloadDriveBackup(id) { try { RS.downloadJson(`rstartpage-drive-backup-${RS.slugDate()}.json`, await RDrive.download(id)); showNotice('Копия скачана.'); } catch (error) { showNotice('Не удалось скачать копию.', true); } }
+async function restoreDriveBackup(id) { try { const data = await RDrive.download(id); await importArchive(data, 'merge'); showNotice('Резервная копия восстановлена.'); } catch (error) { showNotice('Не удалось восстановить копию.', true); } }
+async function deleteDriveBackup(id) { const accepted = await RS.confirmAction({ title: 'Удалить резервную копию?', message: 'Файл будет удалён из Google Drive.', confirmLabel: 'Удалить' }); if (!accepted) return; try { await RDrive.remove(id); await refreshDriveData(); showNotice('Копия удалена из Google Drive.'); } catch (error) { showNotice('Не удалось удалить копию.', true); } }
+
+async function importArchive(raw, mode = 'merge') {
+  const portable = raw?.workspaces ? RS.detectAndNormalizeImport(raw) : null;
+  if (portable?.workspaces?.length) await RS.importPortable(portable, { mode, skipDuplicates: true, importSettings: true });
+  if (raw?.proxies?.profiles) await ProxyStore.importData(raw.proxies, { merge: mode !== 'replace' });
+  if (raw?.sessions?.sessions) await RTools.importSessions(raw.sessions, { merge: mode !== 'replace' });
+  if (raw?.notes?.notes) await RNotes.importNotes(raw.notes, { merge: mode !== 'replace' });
 }
 
 async function handleFile(file) {
@@ -119,18 +176,20 @@ async function handleFile(file) {
     }
     const proxyBundle = raw?.proxies && Array.isArray(raw.proxies.profiles) ? raw.proxies : null;
     const sessionBundle = raw?.sessions && Array.isArray(raw.sessions.sessions) ? raw.sessions : null;
+    const notesBundle = raw?.notes && Array.isArray(raw.notes.notes) ? raw.notes : null;
     const hasBookmarks = !!portable?.workspaces?.length;
     const hasProxies = !!proxyBundle?.profiles?.length;
     const hasSessions = !!sessionBundle?.sessions?.length;
-    if (!hasBookmarks && !hasProxies && !hasSessions) throw bookmarkError || new Error(t('data.noSections'));
+    const hasNotes = !!notesBundle?.notes?.length;
+    if (!hasBookmarks && !hasProxies && !hasSessions && !hasNotes) throw bookmarkError || new Error(t('data.noSections'));
     const counts = hasBookmarks ? countPortable(portable) : { workspaces: 0, groups: 0, bookmarks: 0 };
-    pendingImport = { portable, proxies: proxyBundle, sessions: sessionBundle };
+    pendingImport = { portable, proxies: proxyBundle, sessions: sessionBundle, notes: notesBundle };
     ui.fileDropTitle.textContent = file.name;
     ui.fileDropHint.textContent = t('data.fileParsed', { size: formatBytes(file.size) });
     ui.previewFormat.textContent = RS.productText(portable?.format || (hasProxies ? 'RStartpage Proxy' : (hasSessions ? 'RStartpage Sessions' : 'JSON')));
     const proxyCount = proxyBundle?.profiles?.length || 0;
     const sessionCount = sessionBundle?.sessions?.length || 0;
-    ui.previewCounts.textContent = `${t('data.previewCounts', { sections: counts.workspaces, groups: counts.groups, links: counts.bookmarks })}${proxyCount ? ` · ${proxyCount} proxy` : ''}${sessionCount ? ` · ${sessionCount} sessions` : ''}`;
+    ui.previewCounts.textContent = `${t('data.previewCounts', { sections: counts.workspaces, groups: counts.groups, links: counts.bookmarks })}${proxyCount ? ` · ${proxyCount} proxy` : ''}${sessionCount ? ` · ${sessionCount} sessions` : ''}${hasNotes ? ` · ${notesBundle.notes.length} notes` : ''}`;
     ui.importPreview.hidden = false;
     ui.importButton.disabled = false;
     showNotice(t('data.fileReady'));
@@ -167,6 +226,7 @@ async function runJsonImport() {
     }
     let sessionResult = { imported: 0 };
     if (ui.importSessions?.checked && pendingImport.sessions) sessionResult = await RTools.importSessions(pendingImport.sessions, { merge: mode !== 'replace' });
+    if (pendingImport.notes) await RNotes.importNotes(pendingImport.notes, { merge: mode !== 'replace' });
     if (ui.importSettings.checked && pendingImport.portable?.settings) await applyPageSettings();
     let message = t('data.importDone', {
       sections: result.createdWorkspaces,

@@ -19,7 +19,17 @@ window.addEventListener('DOMContentLoaded', init);
 async function init() {
   cache();
   const settings = await RS.loadSettings(); language = settings.language === 'ru' ? 'ru' : 'en'; RS.setLanguage(language); RS.setProductName(settings.productName || settings.tabTitle); document.documentElement.dataset.theme = settings.theme; RS.applyAccent(document.documentElement, settings);
-  document.title = RS.getProductName(); ui.popupProductName.textContent = RS.getProductName(); applyText(); bind(); ui.createNoteButton?.addEventListener('click', () => chrome.tabs.create({ url: chrome.runtime.getURL('notes.html?new=1') })); RS.enableScriptActions(); await Promise.all([refreshProxy(), refreshSessions()]);
+  document.title = RS.getProductName(); ui.popupProductName.textContent = RS.getProductName(); applyText(); bind(); ui.createNoteButton?.addEventListener('click', createNoteFromCurrentTab); RS.enableScriptActions(); await Promise.all([refreshProxy(), refreshSessions()]);
+}
+
+async function createNoteFromCurrentTab() {
+  try {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    const sourceUrl = RS.isNavigableUrl(tab?.url || '') ? tab.url : '';
+    await RNotes.savePendingDraft({ title: tab?.title || '', content: '', sourceUrl });
+    await chrome.tabs.create({ url: chrome.runtime.getURL('notes.html?new=1') });
+    window.close();
+  } catch (error) { showPopupNotice('Не удалось открыть создание заметки.', true); }
 }
 
 function cache() { document.querySelectorAll('[id]').forEach((node) => { ui[node.id] = node; }); }
