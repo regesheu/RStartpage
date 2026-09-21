@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="dark light">
+  <title>Заметки — RStartpage</title><link rel="icon" data-app-favicon href="icons/icon32.png"><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="tools.css"><link rel="stylesheet" href="glass.css">
+</head>
+<body class="tools-body notes-body">
+  <div class="app-shell"><header class="app-navigation-shell"><div id="appNavigation"></div></header>
+    <main class="tools-page notes-page">
+      <section class="tools-hero"><div class="eyebrow" data-product-name>RStartpage</div><h1 id="notesTitle">Заметки</h1><p id="notesIntro">Ваши заметки синхронизируются между устройствами Chrome.</p></section>
+      <div id="notesNotice" class="tools-notice" hidden></div>
+      <section class="tool-card notes-card">
+        <div class="notes-toolbar"><label class="notes-search"><span aria-hidden="true">⌕</span><input id="notesSearch" type="search" placeholder="Поиск по заметкам…"></label><select id="notesGroupFilter" class="select"></select><button id="newNoteButton" class="button primary" type="button" disabled data-js-action>＋ Новая заметка</button><button id="exportNotesButton" class="button" type="button" disabled data-js-action>⇩ Экспорт</button><button id="importNotesButton" class="button" type="button" disabled data-js-action>⇧ Импорт</button><input id="notesJsonInput" type="file" accept="application/json,.json" hidden></div>
+        <div id="notesTagBar" class="notes-tag-bar"></div><div id="notesList" class="notes-list"></div><div id="notesEmpty" class="tool-empty" hidden><strong id="notesEmptyTitle">Заметок пока нет</strong><span id="notesEmptyText">Создайте первую заметку или выделите текст на странице.</span></div>
+      </section>
+    </main>
+  </div>
+  <dialog id="noteDialog" class="dialog note-dialog"><form id="noteForm" method="dialog" novalidate><div class="dialog-header"><div><div class="eyebrow" data-product-name>RStartpage</div><h2 id="noteDialogTitle">Новая заметка</h2></div><button id="noteClose" class="icon-button small" type="button" aria-label="Закрыть">×</button></div><label class="field"><span>Заголовок</span><input id="noteTitle" class="input" maxlength="180" required></label><label class="field"><span>Теги</span><input id="noteTags" class="input" placeholder="работа, идея, важно"><small class="field-hint">Разделяйте теги запятыми</small></label><label class="field"><span>Группа</span><select id="noteGroup" class="select"></select></label><label class="field"><span>Содержимое</span><textarea id="noteContent" class="input note-content-input" maxlength="20000"></textarea></label><div id="noteSource" class="note-source"></div><div id="noteError" class="form-error" role="alert"></div><div class="dialog-actions"><button id="noteCancel" class="button" type="button">Отмена</button><button id="noteSave" class="button primary" type="submit">Сохранить</button></div></form></dialog>
+  <dialog id="groupDialog" class="dialog"><form id="groupForm" method="dialog" novalidate><div class="dialog-header"><h2 id="groupDialogTitle">Новая группа</h2><button id="groupClose" class="icon-button small" type="button">×</button></div><label class="field"><span id="groupNameLabel">Название группы</span><input id="groupName" class="input" maxlength="80" required></label><div id="groupError" class="form-error" role="alert"></div><div class="dialog-actions"><button id="groupCancel" class="button" type="button">Отмена</button><button class="button primary" type="submit">Сохранить</button></div></form></dialog>
+  <script src="shared.js"></script><script src="notes-shared.js"></script><script src="notes.js"></script>
+</body></html>

@@ -35,6 +35,9 @@ REQUIRED_FILES=(
   tools.js
   sessions.html
   sessions.js
+  notes.html
+  notes.js
+  notes-shared.js
   settings.html
   settings.js
   settings.css

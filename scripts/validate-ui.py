@@ -15,6 +15,7 @@ FULL_PAGES = (
     "proxy.html",
     "proxy-help.html",
     "sessions.html",
+    "notes.html",
     "tools.html",
     "settings.html",
     "data.html",
@@ -60,7 +61,7 @@ def parse_page(name: str) -> tuple[str, PageParser]:
 def main() -> None:
     manifest = json.loads((ROOT / "manifest.json").read_text(encoding="utf-8"))
     require(manifest["options_ui"]["page"] == "settings.html", "manifest: settings must be the options page")
-    require(manifest["version"] == "1.5.0", "manifest: unexpected version")
+    require(manifest["version"] == "1.6.0", "manifest: unexpected version")
 
     for page in FULL_PAGES:
         source, parser = parse_page(page)
@@ -81,7 +82,7 @@ def main() -> None:
     require("proxy-footnote" not in proxy and "app-author-footer" not in proxy, "proxy: extra explanatory footer remains")
 
     settings, settings_parser = parse_page("settings.html")
-    required_settings = {"productNameInput", "showProxyNavInput", "showSessionsNavInput", "showToolsNavInput", "showTabIconInput"}
+    required_settings = {"productNameInput", "showProxyNavInput", "showNotesNavInput", "showSessionsNavInput", "showToolsNavInput", "showTabIconInput"}
     require(required_settings.issubset(set(settings_parser.ids)), "settings: required navigation/name/favicon settings missing")
 
     all_js = "\n".join(path.read_text(encoding="utf-8") for path in ROOT.glob("*.js"))
