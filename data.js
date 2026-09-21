@@ -131,7 +131,7 @@ async function refreshDriveData() {
     ui.driveDataStatus.classList.toggle('success', connected);
     ui.driveDataConnectButton.textContent = connected ? 'Отключить Google Drive' : 'Подключить Google Drive';
     ui.driveDataBackupButton.disabled = !connected;
-    if (!connected) { ui.driveDataMessage.textContent = 'Google Drive пока не подключён. Облачные действия станут доступны после авторизации.'; return; }
+    if (!connected) { ui.driveDataMessage.textContent = 'Google Drive пока не подключён. Облачные действия станут доступны после авторизации.'; ui.driveDataBackups.innerHTML = '<div class="drive-empty"><strong>Копии появятся здесь</strong><span>После подключения Drive вы сможете создать, скачать, восстановить или удалить любую копию.</span></div>'; return; }
     ui.driveDataMessage.textContent = 'Копии хранятся в защищённой папке приложения Google Drive (AppFolder).';
     const result = await RDrive.list();
     const files = result.files || [];
