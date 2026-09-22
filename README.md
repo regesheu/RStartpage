@@ -1,25 +1,23 @@
 # RStartpage
 
-RStartpage is a local-first Chrome New Tab workspace for bookmarks, saved browser sessions, bookmark diagnostics, and optional proxy routing.
+RStartpage is a local-first Chrome New Tab workspace for bookmarks, notes, saved browser sessions, link maintenance, data backups and optional proxy routing.
 
 [Download latest release](https://github.com/regesheu/RStartpage/releases/latest/download/RStartpage-latest.zip) · [All releases](https://github.com/regesheu/RStartpage/releases) · [Project page](https://regesheu.github.io/RStartpage/) · [Privacy](PRIVACY.md)
 
 ## Features
 
-- Sections → groups → links, stored as normal Chrome Bookmarks.
-- Chrome Sync for bookmarks and supported RStartpage settings.
-- Search, drag & drop, pinned links, descriptions, icons, colors and card sizes.
-- Light, dark and system themes, custom accent color and custom background.
-- English interface by default with optional Russian UI.
-- Session Manager for saving and restoring tab sets.
-- Separate sticky navigation for the start page, Proxy, Sessions and Tools, with user-selectable menu sections.
-- Full-page settings with a product-wide custom name and an optional tab favicon.
-- Duplicate Finder with inline editing and per-link/batch checks, plus Link Checker for bookmark maintenance.
-- Proxy profiles with HTTP/HTTPS/SOCKS support, authentication where supported, bypass lists, latency testing and toolbar switching.
-- Smart Proxy Rules for routing matching domains/IPs to DIRECT or a selected proxy profile.
-- Proxy-specific JSON import/export and a dedicated help page with routing priorities and examples.
-- JSON backup/restore, Chrome bookmark-folder import and a popup form prefilled from the active tab.
-- No advertising, analytics, remote code, or developer-operated backend.
+- **Bookmark workspace:** sections → groups → links stored as normal Chrome Bookmarks, with full-width search, drag & drop, descriptions, icons, colors and three card sizes.
+- **Global Quick Access:** pin important bookmarks from any section into one shared block.
+- **Notes:** create notes from selected page text, the current tab or a bookmark; organize them with groups, tags and search; choose individual notes for Chrome Sync.
+- **Session Manager:** save the current window, preserve tab order and pinned state, then open it in a new window, add it to the current window or replace the current window.
+- **Bookmark maintenance:** find duplicate URLs, edit results inline and check individual or grouped links for HTTP errors, timeouts and unavailable destinations.
+- **Proxy profiles:** configure HTTP, HTTPS, SOCKS4 and SOCKS5 proxies, optional authentication, bypass masks and latency tests, then switch from the toolbar popup.
+- **Smart Proxy Rules:** route matching domains, IPs or URL patterns through DIRECT or a selected proxy profile using ordered rules and profile-level exclusions.
+- **Unified Data center:** export selected sections to a ZIP archive, preview imports, merge or replace selected data, import legacy RStartpage JSON and copy an existing Chrome bookmark folder.
+- **Complete backups:** archives can include links, notes, proxy profiles and rules, sessions, settings and the custom wallpaper. Proxy passwords are excluded unless explicitly selected.
+- **Optional Google Drive backups:** builds configured with Google OAuth can create, list, download, restore and delete full backups in the extension's private Drive application data.
+- **Personalization:** English and Russian interfaces, shared navigation, custom product name and tab favicon, light/dark/system themes, accent colors and default or custom wallpapers.
+- **Local-first operation:** no advertising, analytics, remote executable code or developer-operated backend.
 
 ## Install from GitHub
 
@@ -31,7 +29,7 @@ RStartpage is a local-first Chrome New Tab workspace for bookmarks, saved browse
 6. Select the extracted folder containing `manifest.json`.
 7. Optional: pin RStartpage from Chrome's Extensions menu to keep proxy status and quick actions visible next to the address bar.
 
-Chrome will warn about the permissions RStartpage needs for bookmarks, sessions and optional proxy functionality. The extension has no developer-operated backend and does not send your bookmarks or proxy configuration to the developer.
+Chrome will warn about the permissions RStartpage needs for bookmarks, notes, sessions, optional Google Drive backups and proxy functionality. The extension has no developer-operated backend and does not send your data to the developer.
 
 ## Updating
 
@@ -42,11 +40,13 @@ GitHub-installed unpacked extensions do not auto-update.
 3. Open `chrome://extensions`.
 4. Click **Reload** on RStartpage.
 
-Your bookmarks, RStartpage settings and proxy profiles are stored by Chrome and are not removed by replacing the extension files.
+Your bookmarks and RStartpage data are stored by Chrome and are not removed by replacing the extension files.
 
-## Privacy model
+## Data and privacy model
 
-RStartpage is local-first. Bookmarks remain Chrome Bookmarks. Extension preferences use Chrome extension storage. Proxy profiles can sync through Chrome Sync; proxy passwords stay local unless the user explicitly enables password sync. Saved sessions are local unless the user explicitly exports them.
+RStartpage is local-first. Bookmarks remain Chrome Bookmarks. Notes and saved sessions stay on the device by default. Users can opt individual notes into Chrome Sync, export selected data to a local archive, or—in a build configured for Google OAuth—connect Google Drive and create a backup in the extension's private application-data folder.
+
+Proxy profile definitions and supported settings can use Chrome Sync. Proxy passwords stay local unless the user explicitly enables password sync or includes them in an archive. Google credentials and access tokens are never included in RStartpage archives.
 
 See [PRIVACY.md](PRIVACY.md) for details.
 
@@ -69,12 +69,12 @@ bash scripts/build.sh
 Change the release version:
 
 ```bash
-bash scripts/set-version.sh 1.1.0
+bash scripts/set-version.sh 1.9.0
 ```
 
 ## Releases
 
-The GitHub Actions release workflow can be started manually from **Actions → Build GitHub Release → Run workflow**, or by pushing a tag such as `v1.1.0`.
+The GitHub Actions release workflow can be started manually from **Actions → Build GitHub Release → Run workflow**, or by pushing a tag such as `v1.9.0`.
 
 It restores the source bundle, builds the extension and publishes two assets:
 

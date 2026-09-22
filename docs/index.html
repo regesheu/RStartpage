@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="RStartpage is a local-first Chrome New Tab workspace with bookmarks, sessions, link diagnostics and optional proxy routing.">
-  <title>RStartpage — Chrome New Tab workspace</title>
+  <meta name="description" content="RStartpage is a local-first Chrome New Tab workspace for bookmarks, notes, sessions, link maintenance, backups and optional proxy routing.">
+  <title>RStartpage — bookmarks, notes and browser tools</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -23,9 +23,9 @@
   <main>
     <section class="hero wrap">
       <div class="hero-copy">
-        <div class="eyebrow">Chrome New Tab · Local-first</div>
-        <h1>Your bookmarks, sessions and proxy tools in one start page.</h1>
-        <p class="lead">RStartpage replaces Chrome's New Tab with a customizable workspace built around your existing Chrome Bookmarks. It also includes saved sessions, bookmark diagnostics, optional proxy profiles and Smart Proxy Rules.</p>
+        <div class="eyebrow">Chrome New Tab · Local-first · English / Русский</div>
+        <h1>Bookmarks, notes and browser tools in one start page.</h1>
+        <p class="lead">RStartpage turns Chrome's New Tab into a customizable workspace built around your existing bookmarks, with notes, saved sessions, link maintenance, portable backups and optional proxy routing.</p>
         <div class="actions">
           <a class="button primary" href="https://github.com/regesheu/RStartpage/releases/latest/download/RStartpage-latest.zip">Download latest</a>
           <a class="button" href="https://github.com/regesheu/RStartpage/releases">View releases</a>
@@ -37,18 +37,21 @@
       </div>
     </section>
 
-    <section class="wrap section">
+    <section class="wrap section" id="features">
       <div class="section-heading">
-        <div class="eyebrow">What it does</div>
-        <h2>A start page that stays close to Chrome.</h2>
+        <div class="eyebrow">Current capabilities</div>
+        <h2>Your everyday browser workspace, kept in one place.</h2>
       </div>
       <div class="feature-grid">
-        <article class="feature"><span>01</span><h3>Bookmarks</h3><p>Organize normal Chrome Bookmarks into sections, groups and rich cards with search, descriptions, colors, icons and drag & drop.</p></article>
-        <article class="feature"><span>02</span><h3>Sessions</h3><p>Save the current browser window and restore a set of tabs later from the toolbar popup or Session Manager.</p></article>
-        <article class="feature"><span>03</span><h3>Diagnostics</h3><p>Find duplicate bookmarks and check links inline without leaving the start page.</p></article>
-        <article class="feature"><span>04</span><h3>Proxy profiles</h3><p>Switch between user-configured HTTP, HTTPS and SOCKS profiles, with optional authentication, bypass masks and health checks.</p></article>
-        <article class="feature"><span>05</span><h3>Smart routing</h3><p>Route matching domains or IP masks through a selected proxy profile or DIRECT using ordered Smart Proxy Rules.</p></article>
-        <article class="feature"><span>06</span><h3>Backup & sync</h3><p>Use Chrome Sync for supported settings and export/import RStartpage data as JSON when you want a portable backup.</p></article>
+        <article class="feature"><span>01</span><h3>Bookmark workspace</h3><p>Organize normal Chrome Bookmarks into sections, groups and rich cards with search, descriptions, colors, icons, sizes and drag & drop.</p></article>
+        <article class="feature"><span>02</span><h3>Global Quick Access</h3><p>Pin important bookmarks from any section into one shared block, so the links you use most stay together.</p></article>
+        <article class="feature"><span>03</span><h3>Notes</h3><p>Create notes from selected text, the current tab or a bookmark. Use groups, tags and search, and choose individual notes for Chrome Sync.</p></article>
+        <article class="feature"><span>04</span><h3>Sessions</h3><p>Save windows with tab order and pinned state, then restore them in a new window, add them here or replace the current window.</p></article>
+        <article class="feature"><span>05</span><h3>Link maintenance</h3><p>Find duplicate URLs, edit results inline and check links for HTTP errors, timeouts and unavailable destinations.</p></article>
+        <article class="feature"><span>06</span><h3>Proxy profiles</h3><p>Switch between HTTP, HTTPS, SOCKS4 and SOCKS5 profiles with optional authentication, bypass masks and latency tests.</p></article>
+        <article class="feature"><span>07</span><h3>Smart routing</h3><p>Route matching domains, IPs or URL patterns through DIRECT or a selected profile using ordered Smart Proxy Rules.</p></article>
+        <article class="feature"><span>08</span><h3>Data archives</h3><p>Export selected sections to ZIP, preview an import, then merge or replace links, notes, proxies, sessions, settings and wallpaper.</p></article>
+        <article class="feature"><span>09</span><h3>Google Drive backups</h3><p>In OAuth-configured builds, create, list, download, restore and delete complete backups in the extension's private Drive data.</p></article>
       </div>
     </section>
 
@@ -59,7 +62,7 @@
       </div>
       <ol class="steps">
         <li><strong>Download</strong><span>Download <code>RStartpage-latest.zip</code> from the latest GitHub Release.</span></li>
-        <li><strong>Extract</strong><span>Unzip it to a permanent folder. Keep using that same folder for future updates.</span></li>
+        <li><strong>Extract</strong><span>Unzip it to a permanent folder. Chrome needs that folder to remain on disk, and future updates should use the same location.</span></li>
         <li><strong>Open extensions</strong><span>Open <code>chrome://extensions</code> and enable <strong>Developer mode</strong>.</span></li>
         <li><strong>Load RStartpage</strong><span>Click <strong>Load unpacked</strong> and select the extracted folder containing <code>manifest.json</code>.</span></li>
         <li><strong>Optional: pin it</strong><span>Pin RStartpage from Chrome's Extensions menu for quick session and proxy controls.</span></li>
@@ -74,7 +77,7 @@
       <div>
         <div class="eyebrow">Privacy</div>
         <h2>Local-first by design.</h2>
-        <p>RStartpage does not operate its own account system, analytics service or backend. Bookmarks remain Chrome Bookmarks. Proxy passwords stay local unless you explicitly enable password sync for a profile.</p>
+        <p>RStartpage does not operate its own account system, analytics service or backend. Bookmarks remain Chrome Bookmarks; notes and sessions stay local by default. Data reaches Chrome Sync, a local archive, Google Drive or your chosen proxy only when you enable the corresponding feature.</p>
       </div>
       <a class="button" href="privacy.html">Read Privacy Policy</a>
     </section>

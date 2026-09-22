@@ -1,4 +1,4 @@
-# Chrome Web Store submission — RStartpage 1.1.0
+# Chrome Web Store submission — RStartpage 1.8.1
 
 ## Suggested category
 
@@ -6,7 +6,7 @@ Productivity
 
 ## Short description
 
-A customizable Chrome start page for synced bookmarks, saved sessions, link tools and optional proxy routing.
+A customizable Chrome start page for bookmarks, notes, saved sessions, link tools and optional proxy routing.
 
 ## Detailed description — English
 
@@ -16,8 +16,11 @@ Organize your links into sections and groups, search instantly, reorder items wi
 
 RStartpage also includes optional tools for people who want more control over their browser workspace:
 
-- Session Manager for saving and restoring tab sets
-- Sticky shared navigation and a full-page settings editor
+- One shared Quick Access block for pinned bookmarks from every section
+- Notes with groups, tags, search, source links and per-note Chrome Sync
+- Note capture from selected page text, the current tab or a bookmark
+- Session Manager for saving, updating and restoring tab sets with their order and pinned state
+- Shared navigation and a full-page settings editor
 - Duplicate Finder with inline editing and per-link or batch checks
 - Link Checker with inline status on bookmark cards
 - User-configured HTTP, HTTPS, SOCKS4 and SOCKS5 proxy profiles
@@ -25,9 +28,11 @@ RStartpage also includes optional tools for people who want more control over th
 - Proxy authentication where Chrome supports it
 - Bypass lists and latency testing
 - Smart Proxy Rules for routing matching domains or IPs through DIRECT or a selected proxy
-- Proxy JSON import/export and a dedicated routing help page
+- A unified Data center with selective ZIP export, import preview and merge/replace restore modes
+- Archives for links, notes, proxies and Smart Rules, sessions, settings and custom wallpaper
+- Optional Google Drive full backups in builds configured with Google OAuth
 - Quick Add Link form in the toolbar popup, prefilled from the active tab
-- Portable JSON backup and restore
+- Import from an existing Chrome bookmark folder and legacy RStartpage JSON files
 
 RStartpage is local-first. It has no separate account, no advertising, no analytics, no remotely hosted code, and no developer-operated cloud backend. Chrome Sync is used only through Chrome's own bookmark and extension-storage features when the user has synchronization enabled.
 
@@ -39,7 +44,10 @@ RStartpage заменяет стандартную страницу новой �
 
 Дополнительные возможности:
 
-- сохранение и восстановление наборов вкладок;
+- единый блок «Быстрый доступ» для закреплённых ссылок из всех разделов;
+- заметки с группами, тегами, поиском, источниками и выборочной синхронизацией через Chrome Sync;
+- создание заметки из выделенного текста, текущей вкладки или закладки;
+- сохранение, обновление и восстановление наборов вкладок с их порядком и закреплением;
 - общее sticky-меню и отдельная полноэкранная страница настроек;
 - поиск дубликатов с редактированием и проверкой одной или всех ссылок;
 - проверка доступности ссылок прямо на карточках;
@@ -48,15 +56,17 @@ RStartpage заменяет стандартную страницу новой �
 - авторизация proxy там, где она поддерживается Chrome;
 - списки исключений и тестирование задержки;
 - Smart Proxy Rules для маршрутизации доменов/IP через DIRECT или выбранный proxy;
-- отдельный импорт/экспорт proxy JSON и справка по приоритетам маршрутизации;
+- единый раздел «Данные» с выборочным экспортом ZIP, предпросмотром импорта и режимами объединения или замены;
+- архивы ссылок, заметок, прокси и Smart Proxy Rules, сессий, настроек и фонового изображения;
+- резервные копии всех данных в Google Drive для сборок с настроенным Google OAuth;
 - быстрое добавление текущей вкладки в закладки из popup;
-- экспорт и импорт резервной копии JSON.
+- импорт существующей папки закладок Chrome и JSON-файлов предыдущих версий RStartpage.
 
 RStartpage не использует рекламу, аналитику, удалённый исполняемый код или собственный облачный сервер.
 
 ## Single purpose statement
 
-RStartpage is a customizable browser navigation workspace that centralizes the user's bookmarks, saved navigation sessions, bookmark maintenance tools, and optional user-configured routing controls on the Chrome New Tab page.
+RStartpage is a customizable browser workspace that centralizes bookmarks, notes, saved navigation sessions, bookmark maintenance, backups, and optional user-configured routing controls on the Chrome New Tab page.
 
 ## Permission justifications
 
@@ -81,6 +91,12 @@ Required to answer proxy authentication challenges for user-configured HTTP/HTTP
 ### tabs
 Required for Session Manager to read the URL/title and relevant state of tabs only when the user explicitly saves or updates a session, and to restore saved sessions later.
 
+### contextMenus
+Required to offer explicit “Create note” actions for the current page or selected text. RStartpage receives page or selection data only after the user invokes one of these actions.
+
+### identity
+Required only for the optional Google Drive backup connection in builds configured with Google OAuth. Chrome manages the access token, and RStartpage requests access only to its private application-data folder.
+
 ### host access: <all_urls>
 Required because user-initiated Link Checker may check any bookmark URL, proxy connectivity tests may access test endpoints through a selected proxy, and proxy authentication may occur while the user is visiting any site.
 
@@ -94,9 +110,11 @@ No. RStartpage does not execute remotely hosted JavaScript, WebAssembly, or othe
 - No advertising or behavioral profiling.
 - No analytics or tracking SDKs.
 - No developer-controlled server receives bookmark, session, proxy, or browsing data.
+- Notes stay local unless the user selects Chrome Sync or includes them in a backup.
 - User-selected Link Checker requests go directly to the selected bookmark destinations.
 - User-configured proxy traffic is sent through proxy servers chosen by the user.
 - Chrome Sync, if enabled by the user, is provided by Chrome/Google.
+- Google Drive receives a full backup only when the user connects Drive and explicitly creates a cloud copy.
 
 ## Support
 
