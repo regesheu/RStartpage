@@ -23,7 +23,7 @@
       <div id="settingsSaved" class="settings-save-state" role="status" aria-live="polite">Saved</div>
     </section>
 
-    <div class="settings-layout"><nav class="settings-sidebar" aria-label="Settings"><a href="#general" data-settings-tab="general">Основное</a><a href="#appearance" data-settings-tab="appearance">Внешний вид</a><a href="#navigation" data-settings-tab="navigation">Верхнее меню</a><a href="#data" data-settings-tab="data">Данные и разделы</a></nav>
+    <div class="settings-layout"><nav class="settings-sidebar" aria-label="Settings"><a href="#general" data-settings-tab="general">Основное</a><a href="#appearance" data-settings-tab="appearance">Внешний вид</a><a href="#navigation" data-settings-tab="navigation">Верхнее меню</a><a href="#data" data-settings-tab="data">Данные</a></nav>
     <form id="settingsForm" class="settings-page-form" novalidate>
       <section id="general" class="settings-section" data-settings-panel>
         <div class="settings-section-heading">
@@ -71,7 +71,7 @@
           </div>
           <div class="appearance-card">
             <div><strong id="backgroundTitle">Background</strong><p id="backgroundText">A custom image stays only on this browser.</p></div>
-            <label class="field"><span id="backgroundModeLabel">Background style</span><select id="backgroundModeSelect" class="select"><option value="aurora">Aurora</option><option value="clean">Clean</option><option value="custom">Custom image</option></select></label>
+            <label class="field"><span id="backgroundModeLabel">Background style</span><select id="backgroundModeSelect" class="select"><option value="aurora">Default</option><option value="clean">Clean</option><option value="custom">Custom image</option></select></label>
             <div class="appearance-actions"><input id="backgroundFileInput" type="file" accept="image/*" hidden><button id="backgroundUploadButton" class="button" type="button" disabled data-js-action>Choose image</button><button id="backgroundRemoveButton" class="button" type="button" disabled data-js-action>Remove image</button></div>
             <label class="range-setting"><span><span id="backgroundBlurLabel">Background blur</span><output id="backgroundBlurValue">0 px</output></span><input id="backgroundBlurInput" type="range" min="0" max="24" step="1" value="0"></label>
             <label class="range-setting"><span><span id="backgroundDimLabel">Background dimming</span><output id="backgroundDimValue">18%</output></span><input id="backgroundDimInput" type="range" min="0" max="70" step="1" value="18"></label>
@@ -81,13 +81,15 @@
 
       <section id="data" class="settings-section" data-settings-panel>
         <div class="settings-section-heading">
-          <h2 id="destinationsTitle">Data and sections</h2>
+          <h2 id="destinationsTitle">Data</h2>
           <p id="destinationsText">Open a dedicated page for larger tasks.</p>
         </div>
         <div id="settingsData"></div>
       </section>
     </form></div>
   </main>
+
+  <dialog id="dataHelpDialog" class="dialog module-help-dialog"></dialog>
 
   <script src="shared.js"></script>
   <script src="proxy-shared.js"></script>

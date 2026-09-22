@@ -14,6 +14,7 @@ const TXT = {
     cancel: 'Cancel', save: 'Save', close: 'Close', sessionSaved: 'Session saved.', sessionDeleted: 'Session deleted.', sessionUpdated: 'Session updated.',
     replaceTitle: 'Replace current window?', replaceConfirm: 'All tabs in the current window will be replaced with “{name}”.', deleteTitle: 'Delete session?', deleteSession: 'Delete “{name}”? This cannot be undone.',
     failed: 'Operation failed.', required: 'Enter a session name.', exportSessions: 'Export sessions', importSessions: 'Import sessions', importTitle: 'Import sessions', importMode: 'Import mode', merge: 'Merge with existing sessions', replaceExisting: 'Replace existing sessions', import: 'Import', fileReady: '{count} sessions ready to import.', invalidFile: 'Choose a valid RStartpage sessions JSON file.', tooLarge: 'The file is too large (maximum 5 MB).', imported: '{count} sessions imported.', replaceImportTitle: 'Replace saved sessions?', replaceImportConfirm: 'This will remove all currently saved sessions before importing the file.',
+    help: 'Help', helpTitle: 'Sessions help', helpSave: 'Saving. A session keeps the current window’s normal web tabs in their order, including pinned state.', helpOpen: 'Opening. New window opens separately; Open here adds tabs to the current window; Replace window opens saved tabs and closes current tabs.', helpManage: 'Management. Update replaces a saved session with the current window; Rename changes only its title; Delete cannot be undone.', helpTransfer: 'Import and export. The arrow button opens Settings → Data with Sessions selected.', done: 'Done',
   },
   ru: {
     page: 'Сессии', intro: 'Сохраняйте вкладки текущего окна и открывайте их позже.', manager: 'Менеджер сессий', managerText: 'Для каждой сессии сохраняются порядок вкладок и закреплённое состояние.',
@@ -22,6 +23,7 @@ const TXT = {
     cancel: 'Отмена', save: 'Сохранить', close: 'Закрыть', sessionSaved: 'Сессия сохранена.', sessionDeleted: 'Сессия удалена.', sessionUpdated: 'Сессия обновлена.',
     replaceTitle: 'Заменить текущее окно?', replaceConfirm: 'Все вкладки текущего окна будут заменены сессией «{name}».', deleteTitle: 'Удалить сессию?', deleteSession: 'Удалить «{name}»? Это действие нельзя отменить.',
     failed: 'Не удалось выполнить операцию.', required: 'Введите название сессии.', exportSessions: 'Экспорт сессий', importSessions: 'Импорт сессий', importTitle: 'Импорт сессий', importMode: 'Режим импорта', merge: 'Объединить с текущими сессиями', replaceExisting: 'Заменить текущие сессии', import: 'Импортировать', fileReady: 'Готово к импорту: {count} сессий.', invalidFile: 'Выберите корректный JSON-файл сессий RStartpage.', tooLarge: 'Файл слишком большой (максимум 5 МБ).', imported: 'Импортировано сессий: {count}.', replaceImportTitle: 'Заменить сохранённые сессии?', replaceImportConfirm: 'Все текущие сохранённые сессии будут удалены перед импортом файла.',
+    help: 'Помощь', helpTitle: 'Помощь по сессиям', helpSave: 'Сохранение. Сессия запоминает обычные веб-вкладки текущего окна, их порядок и закреплённое состояние.', helpOpen: 'Открытие. «Новое окно» открывает сессию отдельно, «Открыть здесь» добавляет вкладки в текущее окно, а «Заменить окно» открывает сохранённые вкладки и закрывает текущие.', helpManage: 'Управление. «Обновить» заменяет сохранённую сессию текущим окном, «Переименовать» меняет только название, а удаление нельзя отменить.', helpTransfer: 'Импорт и экспорт. Кнопка со стрелками открывает настройки → «Данные» с выбранным разделом «Сессии».', done: 'Понятно',
   },
 };
 
@@ -52,6 +54,7 @@ function cache() {
     sessionsList: document.querySelector('#sessionsList'), sessionsEmpty: document.querySelector('#sessionsEmpty'), sessionsEmptyTitle: document.querySelector('#sessionsEmptyTitle'), sessionsEmptyText: document.querySelector('#sessionsEmptyText'), sessionsNotice: document.querySelector('#sessionsNotice'),
     sessionDialog: document.querySelector('#sessionDialog'), sessionForm: document.querySelector('#sessionForm'), sessionDialogTitle: document.querySelector('#sessionDialogTitle'), sessionDialogClose: document.querySelector('#sessionDialogClose'),
     sessionNameLabel: document.querySelector('#sessionNameLabel'), sessionNameInput: document.querySelector('#sessionNameInput'), sessionFormError: document.querySelector('#sessionFormError'), sessionCancelButton: document.querySelector('#sessionCancelButton'), sessionSaveButton: document.querySelector('#sessionSaveButton'),
+    helpButton: document.querySelector('#sessionsHelpButton'), helpDialog: document.querySelector('#sessionsHelpDialog'), helpTitle: document.querySelector('#sessionsHelpTitle'), helpClose: document.querySelector('#sessionsHelpClose'), helpSave: document.querySelector('#sessionsHelpSave'), helpOpen: document.querySelector('#sessionsHelpOpen'), helpManage: document.querySelector('#sessionsHelpManage'), helpTransfer: document.querySelector('#sessionsHelpTransfer'), helpDone: document.querySelector('#sessionsHelpDone'),
   });
 }
 
@@ -60,6 +63,7 @@ function bind() {
   ui.sessionDialogClose.addEventListener('click', () => ui.sessionDialog.close());
   ui.sessionCancelButton.addEventListener('click', () => ui.sessionDialog.close());
   ui.sessionForm.addEventListener('submit', saveSessionDialog);
+  ui.helpButton.addEventListener('click', () => ui.helpDialog.showModal());
 }
 
 function translate() {
@@ -68,6 +72,7 @@ function translate() {
   ui.sessionsTitle.textContent = tr('page'); ui.sessionsIntro.textContent = tr('intro'); ui.managerTitle.textContent = tr('manager'); ui.managerText.textContent = tr('managerText');
   ui.saveSessionButton.textContent = `＋ ${tr('saveCurrent')}`; ui.sessionsEmptyTitle.textContent = tr('noSessions'); ui.sessionsEmptyText.textContent = tr('noSessionsText');
   ui.sessionNameLabel.textContent = tr('sessionName'); ui.sessionCancelButton.textContent = tr('cancel'); ui.sessionSaveButton.textContent = tr('save'); ui.sessionDialogClose.setAttribute('aria-label', tr('close'));
+  ui.helpButton.setAttribute('title', tr('help')); ui.helpButton.setAttribute('aria-label', tr('help')); ui.helpTitle.textContent = tr('helpTitle'); ui.helpClose.setAttribute('aria-label', tr('close')); ui.helpSave.textContent = tr('helpSave'); ui.helpOpen.textContent = tr('helpOpen'); ui.helpManage.textContent = tr('helpManage'); ui.helpTransfer.textContent = tr('helpTransfer'); ui.helpDone.textContent = tr('done');
 }
 
 async function renderSessions() {

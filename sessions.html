@@ -27,10 +27,11 @@
       <div class="tool-card-head">
         <div><h2 id="managerTitle">Session Manager</h2><p id="managerText">Each saved session keeps its tab order and pinned state.</p></div>
         <div class="session-toolbar">
-          <a class="button transfer-settings-link" data-transfer-link href="settings.html?module=sessions#data">Данные и разделы</a>
-
-
           <button id="saveSessionButton" class="button primary" type="button" disabled data-js-action>＋ Save current window</button>
+          <div class="module-utility-actions">
+            <a class="icon-button module-icon-button module-transfer-button transfer-settings-link" data-transfer-link href="settings.html?module=sessions#data" title="Export / Import" aria-label="Export / Import"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3v12"></path><path d="m4.5 6.5 3.5-3.5 3.5 3.5"></path><path d="M16 21V9"></path><path d="m12.5 17.5 3.5 3.5 3.5-3.5"></path></svg></a>
+            <button id="sessionsHelpButton" class="icon-button module-icon-button module-help-button" type="button" disabled data-js-action title="Help" aria-label="Help">?</button>
+          </div>
         </div>
       </div>
       <div id="sessionsList" class="sessions-list"></div>
@@ -44,6 +45,19 @@
       <label class="field"><span id="sessionNameLabel">Session name</span><input id="sessionNameInput" class="input" maxlength="100" placeholder="Work" required></label>
       <div id="sessionFormError" class="form-error" role="alert"></div>
       <div class="dialog-actions"><button id="sessionCancelButton" class="button" type="button" disabled data-js-action>Cancel</button><button id="sessionSaveButton" class="button primary" type="submit">Save</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="sessionsHelpDialog" class="dialog module-help-dialog">
+    <form method="dialog" novalidate>
+      <div class="dialog-header"><div><div class="eyebrow" data-product-name>RStartpage</div><h2 id="sessionsHelpTitle">Sessions help</h2></div><button id="sessionsHelpClose" class="icon-button small" type="submit" aria-label="Close">×</button></div>
+      <div class="module-help-content">
+        <p id="sessionsHelpSave"></p>
+        <p id="sessionsHelpOpen"></p>
+        <p id="sessionsHelpManage"></p>
+        <p id="sessionsHelpTransfer"></p>
+      </div>
+      <div class="dialog-actions"><button id="sessionsHelpDone" class="button primary" type="submit">Done</button></div>
     </form>
   </dialog>
 

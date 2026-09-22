@@ -20,7 +20,7 @@
         <kbd id="searchShortcut" class="shortcut-chip">Ctrl K</kbd>
       </div>
 
-      <div class="top-actions"><a class="button transfer-settings-link" data-transfer-link href="settings.html?module=bookmarks#data">Данные и разделы</a>
+      <div class="top-actions">
         <div class="menu-host">
           <button id="addButton" class="button primary" type="button" disabled data-js-action aria-haspopup="menu" aria-expanded="false">
             <span class="button-icon">＋</span><span class="button-label" data-i18n="add.label">Add</span>
@@ -31,7 +31,10 @@
             <button type="button" disabled data-js-action role="menuitem" data-add="workspace"><span data-i18n="add.section">Section</span></button>
           </div>
         </div>
-        <button id="helpButton" class="icon-button" type="button" disabled data-js-action title="Keyboard shortcuts" aria-label="Keyboard shortcuts" data-i18n-title="help.shortcuts" data-i18n-aria-label="help.shortcuts">?</button>
+        <div class="module-utility-actions">
+          <a class="icon-button module-icon-button module-transfer-button transfer-settings-link" data-transfer-link href="settings.html?module=bookmarks#data" title="Export / Import" aria-label="Export / Import"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3v12"></path><path d="m4.5 6.5 3.5-3.5 3.5 3.5"></path><path d="M16 21V9"></path><path d="m12.5 17.5 3.5 3.5 3.5-3.5"></path></svg></a>
+          <button id="helpButton" class="icon-button module-icon-button module-help-button" type="button" disabled data-js-action title="Keyboard shortcuts" aria-label="Keyboard shortcuts" data-i18n-title="help.shortcuts" data-i18n-aria-label="help.shortcuts">?</button>
+        </div>
       </div>
     </div>
 

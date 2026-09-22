@@ -137,15 +137,19 @@ Table selection and date controls are not used.
 
 ## Verification
 
-### Data settings (1.8)
+### Data settings (1.8.1)
 
 - Canonical entry: `settings.html#data`. Module shortcuts add a `module` query parameter; `data.html` redirects here.
+- The Settings label is Data / Данные. Home, Proxy, Sessions and Notes expose the same icon-only Export / Import shortcut beside a matching Help control; Tools intentionally has no transfer shortcut.
 - One ZIP format contains selected sections; legacy per-module JSON is accepted. Settings include wallpaper. Proxy passwords require opt-in; Google credentials and connection tokens never enter an archive.
+- Smart Proxy Rules are included with Proxy. The sensitive Proxy passwords choice is nested beneath Proxy, remains off by default and is disabled when Proxy is not selected.
 - Restore shows the archive name, selectable sections and merge/replace mode, then confirms the affected sections. Schema, note capacity and sync quota are checked before writes. Runtime storage failures can leave partial writes and are reported explicitly.
 - Note restore preserves IDs, timestamps and sync choices; repeat merge does not create duplicate notes. Unselected sections are untouched.
 - Google Drive follows local transfer controls. Unconfigured OAuth shows an explanation and disabled actions. Connected state exposes creation, refresh, download, restore preview and confirmed deletion. API requests have a timeout and list pagination.
 - Busy state prevents duplicate mutations. Disabled controls explain unavailable connection through adjacent copy; local archives remain usable offline.
 - The settings sidebar uses real hash links and `aria-current`. It wraps below 680 px. All pages share the same version footer and SVG settings icon.
+- The default wallpaper is a fully decodable 1536 × 1024 PNG. Static validation checks its chunks, CRCs, image properties and complete decompressed scanline payload.
+- Quick Access is one global block, built from pinned bookmarks across all bookmark sections and capped at six items.
 
 - Required static commands: `scripts/check.sh`, strict premium audit, DESIGN.md lint, and release build.
 - Browser/device/locale/theme matrix: desktop and narrow Chrome-sized viewport; English/Russian; light/dark; reduced motion.

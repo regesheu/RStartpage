@@ -84,7 +84,7 @@ components:
 
 ### Creative North Star
 
-RStartpage should feel like a browser workspace floating over an alpine night scene: compact, immediately legible, and softly separated from the wallpaper. The visual signature is the glass route rail and emerald-teal active state; home keeps the user's original section/group/bookmark model visible and task-first.
+RStartpage should feel like a browser workspace floating over a dark aurora-and-orbit scene: compact, immediately legible, and softly separated from the wallpaper. The visual signature is the glass route rail and emerald-teal active state; home keeps the user's original section/group/bookmark model visible and task-first.
 
 ### Product context and register
 
@@ -130,11 +130,11 @@ Buttons combine emphasis (solid, outline, ghost) with intent (brand, neutral, wa
 
 ### Navigation and data display
 
-Version 1.8 retains the approved navy Alpine Glass direction: floating translucent route rail, restrained teal active edges, and consistent 38 px actions. `glass.css` owns the semantic palette; `refinement.css` maps those tokens into layout and control geometry across every page, including popup. No recent-links section is added.
+Version 1.8 retains the approved navy Alpine Glass direction: floating translucent route rail, restrained teal active edges, and consistent 38 px actions. `glass.css` owns the semantic palette; `refinement.css` maps those tokens into layout and control geometry across every page, including popup. The one Quick Access block aggregates pinned bookmarks from every bookmark section; no recent-links section is added.
 
-Settings use a 190 px left navigation and a single active panel, collapsing to a wrapping row below 680 px. Data and sections owns all transfer controls: section choices, two local archive actions, restore preview, then Google Drive and its backup list. A compact fixed version label sits bottom-left; in the popup it remains in document flow.
+Settings use a 190 px left navigation and a single active panel, collapsing to a wrapping row below 680 px. Data owns all transfer controls: section choices, two local archive actions, restore preview, then Google Drive and its backup list. Proxy archive choices expose Smart Proxy Rules and the opt-in password choice as nested details. A compact fixed version label sits bottom-left; in the popup it remains in document flow.
 
-The shared route rail owns product branding, Home, optional Proxy/Sessions/Tools links, and Settings. It stays sticky on every full page and marks the current route. Bookmark section tabs remain a second, page-specific row. Diagnostic results use bordered rows with visible per-item actions and status text; narrow layouts stack records without removing actions.
+The shared route rail owns product branding, Home, optional Proxy/Sessions/Notes/Tools links, and Settings. It stays sticky on every full page and marks the current route. Bookmark section tabs remain a second, page-specific row. Home, Proxy, Sessions and Notes use the same adjacent 38 px Export / Import and Help icon actions; Tools has no transfer shortcut. Diagnostic results use bordered rows with visible per-item actions and status text; narrow layouts stack records without removing actions.
 
 ### Forms and overlays
 

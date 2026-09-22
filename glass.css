@@ -1,4 +1,4 @@
-/* RStartpage 1.8 — shared Alpine Glass system, loaded after page styles. */
+/* RStartpage 1.8.1 — shared Alpine Glass system, loaded after page styles. */
 :root, :root[data-theme="dark"] {
   color-scheme: dark;
   --bg: #07111a;
@@ -105,11 +105,8 @@ body:has(.popup-header) { background:linear-gradient(135deg,var(--surface-2),var
 html, body { background:transparent !important; }
 body { position:relative; isolation:isolate; }
 body::before { z-index:0 !important; pointer-events:none; }
-body::after { z-index:0 !important; pointer-events:none; background:linear-gradient(135deg,rgba(3,10,18,.42),rgba(3,10,18,.12)) !important; }
+body::after { z-index:0 !important; pointer-events:none; background:rgba(3,10,18,var(--background-dim)) !important; }
 .app-shell, body > main, body > header, body > dialog { position:relative; z-index:1; }
-body { background:linear-gradient(180deg,rgba(7,18,26,.25),rgba(7,17,26,.82)),url('assets/alpine-night.png') center/cover fixed !important; }
-:root[data-background-mode="clean"] body { background:var(--bg) !important; }
-:root[data-background-mode="custom"] body { background:var(--custom-background-image) center/cover fixed !important; }
 .quick-access-empty { margin:0; color:var(--muted); font-size:12px; }
 .session-toolbar { display:flex; align-items:center; justify-content:flex-end; gap:8px; flex-wrap:wrap; }
 .session-import-dialog { max-width:520px; }

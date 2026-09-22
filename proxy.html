@@ -25,9 +25,10 @@
         <label class="master-switch proxy-master-switch"><span id="masterSwitchLabel">Proxy</span><input id="masterToggle" type="checkbox"><i></i></label>
         <button id="addProxyButton" class="button primary" type="button" disabled data-js-action>＋ Add proxy</button>
         <button id="testAllButton" class="button" type="button" disabled data-js-action>Test all</button>
-        <a class="button transfer-settings-link" data-transfer-link href="settings.html?module=proxies#data">Данные и разделы</a>
-
-        <a id="proxyHelpButton" class="button proxy-help-button" href="proxy-help.html">? Help</a>
+        <div class="module-utility-actions">
+          <a class="icon-button module-icon-button module-transfer-button transfer-settings-link" data-transfer-link href="settings.html?module=proxies#data" title="Export / Import" aria-label="Export / Import"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3v12"></path><path d="m4.5 6.5 3.5-3.5 3.5 3.5"></path><path d="M16 21V9"></path><path d="m12.5 17.5 3.5 3.5 3.5-3.5"></path></svg></a>
+          <a id="proxyHelpButton" class="icon-button module-icon-button module-help-button" href="proxy-help.html" title="Help" aria-label="Help">?</a>
+        </div>
       </div>
       <label class="sort-control"><span id="sortLabel">Order</span><select id="sortSelect" class="select"><option value="custom">Custom order</option><option value="name">Sort by name</option><option value="latency">Sort by latency</option></select></label>
     </section>

@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.8.1 — 2026-09-22
+
+- Replaced the truncated default wallpaper with a complete 1536 × 1024 PNG and corrected background layering so the image fills every full page. Renamed the background choice to Default / По умолчанию.
+- Made Quick Access global: pinned links from every bookmark section now appear in the same block.
+- Replaced module transfer text with a compact Export / Import icon beside the shared Help control; removed the redundant shortcut from Tools and aligned Help buttons across modules.
+- Renamed Settings → Data and added focused help for archives, restore modes, Google Drive and sensitive proxy data.
+- Grouped Smart Proxy Rules and the opt-in Proxy passwords control under Proxy in archive selection.
+- Added Sessions help and refreshed Notes help to point to the unified Data section.
+
 ## 1.8.0 — Unified data settings and Alpine Glass refinement
 
 - Moved all import/export into Settings → Data and sections, with module selection, ZIP archives, legacy JSON support, preview and explicit restore confirmation.

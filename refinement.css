@@ -16,6 +16,13 @@ dialog:modal { position:fixed; margin:auto; max-height:calc(100dvh - 32px); over
 .app-navigation-link.active { border-color:color-mix(in srgb,var(--green) 45%,var(--border)); box-shadow:inset 0 -1px var(--green),0 0 18px color-mix(in srgb,var(--green) 8%,transparent); }
 .app-navigation-settings svg, .transfer-settings-link svg { width:20px; height:20px; flex:0 0 20px; fill:none; stroke:currentColor; stroke-width:1.65; stroke-linecap:round; stroke-linejoin:round; }
 .app-navigation-settings { display:grid; place-items:center; padding:0; width:38px; height:38px; }
+.module-utility-actions { display:inline-flex; align-items:center; gap:7px; flex:0 0 auto; }
+.module-icon-button { display:grid; place-items:center; flex:0 0 38px; width:38px; height:38px; min-width:38px; min-height:38px; padding:0; border-radius:9px; color:var(--muted); font-size:16px; font-weight:700; line-height:1; text-decoration:none; }
+.module-icon-button:hover:not(:disabled) { color:var(--green); background:var(--green-soft); }
+.module-icon-button svg { width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:1.65; stroke-linecap:round; stroke-linejoin:round; }
+.module-help-dialog { width:min(620px,calc(100% - 28px)); }
+.module-help-content { display:grid; gap:10px; color:var(--muted); line-height:1.6; }
+.module-help-content p { margin:0; }
 .app-version { position:fixed; bottom:10px; left:18px; z-index:5; padding:3px 8px; border:1px solid var(--edge); border-radius:6px; background:var(--glass); backdrop-filter:blur(12px); color:var(--muted); font:10px/1.4 ui-monospace,monospace; letter-spacing:.035em; pointer-events:none; }
 body:has(.popup-header) { padding-bottom:0; }
 body:has(.popup-header) .app-version { position:relative; inset:auto; display:table; margin:8px 16px 12px; }
@@ -26,10 +33,10 @@ body:has(.popup-header) .app-version { position:relative; inset:auto; display:ta
 .button:disabled,.icon-button:disabled { opacity:.45; cursor:not-allowed; box-shadow:none; }
 .button:focus-visible,.icon-button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible { outline:2px solid var(--green); outline-offset:3px; }
 .checkbox-setting,.sync-note-toggle,.transfer-section-option { display:flex; align-items:flex-start; gap:10px; cursor:pointer; line-height:1.5; }
-.checkbox-setting input[type="checkbox"],.navigation-choice input,.sync-note-toggle input,.transfer-section-option input { flex:0 0 16px; width:16px; height:16px; margin:2px 0 0; accent-color:var(--green); }
-.checkbox-setting > span,.transfer-section-option > span { display:block; min-width:0; }
-.checkbox-setting strong,.transfer-section-option strong { display:block; font-size:13px; font-weight:600; }
-.checkbox-setting small,.transfer-section-option small { display:block; margin-top:3px; color:var(--muted); font-size:11px; font-weight:400; line-height:1.5; }
+.checkbox-setting input[type="checkbox"],.navigation-choice input,.sync-note-toggle input,.transfer-section-option > input,.transfer-section-main > input,.transfer-subitem > input { flex:0 0 16px; width:16px; height:16px; margin:2px 0 0; accent-color:var(--green); }
+.checkbox-setting > span,.transfer-section-option > span,.transfer-section-main > span,.transfer-subitem > span { display:block; min-width:0; }
+.checkbox-setting strong,.transfer-section-option strong,.transfer-section-main strong,.transfer-subitem strong { display:block; font-size:13px; font-weight:600; }
+.checkbox-setting small,.transfer-section-option small,.transfer-section-main small,.transfer-subitem small { display:block; margin-top:3px; color:var(--muted); font-size:11px; font-weight:400; line-height:1.5; }
 .settings-page { width:min(calc(100% - 40px),1240px); padding:32px 0 48px; }
 .settings-hero h1 { font-size:30px; line-height:1.2; }
 .settings-layout { display:grid; grid-template-columns:190px minmax(0,1fr); gap:20px; align-items:start; }
@@ -48,10 +55,17 @@ body:has(.popup-header) .app-version { position:relative; inset:auto; display:ta
 .data-section-heading { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:18px; }
 .data-section-heading h3 { margin:0; font-size:17px; letter-spacing:-.025em; }
 .data-section-heading p,.transfer-card p { color:var(--muted); font-size:12px; line-height:1.65; margin:5px 0 0; }
+.data-section-actions { display:flex; align-items:center; gap:8px; }
 .transfer-sections { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin:0 0 18px; padding:0; border:0; }
 .transfer-section-option { min-width:0; padding:14px; border:1px solid var(--edge); border-radius:10px; background:color-mix(in srgb,var(--bg) 48%,transparent); }
-.transfer-section-option:has(input:checked) { border-color:color-mix(in srgb,var(--green) 38%,var(--border)); background:color-mix(in srgb,var(--green-soft) 38%,transparent); }
-.transfer-passwords { margin:16px 0 20px; }
+.transfer-section-option:has(> input:checked),.transfer-section-option-proxy:has(.transfer-section-main > input:checked) { border-color:color-mix(in srgb,var(--green) 38%,var(--border)); background:color-mix(in srgb,var(--green-soft) 38%,transparent); }
+.transfer-section-option-proxy { display:grid; gap:12px; }
+.transfer-section-main,.transfer-subitem { display:flex; align-items:flex-start; gap:10px; cursor:pointer; }
+.transfer-subitems { display:grid; gap:10px; padding:11px 0 0 26px; border-top:1px solid var(--edge); }
+.transfer-subitem { min-width:0; }
+.transfer-subitem-static { cursor:default; }
+.transfer-subitem-marker { flex:0 0 16px; color:var(--green); font-size:15px; line-height:1; }
+.transfer-subitem > input:disabled + span { opacity:.55; }
 .transfer-actions-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
 .transfer-card { display:flex; flex-direction:column; align-items:flex-start; min-width:0; padding:20px; gap:10px; border:1px solid var(--edge); border-radius:12px; background:linear-gradient(140deg,color-mix(in srgb,var(--surface-2) 72%,transparent),color-mix(in srgb,var(--bg) 52%,transparent)); }
 .transfer-card h4 { margin:0; font-size:15px; }
@@ -95,7 +109,6 @@ body:has(.popup-header) .app-version { position:relative; inset:auto; display:ta
 .note-meta { line-height:1.6; }
 .note-content-input.resize-none { resize:none; min-height:260px; }
 .notes-search .icon-button { flex:0 0 28px; width:28px; height:28px; min-height:28px; }
-.tools-data-link { margin-bottom:18px; }
 .sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
 @media(max-width:900px) {
   .settings-layout { grid-template-columns:160px minmax(0,1fr); gap:14px; }
