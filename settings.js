@@ -14,7 +14,7 @@ const TXT = {
     system: 'System', light: 'Light', dark: 'Dark', comfortable: 'Comfortable', compact: 'Compact', board: 'Board', list: 'List', cardsValue: 'Cards', minimal: 'Minimal', showHosts: 'Show domain under title', showQuickAccess: 'Show Quick Access block', openNew: 'Open links in a new tab', showTabIcon: 'Show icon in browser tabs', showTabIconHint: 'Turn this off to use a transparent favicon on extension pages.',
     navigation: 'Top menu', navigationText: 'Home is always visible. Choose the other sections shown in the shared header.', proxy: 'Proxy', proxyHint: 'Profiles and Smart Proxy Rules', notes: 'Notes', notesHint: 'Synced notes, groups and tags', sessions: 'Sessions', sessionsHint: 'Saved browser windows', tools: 'Tools', toolsHint: 'Duplicate finder and link checker',
     appearance: 'Appearance', appearanceText: 'Accent and wallpaper settings apply to all full pages.', accent: 'Accent color', accentText: 'Used for buttons, focus rings and active states.', accentEnabled: 'Use custom accent color', accentDefault: 'Default accent', background: 'Background', backgroundText: 'A custom image stays only on this browser.', backgroundMode: 'Background style', aurora: 'Aurora', clean: 'Clean', custom: 'Custom image', chooseImage: 'Choose image', removeImage: 'Remove image', blur: 'Background blur', dim: 'Background dimming',
-    destinations: 'Data and sections', destinationsText: 'Open a dedicated page for larger tasks.', data: 'Import & export', dataText: 'Bookmarks, interface settings and backups', proxyText: 'Profiles, routing rules and proxy JSON', sessionsText: 'Save and restore browser windows', toolsText: 'Duplicates and link diagnostics', imageType: 'Choose an image file.', imageSize: 'Image is too large. Maximum size is 25 MB.', imageFailed: 'Could not process the image.',
+    destinations: 'Data and sections', destinationsText: 'Export, restore and manage your backups here.', data: 'Import & export', dataText: 'Bookmarks, interface settings and backups', proxyText: 'Profiles, routing rules and proxy JSON', sessionsText: 'Save and restore browser windows', toolsText: 'Duplicates and link diagnostics', imageType: 'Choose an image file.', imageSize: 'Image is too large. Maximum size is 25 MB.', imageFailed: 'Could not process the image.',
   },
   ru: {
     eyebrow: 'Рабочее пространство', title: 'Настройки', intro: 'Настройте рабочее пространство, меню и внешний вид.', saved: 'Сохранено',
@@ -22,7 +22,7 @@ const TXT = {
     system: 'Системная', light: 'Светлая', dark: 'Тёмная', comfortable: 'Обычная', compact: 'Компактная', board: 'Доска', list: 'Список', cardsValue: 'Карточки', minimal: 'Минимальные', showHosts: 'Показывать домен под названием', showQuickAccess: 'Показывать блок «Быстрый доступ»', openNew: 'Открывать ссылки в новой вкладке', showTabIcon: 'Показывать иконку во вкладках', showTabIconHint: 'Отключите, чтобы страницы расширения использовали прозрачную иконку.',
     navigation: 'Верхнее меню', navigationText: 'Главная видна всегда. Выберите остальные разделы общей шапки.', proxy: 'Прокси', proxyHint: 'Профили и Smart Proxy Rules', notes: 'Заметки', notesHint: 'Синхронизация, группы и теги', sessions: 'Сессии', sessionsHint: 'Сохранённые окна браузера', tools: 'Инструменты', toolsHint: 'Дубликаты и проверка ссылок',
     appearance: 'Внешний вид', appearanceText: 'Акцент и фон применяются ко всем полноэкранным страницам.', accent: 'Акцентный цвет', accentText: 'Используется для кнопок, фокуса и активных состояний.', accentEnabled: 'Использовать свой акцентный цвет', accentDefault: 'Цвет по умолчанию', background: 'Фон', backgroundText: 'Своя картинка хранится только в этом браузере.', backgroundMode: 'Стиль фона', aurora: 'Aurora', clean: 'Чистый', custom: 'Своя картинка', chooseImage: 'Выбрать изображение', removeImage: 'Удалить изображение', blur: 'Размытие фона', dim: 'Затемнение фона',
-    destinations: 'Данные и разделы', destinationsText: 'Для больших задач открывается отдельная страница.', data: 'Импорт и экспорт', dataText: 'Закладки, настройки интерфейса и резервные копии', proxyText: 'Профили, правила маршрутизации и JSON прокси', sessionsText: 'Сохранение и восстановление окон', toolsText: 'Дубликаты и диагностика ссылок', imageType: 'Выберите файл изображения.', imageSize: 'Изображение слишком большое. Максимум 25 МБ.', imageFailed: 'Не удалось обработать изображение.',
+    destinations: 'Данные и разделы', destinationsText: 'Экспорт, восстановление и резервные копии расширения.', data: 'Импорт и экспорт', dataText: 'Закладки, настройки интерфейса и резервные копии', proxyText: 'Профили, правила маршрутизации и JSON прокси', sessionsText: 'Сохранение и восстановление окон', toolsText: 'Дубликаты и диагностика ссылок', imageType: 'Выберите файл изображения.', imageSize: 'Изображение слишком большое. Максимум 25 МБ.', imageFailed: 'Не удалось обработать изображение.',
   },
 };
 
@@ -53,6 +53,8 @@ function applyPage() {
   RS.mountNavigation(ui.appNavigation, settings, { active: 'settings' });
   document.title = RS.pageTitle(tr('title'));
   translate();
+  setupSettingsTabs();
+  document.dispatchEvent(new CustomEvent("rstartpage:settings-change"));
 }
 
 function translate() {
@@ -206,3 +208,18 @@ async function prepareBackgroundImage(file) {
     reader.readAsDataURL(blob);
   });
 }
+
+function setupSettingsTabs() {
+  const panel = ['general', 'navigation', 'appearance', 'data'].includes(location.hash.slice(1)) ? location.hash.slice(1) : 'general';
+  document.querySelectorAll('[data-settings-panel]').forEach(node => { node.hidden = node.id !== panel; });
+  document.querySelectorAll('[data-settings-tab]').forEach(link => {
+    link.textContent = tr(link.dataset.settingsTab === 'data' ? 'destinations' : link.dataset.settingsTab);
+    if (link.dataset.settingsTab === panel) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current');
+  });
+}
+window.addEventListener('hashchange', setupSettingsTabs);
+document.addEventListener('rstartpage:restore-settings', async () => {
+  clearTimeout(rangeSaveTimer);
+  settings = await RS.loadSettings(); backgroundImage = await RS.loadBackgroundImage();
+  applyPage(); populate(); ui.backgroundRemoveButton.disabled = !backgroundImage;
+});

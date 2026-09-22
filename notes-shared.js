@@ -48,5 +48,18 @@ const RNotes = (() => {
   async function replaceFromCloud(bundle) { if (!bundle || !Array.isArray(bundle.notes)) throw new Error('Invalid cloud notes backup.'); const groups = [inbox(), ...(bundle.groups || []).map(cleanGroup).filter((group) => group.id !== 'inbox')]; const notes = bundle.notes.map(cleanNote).filter((note) => note.title || note.content).slice(0, MAX_NOTES).map((note) => ({ ...note, sync: true })); await chrome.storage.local.set({ [NOTES_LOCAL_KEY]: notes, [GROUPS_LOCAL_KEY]: groups.slice(1) }); await chrome.storage.sync.set({ [SYNC_KEY]: syncPayload({ notes, groups }) }); return notes.length; }
   async function savePendingDraft(draft) { await chrome.storage.local.set({ rstartpagePendingNote: { ...draft, createdAt: Date.now() } }); }
   async function takePendingDraft() { const data = await chrome.storage.local.get('rstartpagePendingNote'); if (data.rstartpagePendingNote) await chrome.storage.local.remove('rstartpagePendingNote'); return data.rstartpagePendingNote || null; }
-  return { NOTES_LOCAL_KEY, SYNC_KEY, SYNC_LIMIT, cleanNote, listNotes, listGroups, getSyncUsage, saveNote, setSync, removeNote, saveGroup, removeGroup, renameTag, removeTag, exportNotes, importNotes, replaceFromCloud, savePendingDraft, takePendingDraft };
+  async function prepareRestore(bundle, { merge = true } = {}) {
+    if (!bundle || !Array.isArray(bundle.notes) || bundle.notes.length > MAX_NOTES) throw new Error('NOTES_INVALID');
+    const current = merge ? await read() : { notes: [], groups: [inbox()] };
+    const notes = new Map(current.notes.map(note => [note.id, note]));
+    for (const raw of bundle.notes) { const note = cleanNote(raw); notes.set(note.id, note); }
+    const groups = new Map(current.groups.map(group => [group.id, group]));
+    for (const raw of bundle.groups || []) { const group = cleanGroup(raw); if (group.id !== 'inbox') groups.set(group.id, group); }
+    if (notes.size > MAX_NOTES || groups.size > 101) throw new Error('NOTES_CAPACITY');
+    const data = { notes: [...notes.values()].map(note => ({ ...note, groupId: groups.has(note.groupId) ? note.groupId : 'inbox' })), groups: [...groups.values()] };
+    if (bytes(syncPayload(data)) > SYNC_LIMIT) throw new Error('SYNC_QUOTA');
+    return data;
+  }
+  async function restoreNotes(bundle, options) { const data = await prepareRestore(bundle, options); await write(data); return data.notes.length; }
+  return { NOTES_LOCAL_KEY, SYNC_KEY, SYNC_LIMIT, cleanNote, listNotes, listGroups, getSyncUsage, saveNote, setSync, removeNote, saveGroup, removeGroup, renameTag, removeTag, exportNotes, importNotes, prepareRestore, restoreNotes, replaceFromCloud, savePendingDraft, takePendingDraft };
 })();

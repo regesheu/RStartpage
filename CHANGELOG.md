@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.8.0 — Unified data settings and Alpine Glass refinement
+
+- Moved all import/export into Settings → Data and sections, with module selection, ZIP archives, legacy JSON support, preview and explicit restore confirmation.
+- Full backups include links, note groups/tags/sync choices, proxy profiles/rules/preferences, sessions, extension settings and custom wallpaper. Proxy passwords remain opt-in.
+- Replaced module import/export controls with a single settings shortcut. Existing data-page URLs redirect to the settings hub.
+- Restored Google Drive below local transfers: connection state, backup creation, paginated list, ZIP download, restore preview and deletion. Unconfigured builds explain why connection is unavailable and show disabled cloud controls.
+- Corrected Drive multipart upload endpoint and authorization state handling; background requests never trigger interactive authorization.
+- Added compact bottom-left version text; refined glass navigation, settings sidebar, form alignment, notes toolbar/card actions and the settings gear SVG.
+- Fixed note search handling and retained active group/tag filters. Archive restore preserves note identity and rejects capacity/quota errors before changing other sections.
+
+
 ## 1.1.0 — 2026-09-18
 
 ### Navigation and settings

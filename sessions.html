@@ -8,7 +8,7 @@
   <link rel="icon" data-app-favicon href="icons/icon32.png">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="tools.css">
-  <link rel="stylesheet" href="glass.css">
+  <link rel="stylesheet" href="glass.css"><link rel="stylesheet" href="refinement.css">
 </head>
 <body class="tools-body">
   <div class="page-background" aria-hidden="true"></div>
@@ -27,9 +27,9 @@
       <div class="tool-card-head">
         <div><h2 id="managerTitle">Session Manager</h2><p id="managerText">Each saved session keeps its tab order and pinned state.</p></div>
         <div class="session-toolbar">
-          <button id="exportSessionsButton" class="button" type="button" disabled data-js-action>⇩ Export sessions</button>
-          <button id="importSessionsButton" class="button" type="button" disabled data-js-action>⇧ Import sessions</button>
-          <input id="sessionJsonInput" type="file" accept="application/json,.json" hidden>
+          <a class="button transfer-settings-link" data-transfer-link href="settings.html?module=sessions#data">Данные и разделы</a>
+
+
           <button id="saveSessionButton" class="button primary" type="button" disabled data-js-action>＋ Save current window</button>
         </div>
       </div>
@@ -44,16 +44,6 @@
       <label class="field"><span id="sessionNameLabel">Session name</span><input id="sessionNameInput" class="input" maxlength="100" placeholder="Work" required></label>
       <div id="sessionFormError" class="form-error" role="alert"></div>
       <div class="dialog-actions"><button id="sessionCancelButton" class="button" type="button" disabled data-js-action>Cancel</button><button id="sessionSaveButton" class="button primary" type="submit">Save</button></div>
-    </form>
-  </dialog>
-
-  <dialog id="sessionImportDialog" class="dialog session-import-dialog">
-    <form id="sessionImportForm" method="dialog" novalidate>
-      <div class="dialog-header"><div><div class="eyebrow" data-product-name>RStartpage</div><h2 id="sessionImportTitle">Import sessions</h2></div><button id="sessionImportClose" class="icon-button small" type="button" aria-label="Close">×</button></div>
-      <p id="sessionImportSummary" class="import-summary"></p>
-      <fieldset class="import-mode-fieldset"><legend id="sessionImportModeLabel">Import mode</legend><label><input type="radio" name="sessionImportMode" value="merge" checked> <span id="sessionMergeLabel">Merge with existing sessions</span></label><label><input type="radio" name="sessionImportMode" value="replace"> <span id="sessionReplaceLabel">Replace existing sessions</span></label></fieldset>
-      <div id="sessionImportError" class="form-error" role="alert"></div>
-      <div class="dialog-actions"><button id="sessionImportCancel" class="button" type="button">Cancel</button><button id="sessionImportSubmit" class="button primary" type="submit">Import</button></div>
     </form>
   </dialog>
 

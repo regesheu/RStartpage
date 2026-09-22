@@ -61,7 +61,7 @@ def parse_page(name: str) -> tuple[str, PageParser]:
 def main() -> None:
     manifest = json.loads((ROOT / "manifest.json").read_text(encoding="utf-8"))
     require(manifest["options_ui"]["page"] == "settings.html", "manifest: settings must be the options page")
-    require(manifest["version"] == "1.7.0", "manifest: unexpected version")
+    require(manifest["version"] == "1.8.0", "manifest: unexpected version")
 
     for page in FULL_PAGES:
         source, parser = parse_page(page)
@@ -78,12 +78,18 @@ def main() -> None:
     require("checkAllDuplicatesButton" in tools_parser.ids, "tools: duplicate batch check missing")
 
     proxy, proxy_parser = parse_page("proxy.html")
-    require({"exportProxyButton", "importProxyButton", "proxyHelpButton"}.issubset(set(proxy_parser.ids)), "proxy: import/export/help controls missing")
+    require("proxyHelpButton" in proxy_parser.ids and "data-transfer-link" in proxy, "proxy: data shortcut/help missing")
     require("proxy-footnote" not in proxy and "app-author-footer" not in proxy, "proxy: extra explanatory footer remains")
 
     settings, settings_parser = parse_page("settings.html")
     required_settings = {"productNameInput", "showProxyNavInput", "showNotesNavInput", "showSessionsNavInput", "showToolsNavInput", "showTabIconInput"}
     require(required_settings.issubset(set(settings_parser.ids)), "settings: required navigation/name/favicon settings missing")
+
+    require("settingsData" in settings_parser.ids, "settings: data hub missing")
+    for page in ("notes.html", "sessions.html", "proxy.html"):
+        source, parser = parse_page(page)
+        require("data-transfer-link" in source, f"{page}: settings shortcut missing")
+        require(not any(re.match(r"(export|import)(Notes|Sessions|Proxy|Rules)Button", id) for id in parser.ids), f"{page}: legacy transfer controls remain")
 
     all_js = "\n".join(path.read_text(encoding="utf-8") for path in ROOT.glob("*.js"))
     require(not re.search(r"(?<![A-Za-z])confirm\s*\(", all_js), "JavaScript: native confirm() remains")

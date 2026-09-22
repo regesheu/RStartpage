@@ -137,6 +137,16 @@ Table selection and date controls are not used.
 
 ## Verification
 
+### Data settings (1.8)
+
+- Canonical entry: `settings.html#data`. Module shortcuts add a `module` query parameter; `data.html` redirects here.
+- One ZIP format contains selected sections; legacy per-module JSON is accepted. Settings include wallpaper. Proxy passwords require opt-in; Google credentials and connection tokens never enter an archive.
+- Restore shows the archive name, selectable sections and merge/replace mode, then confirms the affected sections. Schema, note capacity and sync quota are checked before writes. Runtime storage failures can leave partial writes and are reported explicitly.
+- Note restore preserves IDs, timestamps and sync choices; repeat merge does not create duplicate notes. Unselected sections are untouched.
+- Google Drive follows local transfer controls. Unconfigured OAuth shows an explanation and disabled actions. Connected state exposes creation, refresh, download, restore preview and confirmed deletion. API requests have a timeout and list pagination.
+- Busy state prevents duplicate mutations. Disabled controls explain unavailable connection through adjacent copy; local archives remain usable offline.
+- The settings sidebar uses real hash links and `aria-current`. It wraps below 680 px. All pages share the same version footer and SVG settings icon.
+
 - Required static commands: `scripts/check.sh`, strict premium audit, DESIGN.md lint, and release build.
 - Browser/device/locale/theme matrix: desktop and narrow Chrome-sized viewport; English/Russian; light/dark; reduced motion.
 - Accessibility checks: keyboard route navigation, dialog Escape/focus, form labels/errors, visible focus.

@@ -41,6 +41,10 @@ REQUIRED_FILES=(
   drive-shared.js
   settings.html
   settings.js
+  settings-data.js
+  transfer-shared.js
+  vendor/jszip.min.js
+  refinement.css
   settings.css
   data.js
   icons/transparent.svg
@@ -67,7 +71,7 @@ mkdir -p "$OUT_DIR"
 rm -f "$OUT_FILE"
 
 zip -r "$OUT_FILE" . \
-  -x '.git/*' \
+  -x '.git' '.git/*' \
      '.github/*' \
      'dist/*' \
      'docs/*' \

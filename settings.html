@@ -8,7 +8,7 @@
   <link rel="icon" data-app-favicon href="icons/icon32.png">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="settings.css">
-  <link rel="stylesheet" href="glass.css">
+  <link rel="stylesheet" href="glass.css"><link rel="stylesheet" href="refinement.css">
 </head>
 <body class="settings-page-body">
   <header class="app-navigation-shell"><div id="appNavigation"></div></header>
@@ -23,8 +23,9 @@
       <div id="settingsSaved" class="settings-save-state" role="status" aria-live="polite">Saved</div>
     </section>
 
+    <div class="settings-layout"><nav class="settings-sidebar" aria-label="Settings"><a href="#general" data-settings-tab="general">Основное</a><a href="#appearance" data-settings-tab="appearance">Внешний вид</a><a href="#navigation" data-settings-tab="navigation">Верхнее меню</a><a href="#data" data-settings-tab="data">Данные и разделы</a></nav>
     <form id="settingsForm" class="settings-page-form" novalidate>
-      <section class="settings-section">
+      <section id="general" class="settings-section" data-settings-panel>
         <div class="settings-section-heading">
           <h2 id="generalTitle">General</h2>
           <p id="generalText">These preferences sync through Chrome.</p>
@@ -44,7 +45,7 @@
         </div>
       </section>
 
-      <section class="settings-section">
+      <section id="navigation" class="settings-section" data-settings-panel>
         <div class="settings-section-heading">
           <h2 id="navigationTitle">Top menu</h2>
           <p id="navigationText">Home is always visible. Choose the other sections shown in the shared header.</p>
@@ -57,7 +58,7 @@
         </div>
       </section>
 
-      <section class="settings-section">
+      <section id="appearance" class="settings-section" data-settings-panel>
         <div class="settings-section-heading">
           <h2 id="appearanceTitle">Appearance</h2>
           <p id="appearanceText">Accent and wallpaper settings apply to all full pages.</p>
@@ -78,17 +79,24 @@
         </div>
       </section>
 
-      <section class="settings-section">
+      <section id="data" class="settings-section" data-settings-panel>
         <div class="settings-section-heading">
           <h2 id="destinationsTitle">Data and sections</h2>
           <p id="destinationsText">Open a dedicated page for larger tasks.</p>
         </div>
-        <div class="callout">Открывайте разделы через верхнее меню: ссылки на отдельные инструменты больше не дублируются здесь.</div>
+        <div id="settingsData"></div>
       </section>
-    </form>
+    </form></div>
   </main>
 
   <script src="shared.js"></script>
+  <script src="proxy-shared.js"></script>
+  <script src="tools-shared.js"></script>
+  <script src="notes-shared.js"></script>
+  <script src="drive-shared.js"></script>
+  <script src="vendor/jszip.min.js"></script>
+  <script src="transfer-shared.js"></script>
   <script src="settings.js"></script>
+  <script src="settings-data.js"></script>
 </body>
 </html>

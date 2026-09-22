@@ -8,7 +8,7 @@
   <link rel="icon" data-app-favicon href="icons/icon32.png">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="proxy.css">
-  <link rel="stylesheet" href="glass.css">
+  <link rel="stylesheet" href="glass.css"><link rel="stylesheet" href="refinement.css">
 </head>
 <body class="proxy-body">
   <div class="page-background" aria-hidden="true"></div>
@@ -25,8 +25,8 @@
         <label class="master-switch proxy-master-switch"><span id="masterSwitchLabel">Proxy</span><input id="masterToggle" type="checkbox"><i></i></label>
         <button id="addProxyButton" class="button primary" type="button" disabled data-js-action>＋ Add proxy</button>
         <button id="testAllButton" class="button" type="button" disabled data-js-action>Test all</button>
-        <button id="exportProxyButton" class="button" type="button" disabled data-js-action>Export</button>
-        <button id="importProxyButton" class="button" type="button" disabled data-js-action>Import</button>
+        <a class="button transfer-settings-link" data-transfer-link href="settings.html?module=proxies#data">Данные и разделы</a>
+
         <a id="proxyHelpButton" class="button proxy-help-button" href="proxy-help.html">? Help</a>
       </div>
       <label class="sort-control"><span id="sortLabel">Order</span><select id="sortSelect" class="select"><option value="custom">Custom order</option><option value="name">Sort by name</option><option value="latency">Sort by latency</option></select></label>
@@ -42,8 +42,8 @@
         <div class="smart-rules-actions"><label class="master-switch smart-switch"><span id="smartToggleLabel">Smart Routing</span><input id="smartToggle" type="checkbox"><i></i></label><button id="addRuleButton" class="button" type="button" disabled data-js-action>＋ Add rule</button></div>
       </div>
       <div class="rules-transfer-actions">
-        <button id="exportRulesButton" class="button" type="button" disabled data-js-action>Export rules</button>
-        <button id="importRulesButton" class="button" type="button" disabled data-js-action>Import rules</button>
+
+
       </div>
       <div id="ruleList" class="rule-list"></div>
       <div id="ruleEmpty" class="rule-empty" hidden></div>
@@ -87,27 +87,6 @@
       </div>
       <div id="ruleEditorError" class="form-error" role="alert"></div>
       <div class="dialog-actions"><button id="ruleCancelButton" class="button" type="button" disabled data-js-action>Cancel</button><button id="ruleSaveButton" class="button primary" type="submit">Save</button></div>
-    </form>
-  </dialog>
-
-  <dialog id="exportProxyDialog" class="dialog proxy-transfer-dialog">
-    <form id="exportProxyForm" method="dialog" novalidate>
-      <div class="dialog-header"><div><div class="eyebrow" data-product-name>RStartpage</div><h2 id="exportProxyTitle">Export proxy settings</h2></div><button id="exportProxyClose" class="icon-button small" type="button" disabled data-js-action aria-label="Close">×</button></div>
-      <p id="exportProxyText" class="dialog-copy">Download profiles, order and Smart Rules as a JSON file.</p>
-      <label class="checkbox-setting transfer-option"><input id="exportPasswordsInput" type="checkbox"><span id="exportPasswordsLabel">Include passwords</span></label>
-      <div id="exportPasswordsWarning" class="transfer-warning"></div>
-      <div class="dialog-actions"><button id="exportProxyCancel" class="button" type="button" disabled data-js-action>Cancel</button><button id="exportProxyDownload" class="button primary" type="submit">Download JSON</button></div>
-    </form>
-  </dialog>
-
-  <dialog id="importProxyDialog" class="dialog proxy-transfer-dialog">
-    <form id="importProxyForm" method="dialog" novalidate>
-      <div class="dialog-header"><div><div class="eyebrow" data-product-name>RStartpage</div><h2 id="importProxyTitle">Import proxy settings</h2></div><button id="importProxyClose" class="icon-button small" type="button" disabled data-js-action aria-label="Close">×</button></div>
-      <label class="proxy-file-picker"><input id="proxyJsonFileInput" type="file" accept="application/json,.json"><span id="proxyFilePickerTitle">Choose JSON file</span><small id="proxyFilePickerHint">Profiles exported from this extension are supported.</small></label>
-      <div id="proxyImportPreview" class="import-preview" hidden><strong id="proxyImportPreviewTitle"></strong><span id="proxyImportPreviewText"></span></div>
-      <fieldset class="proxy-import-mode"><legend id="proxyImportModeTitle">Mode</legend><label><input type="radio" name="proxyImportMode" value="merge" checked><span><strong id="proxyMergeTitle">Merge</strong><small id="proxyMergeText">Keep current profiles and skip matching endpoints.</small></span></label><label><input type="radio" name="proxyImportMode" value="replace"><span><strong id="proxyReplaceTitle">Replace</strong><small id="proxyReplaceText">Delete current profiles and rules before importing.</small></span></label></fieldset>
-      <div id="proxyImportError" class="form-error" role="alert"></div>
-      <div class="dialog-actions"><button id="importProxyCancel" class="button" type="button" disabled data-js-action>Cancel</button><button id="importProxySubmit" class="button primary" type="submit" disabled>Import</button></div>
     </form>
   </dialog>
 
