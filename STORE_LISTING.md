@@ -1,4 +1,4 @@
-# Chrome Web Store submission — RStartpage 1.8.1
+# Chrome Web Store submission — RStartpage 1.8.2
 
 ## Suggested category
 
@@ -30,7 +30,6 @@ RStartpage also includes optional tools for people who want more control over th
 - Smart Proxy Rules for routing matching domains or IPs through DIRECT or a selected proxy
 - A unified Data center with selective ZIP export, import preview and merge/replace restore modes
 - Archives for links, notes, proxies and Smart Rules, sessions, settings and custom wallpaper
-- Optional Google Drive full backups in builds configured with Google OAuth
 - Quick Add Link form in the toolbar popup, prefilled from the active tab
 - Import from an existing Chrome bookmark folder and legacy RStartpage JSON files
 
@@ -58,7 +57,6 @@ RStartpage заменяет стандартную страницу новой �
 - Smart Proxy Rules для маршрутизации доменов/IP через DIRECT или выбранный proxy;
 - единый раздел «Данные» с выборочным экспортом ZIP, предпросмотром импорта и режимами объединения или замены;
 - архивы ссылок, заметок, прокси и Smart Proxy Rules, сессий, настроек и фонового изображения;
-- резервные копии всех данных в Google Drive для сборок с настроенным Google OAuth;
 - быстрое добавление текущей вкладки в закладки из popup;
 - импорт существующей папки закладок Chrome и JSON-файлов предыдущих версий RStartpage.
 
@@ -94,9 +92,6 @@ Required for Session Manager to read the URL/title and relevant state of tabs on
 ### contextMenus
 Required to offer explicit “Create note” actions for the current page or selected text. RStartpage receives page or selection data only after the user invokes one of these actions.
 
-### identity
-Required only for the optional Google Drive backup connection in builds configured with Google OAuth. Chrome manages the access token, and RStartpage requests access only to its private application-data folder.
-
 ### host access: <all_urls>
 Required because user-initiated Link Checker may check any bookmark URL, proxy connectivity tests may access test endpoints through a selected proxy, and proxy authentication may occur while the user is visiting any site.
 
@@ -114,7 +109,6 @@ No. RStartpage does not execute remotely hosted JavaScript, WebAssembly, or othe
 - User-selected Link Checker requests go directly to the selected bookmark destinations.
 - User-configured proxy traffic is sent through proxy servers chosen by the user.
 - Chrome Sync, if enabled by the user, is provided by Chrome/Google.
-- Google Drive receives a full backup only when the user connects Drive and explicitly creates a cloud copy.
 
 ## Support
 
