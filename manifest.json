@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "RStartpage",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "description": "A customizable Chrome start page for bookmarks, notes, sessions, link tools and optional proxy routing.",
   "minimum_chrome_version": "121",
   "permissions": [
@@ -12,8 +12,7 @@
     "webRequest",
     "webRequestAuthProvider",
     "tabs",
-    "contextMenus",
-    "identity"
+    "contextMenus"
   ],
   "chrome_url_overrides": {
     "newtab": "newtab.html"
@@ -31,10 +30,6 @@
   "host_permissions": [
     "<all_urls>"
   ],
-  "oauth2": {
-    "client_id": "REPLACE_WITH_CHROME_EXTENSION_OAUTH_CLIENT_ID.apps.googleusercontent.com",
-    "scopes": ["https://www.googleapis.com/auth/drive.appdata"]
-  },
   "background": {
     "service_worker": "background.js"
   },
