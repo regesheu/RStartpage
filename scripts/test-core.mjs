@@ -37,7 +37,7 @@ const context = vm.createContext({
   ArrayBuffer,
   clearTimeout,
   chrome: {
-    runtime: { getURL: (path) => `chrome-extension://test/${String(path).replace(/^\//, '')}`, getManifest: () => ({ version: '1.8.1', oauth2: { client_id: 'REPLACE_WITH_CLIENT.apps.googleusercontent.com' } }), sendMessage: async () => {} },
+    runtime: { getURL: (path) => `chrome-extension://test/${String(path).replace(/^\//, '')}`, getManifest: () => ({ version: '1.8.2', oauth2: { client_id: 'REPLACE_WITH_CLIENT.apps.googleusercontent.com' } }), sendMessage: async () => {} },
     storage: { sync, local },
     bookmarks: {
       async get() { return []; },
@@ -162,7 +162,7 @@ const RDrive = load('drive-shared.js', 'RDrive');
 assert.equal(RDrive.isConfigured(), false);
 await assert.rejects(() => RDrive.connect(), /DRIVE_NOT_CONFIGURED/);
 assert.equal((await RDrive.state()).connected, false);
-context.chrome.runtime.getManifest = () => ({ version: '1.8.1', oauth2: { client_id: '12345-real.apps.googleusercontent.com' } });
+context.chrome.runtime.getManifest = () => ({ version: '1.8.2', oauth2: { client_id: '12345-real.apps.googleusercontent.com' } });
 context.fetch = async (url, options) => {
   requests.push({ url, options });
   return { ok: true, status: options.method === 'DELETE' ? 204 : 200, json: async () => url.includes('pageToken=next') ? { files: [{ id: 'second' }] } : url.includes('spaces=appDataFolder') ? { nextPageToken: 'next', files: [{ id: 'first' }] } : { id: 'uploaded' } };
