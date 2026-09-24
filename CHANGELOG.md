@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.8.2 — 2026-09-24
+
+- Rebuilt the 128×128 extension icon as a valid PNG so Chrome Web Store can process the package.
+- Removed the unused placeholder OAuth configuration and `identity` permission from the initial Web Store build; Google Drive remains disabled until a real Chrome Extension OAuth client is configured for the assigned Extension ID.
+- Added stricter release packaging checks for declared icon assets.
+- Updated Chrome Web Store submission metadata and version checks for 1.8.2.
+
 ## 1.8.1 — 2026-09-22
 
 - Replaced the truncated default wallpaper with a complete 1536 × 1024 PNG and corrected background layering so the image fills every full page. Renamed the background choice to Default / По умолчанию.
