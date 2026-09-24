@@ -47,6 +47,10 @@ REQUIRED_FILES=(
   refinement.css
   settings.css
   data.js
+  icons/icon16.png
+  icons/icon32.png
+  icons/icon48.png
+  icons/icon128.png
   icons/transparent.svg
   glass.css
   assets/alpine-night.png
@@ -58,6 +62,9 @@ for file in "${REQUIRED_FILES[@]}"; do
     exit 1
   fi
 done
+
+# Run the full release verification before packaging.
+bash "$ROOT_DIR/scripts/check.sh"
 
 # Catch syntax errors before publishing a release.
 for file in ./*.js; do
