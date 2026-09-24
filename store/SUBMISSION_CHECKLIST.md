@@ -22,7 +22,8 @@
 - For a pre-release smoke test, Unlisted is acceptable, but it is reviewed under the same policies.
 
 ## First release
-- Upload `dist/RStartpage-1.0.0.zip` manually in the Chrome Web Store Developer Dashboard.
+- Version 1.8.2 intentionally omits the `identity` permission and `oauth2` manifest block until a real Chrome Extension OAuth client can be created for the assigned Web Store Extension ID. Google Drive controls remain unconfigured in this build.
+- Upload `dist/RStartpage-1.8.2.zip` manually in the Chrome Web Store Developer Dashboard.
 - Complete Store listing, Privacy and Distribution tabs.
 - Submit for review.
 - After the item exists, record the Extension ID and Publisher ID for GitHub Actions.
