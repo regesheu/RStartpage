@@ -20,7 +20,15 @@ if manifest.get("manifest_version") != 3:
     raise SystemExit("manifest_version must be 3")
 
 version = manifest.get("version", "")
-if not re.fullmatch(r"(?:0|[1-9]\\d*)(?:\\.(?:0|[1-9]\\d*)){0,3}", version):
+parts = version.split(".")
+valid_version = (
+    1 <= len(parts) <= 4
+    and all(part.isdigit() for part in parts)
+    and all(part == "0" or not part.startswith("0") for part in parts)
+    and all(0 <= int(part) <= 65535 for part in parts)
+    and any(int(part) != 0 for part in parts)
+)
+if not valid_version:
     raise SystemExit(f"Invalid Chrome extension version: {version!r}")
 
 client_id = (manifest.get("oauth2") or {}).get("client_id", "")
@@ -32,7 +40,7 @@ icons = manifest.get("icons") or {}
 
 def validate_png(path: pathlib.Path, expected_size: int) -> None:
     data = path.read_bytes()
-    if data[:8] != b"\\x89PNG\\r\\n\\x1a\\n":
+    if data[:8] != bytes([137, 80, 78, 71, 13, 10, 26, 10]):
         raise SystemExit(f"{path}: not a PNG")
     pos = 8
     width = height = None
