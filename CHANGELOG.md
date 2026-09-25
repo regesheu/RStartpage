@@ -5,7 +5,10 @@
 - Made English the clean-install default throughout the visible interface and removed hard-coded Russian text from the popup/settings shell.
 - Localized the popup Create note action and its error state through the selected language.
 - Replaced the misaligned Add Link text chevron with a centered SVG chevron.
-- Updated the release version to 1.8.3.
+- Completed Notes localization, including editor fields, groups, tags, deletion dialogs, accessibility labels and sync quota errors.
+- Rebuild note context menus in the selected language on installation, startup and settings changes; serialize rebuilds and handle Chrome API completion errors.
+- Normalize unsupported languages to English, preserve explicit Russian settings, and format generated session names in the selected language.
+- Added localization regression coverage and aligned release verification with version 1.8.3.
 
 ## 1.8.2 — 2026-09-24
 

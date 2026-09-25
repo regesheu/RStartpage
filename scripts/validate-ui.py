@@ -111,7 +111,7 @@ def validate_wallpaper() -> None:
 def main() -> None:
     manifest = json.loads((ROOT / "manifest.json").read_text(encoding="utf-8"))
     require(manifest["options_ui"]["page"] == "settings.html", "manifest: settings must be the options page")
-    require(manifest["version"] == "1.8.2", "manifest: unexpected version")
+    require(manifest["version"] == "1.8.3", "manifest: unexpected version")
     validate_wallpaper()
 
     for page in FULL_PAGES:

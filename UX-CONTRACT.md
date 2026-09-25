@@ -5,9 +5,9 @@
 - Audience: desktop Chrome users managing a personal browser workspace.
 - Primary jobs: open and organize links, restore sessions, diagnose bookmarks, and control proxy routing.
 - Target market(s): international; no market-specific business rules are declared.
-- Active locales: English and Russian, with English fallback.
+- Active locales: English and Russian. English is the clean-install default and fallback, regardless of browser language; Russian requires an explicit saved choice.
 - Language/content register and native-review policy: concise product language; every owned UI string ships in both locales.
-- Timezone/calendar policy: browser locale/timezone for session timestamps; no business calendar.
+- Timezone/calendar policy: selected application locale and browser timezone for timestamps and generated session names; no business calendar.
 - Accessibility target: WCAG 2.2 AA baseline.
 
 ## Business-context sources
