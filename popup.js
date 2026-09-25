@@ -9,8 +9,8 @@ let popupNoticeTimer = null;
 const groupOptions = new Map();
 
 const TXT = {
-  en: { sessions:'Sessions', hint:'Save or restore a browser session', save:'Save', restore:'Restore', empty:'No saved sessions', tabs:'{count} tabs', saved:'Session saved', restored:'Session opened in a new window', failed:'Action failed', home:'Home', addLink:'Add link', name:'Name', url:'URL', group:'Group', description:'Description', cancel:'Cancel', add:'Add link', added:'Link added to {group}.', invalidName:'Enter a link name.', invalidUrl:'Enter a valid URL.', noGroup:'No bookmark group is available.' },
-  ru: { sessions:'Сессии', hint:'Сохранить или открыть сессию браузера', save:'Сохранить', restore:'Открыть', empty:'Сохранённых сессий нет', tabs:'{count} вкладок', saved:'Сессия сохранена', restored:'Сессия открыта в новом окне', failed:'Не удалось выполнить действие', home:'Главная', addLink:'Добавить ссылку', name:'Название', url:'URL', group:'Группа', description:'Описание', cancel:'Отмена', add:'Добавить ссылку', added:'Ссылка добавлена в «{group}».', invalidName:'Введите название ссылки.', invalidUrl:'Введите корректный URL.', noGroup:'Нет доступной группы закладок.' },
+  en: { sessions:'Sessions', hint:'Save or restore a browser session', save:'Save', restore:'Restore', empty:'No saved sessions', tabs:'{count} tabs', saved:'Session saved', restored:'Session opened in a new window', failed:'Action failed', home:'Home', addLink:'Add link', name:'Name', url:'URL', group:'Group', description:'Description', cancel:'Cancel', add:'Add link', added:'Link added to {group}.', invalidName:'Enter a link name.', invalidUrl:'Enter a valid URL.', noGroup:'No bookmark group is available.', createNote:'Create note', noteOpenFailed:'Could not open note creation.' },
+  ru: { sessions:'Сессии', hint:'Сохранить или открыть сессию браузера', save:'Сохранить', restore:'Открыть', empty:'Сохранённых сессий нет', tabs:'{count} вкладок', saved:'Сессия сохранена', restored:'Сессия открыта в новом окне', failed:'Не удалось выполнить действие', home:'Главная', addLink:'Добавить ссылку', name:'Название', url:'URL', group:'Группа', description:'Описание', cancel:'Отмена', add:'Добавить ссылку', added:'Ссылка добавлена в «{group}».', invalidName:'Введите название ссылки.', invalidUrl:'Введите корректный URL.', noGroup:'Нет доступной группы закладок.', createNote:'Создать заметку', noteOpenFailed:'Не удалось открыть создание заметки.' },
 };
 
 function qt(key, params = {}) { const template = TXT[language]?.[key] ?? TXT.en[key] ?? key; return RS.productText(String(template).replace(/\{(\w+)\}/g, (_, name) => String(params[name] ?? ''))); }
@@ -29,14 +29,14 @@ async function createNoteFromCurrentTab() {
     await RNotes.savePendingDraft({ title: tab?.title || '', content: '', sourceUrl });
     await chrome.tabs.create({ url: chrome.runtime.getURL('notes.html?new=1') });
     window.close();
-  } catch (error) { showPopupNotice('Не удалось открыть создание заметки.', true); }
+  } catch (error) { showPopupNotice(qt('noteOpenFailed'), true); }
 }
 
 function cache() { document.querySelectorAll('[id]').forEach((node) => { ui[node.id] = node; }); }
 
 function applyText() {
   ui.proxyLabel.textContent = ProxyStore.t(language, 'proxy'); ui.sessionsLabel.textContent = qt('sessions'); ui.sessionsHint.textContent = qt('hint'); ui.saveSessionQuickButton.textContent = `＋ ${qt('save')}`;
-  ui.homeButton.setAttribute('aria-label', qt('home')); ui.homeButton.title = qt('home'); ui.addLinkToggleLabel.textContent = `＋ ${qt('addLink')}`; ui.linkNameLabel.textContent = qt('name'); ui.linkUrlLabel.textContent = qt('url'); ui.linkGroupLabel.textContent = qt('group'); ui.linkDescriptionLabel.textContent = qt('description'); ui.addLinkCancel.textContent = qt('cancel'); ui.addLinkSubmit.textContent = qt('add');
+  ui.homeButton.setAttribute('aria-label', qt('home')); ui.createNoteButton.textContent = `＋ ${qt('createNote')}`; ui.homeButton.title = qt('home'); ui.addLinkToggleLabel.textContent = `＋ ${qt('addLink')}`; ui.linkNameLabel.textContent = qt('name'); ui.linkUrlLabel.textContent = qt('url'); ui.linkGroupLabel.textContent = qt('group'); ui.linkDescriptionLabel.textContent = qt('description'); ui.addLinkCancel.textContent = qt('cancel'); ui.addLinkSubmit.textContent = qt('add');
 }
 
 function bind() {
