@@ -70,7 +70,7 @@ function translate() {
   document.documentElement.lang = language;
   document.title = RS.pageTitle(tr('page'));
   ui.sessionsTitle.textContent = tr('page'); ui.sessionsIntro.textContent = tr('intro'); ui.managerTitle.textContent = tr('manager'); ui.managerText.textContent = tr('managerText');
-  ui.saveSessionButton.textContent = `＋ ${tr('saveCurrent')}`; ui.sessionsEmptyTitle.textContent = tr('noSessions'); ui.sessionsEmptyText.textContent = tr('noSessionsText');
+  ui.saveSessionButton.textContent = `${tr('saveCurrent')}`; ui.sessionsEmptyTitle.textContent = tr('noSessions'); ui.sessionsEmptyText.textContent = tr('noSessionsText');
   ui.sessionNameLabel.textContent = tr('sessionName'); ui.sessionCancelButton.textContent = tr('cancel'); ui.sessionSaveButton.textContent = tr('save'); ui.sessionDialogClose.setAttribute('aria-label', tr('close'));
   ui.helpButton.setAttribute('title', tr('help')); ui.helpButton.setAttribute('aria-label', tr('help')); ui.helpTitle.textContent = tr('helpTitle'); ui.helpClose.setAttribute('aria-label', tr('close')); ui.helpSave.textContent = tr('helpSave'); ui.helpOpen.textContent = tr('helpOpen'); ui.helpManage.textContent = tr('helpManage'); ui.helpTransfer.textContent = tr('helpTransfer'); ui.helpDone.textContent = tr('done');
 }

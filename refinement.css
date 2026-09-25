@@ -32,6 +32,56 @@ body:has(.popup-header) .app-version { position:relative; inset:auto; display:ta
 .button:hover:not(:disabled),.icon-button:hover:not(:disabled) { border-color:var(--green); }
 .button:disabled,.icon-button:disabled { opacity:.45; cursor:not-allowed; box-shadow:none; }
 .button:focus-visible,.icon-button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible { outline:2px solid var(--green); outline-offset:3px; }
+/* One owner for icon geometry, native select arrows and quiet field focus. */
+:root {
+  --control-icon-size:16px;
+  --field-focus-border:var(--muted);
+}
+.action-add { display:inline-flex; align-items:center; gap:8px; }
+.action-add::before,.action-more::before {
+  content:"";
+  display:block;
+  width:var(--control-icon-size);
+  height:var(--control-icon-size);
+  flex:0 0 var(--control-icon-size);
+  background:currentColor;
+  mask:center / contain no-repeat url("icons/plus.svg");
+}
+.action-more::before { mask-image:url("icons/more-vertical.svg"); }
+.icon-button.action-add,.icon-button.action-more { display:inline-grid; place-items:center; gap:0; line-height:1; }
+.tab { align-items:center; justify-content:center; line-height:1.2; }
+.tab-icon { display:inline-flex; align-items:center; justify-content:center; }
+.tab-more { margin:0 6px 0 0; }
+.tab-add { justify-content:center; }
+.button > svg,.icon-button > svg,.app-navigation-link > svg { display:block; flex-shrink:0; }
+.add-link-toggle.action-add { justify-content:flex-start; }
+select:not([multiple]):not([size]),select[size="1"]:not([multiple]) {
+  appearance:none;
+  padding-right:38px;
+  background-image:url("icons/chevron-down.svg");
+  background-repeat:no-repeat;
+  background-position:right 12px center;
+  background-size:16px 16px;
+}
+/* A single border replaces the overlapping accent border, halo and outline. */
+.input:focus,.select:focus,textarea:focus,
+.add-link-panel input:focus,.add-link-panel select:focus,.add-link-panel textarea:focus {
+  border-color:var(--field-focus-border);
+  box-shadow:none;
+  outline:none;
+}
+.search-wrap:focus-within,.notes-search:focus-within {
+  border-color:var(--field-focus-border);
+  box-shadow:none;
+}
+.search-wrap input:focus-visible,.notes-search input:focus-visible { outline:none; }
+@media (forced-colors:active) {
+  select:not([multiple]):not([size]),select[size="1"]:not([multiple]) { appearance:auto; background-image:none; }
+  .action-add::before,.action-more::before { background:ButtonText; }
+  .input:focus,.select:focus,textarea:focus,
+  .add-link-panel input:focus,.add-link-panel select:focus,.add-link-panel textarea:focus,
+  .search-wrap:focus-within,.notes-search:focus-within { outline:1px solid Highlight; outline-offset:1px; }
+}
 .checkbox-setting,.sync-note-toggle,.transfer-section-option { display:flex; align-items:flex-start; gap:10px; cursor:pointer; line-height:1.5; }
 .checkbox-setting input[type="checkbox"],.navigation-choice input,.sync-note-toggle input,.transfer-section-option > input,.transfer-section-main > input,.transfer-subitem > input { flex:0 0 16px; width:16px; height:16px; margin:2px 0 0; accent-color:var(--green); }
 .checkbox-setting > span,.transfer-section-option > span,.transfer-section-main > span,.transfer-subitem > span { display:block; min-width:0; }

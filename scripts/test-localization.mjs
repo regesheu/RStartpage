@@ -94,9 +94,9 @@ for (const [selector, node] of nodes) {
 }
 for (const label of labelNodes) assert.equal(label.textContent, noteCtx.dictionary.en[label.dataset.noteI18n]);
 vm.runInContext("language = 'ru'; translate()", noteCtx);
-assert.equal(nodes.get('#newGroupButton').textContent, '＋ Группа');
+assert.equal(nodes.get('#newGroupButton').textContent, 'Группа');
 vm.runInContext("language = 'en'; translate()", noteCtx);
-assert.equal(nodes.get('#newGroupButton').textContent, '＋ Group');
+assert.equal(nodes.get('#newGroupButton').textContent, 'Group');
 
 // Test the complete worker with asynchronous, callback-based Chrome 121 menu
 // APIs. Concurrent lifecycle/settings events must leave exactly two current items.

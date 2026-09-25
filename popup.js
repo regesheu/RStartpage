@@ -36,8 +36,8 @@ function cache() { document.querySelectorAll('[id]').forEach((node) => { ui[node
 
 function applyText() {
   document.documentElement.lang = language;
-  ui.proxyLabel.textContent = ProxyStore.t(language, 'proxy'); ui.sessionsLabel.textContent = qt('sessions'); ui.sessionsHint.textContent = qt('hint'); ui.saveSessionQuickButton.textContent = `＋ ${qt('save')}`;
-  ui.homeButton.setAttribute('aria-label', qt('home')); ui.createNoteButton.textContent = `＋ ${qt('createNote')}`; ui.homeButton.title = qt('home'); ui.addLinkToggleLabel.textContent = `＋ ${qt('addLink')}`; ui.linkNameLabel.textContent = qt('name'); ui.linkUrlLabel.textContent = qt('url'); ui.linkGroupLabel.textContent = qt('group'); ui.linkDescriptionLabel.textContent = qt('description'); ui.addLinkCancel.textContent = qt('cancel'); ui.addLinkSubmit.textContent = qt('add');
+  ui.proxyLabel.textContent = ProxyStore.t(language, 'proxy'); ui.sessionsLabel.textContent = qt('sessions'); ui.sessionsHint.textContent = qt('hint'); ui.saveSessionQuickButton.textContent = `${qt('save')}`;
+  ui.homeButton.setAttribute('aria-label', qt('home')); ui.createNoteButton.textContent = `${qt('createNote')}`; ui.homeButton.title = qt('home'); ui.addLinkToggleLabel.textContent = `${qt('addLink')}`; ui.linkNameLabel.textContent = qt('name'); ui.linkUrlLabel.textContent = qt('url'); ui.linkGroupLabel.textContent = qt('group'); ui.linkDescriptionLabel.textContent = qt('description'); ui.addLinkCancel.textContent = qt('cancel'); ui.addLinkSubmit.textContent = qt('add');
 }
 
 function bind() {

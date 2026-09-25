@@ -122,7 +122,7 @@ Controls use `sm` or `DEFAULT` radii, cards use `md` or `lg`, and compact status
 
 ### Foundational visual states
 
-Every control has default, hover, focus-visible, active/current, disabled, and busy treatment. Focus uses a two-pixel primary outline with offset. Busy controls preserve width. Success, warning, and error always include text or an icon in addition to color. Loading uses a compact app-owned spinner or stable progress row; skeletons are not part of this product.
+Every control has default, hover, focus-visible, active/current, disabled, and busy treatment. Buttons and links use a two-pixel primary keyboard outline with offset. Text inputs, textareas, native selects and search wrappers use a single one-pixel muted border on focus, without a glow or second outline; forced-colors mode adds a system-color outline. Busy controls preserve width. Success, warning, and error always include text or an icon in addition to color. Loading uses a compact app-owned spinner or stable progress row; skeletons are not part of this product.
 
 ### Buttons and actions
 
@@ -142,7 +142,7 @@ Native selects are intentional: this is a Chrome-only extension and platform-own
 
 ### Iconography
 
-Inline outline SVG icons use rounded strokes at 16–20 px. Text remains beside non-universal navigation icons. Icon-only Home, Settings, close, and reveal controls always have localized accessible names.
+Inline outline SVG icons use rounded strokes at 16–20 px. `refinement.css` owns shared control geometry: `--control-icon-size` (16 px), `--field-focus-border` (the active theme’s muted token), flex/grid centering, and centered single-select chevrons. Add and overflow actions use decorative SVG masks from `icons/plus.svg` and `icons/more-vertical.svg`, keeping labels and accessible names independent of the icon. Native single-select triggers reserve 38 px on the right and use `icons/chevron-down.svg`; native popup and keyboard behavior remain unchanged. Text remains beside non-universal navigation icons. Icon-only Home, Settings, close, and reveal controls always have localized accessible names.
 
 ### Motion
 

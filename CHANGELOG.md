@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.8.4 — 2026-09-25
+
+- Centered workspace tab icons and overflow controls; replaced font-dependent plus and overflow glyphs with shared SVG masks across Home, Notes, Sessions, Proxy and popup actions.
+- Standardized centered chevrons and text clearance for native single-select controls across all extension pages.
+- Replaced overlapping bright input focus rings with a single muted border, retaining keyboard focus indicators and forced-colors support.
+
 ## 1.8.3 — 2026-09-25
 
 - Made English the clean-install default throughout the visible interface and removed hard-coded Russian text from the popup/settings shell.

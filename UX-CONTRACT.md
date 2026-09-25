@@ -50,10 +50,10 @@ Table selection and date controls are not used.
 |---|---|---|---|---|---|---|---|
 | Button | semantic token | surface shift | primary outline | pressed surface | dim, no handler | stable label slot | explicit text/status |
 | Icon button | named control | surface shift | primary outline | pressed surface | dim | stable geometry | status text nearby |
-| Input | bordered surface | unchanged | primary ring | n/a | dim | read-only/disabled | inline message + `aria-invalid` |
-| Secret input | masked | unchanged | primary ring | reveal toggle | dim | n/a | inline message |
-| Search | local immediate filter + clear | unchanged | primary ring | n/a | n/a | n/a | stable empty state |
-| Textarea | resize none | unchanged | primary ring | n/a | dim | n/a | inline message |
+| Input | bordered surface | unchanged | single muted border | n/a | dim | read-only/disabled | inline message + `aria-invalid` |
+| Secret input | masked | unchanged | single muted border | reveal toggle | dim | n/a | inline message |
+| Search | local immediate filter + clear | unchanged | single muted border | n/a | n/a | n/a | stable empty state |
+| Textarea | resize none | unchanged | single muted border | n/a | dim | n/a | inline message |
 | Table/list | bordered rows | surface shift | action focus | selected/current marker | n/a | stable progress row | persistent retry/status |
 
 ## Dataset navigation
