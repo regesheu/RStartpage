@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.8.3 — 2026-09-25
+
+- Made English the clean-install default throughout the visible interface and removed hard-coded Russian text from the popup/settings shell.
+- Localized the popup Create note action and its error state through the selected language.
+- Replaced the misaligned Add Link text chevron with a centered SVG chevron.
+- Updated the release version to 1.8.3.
+
 ## 1.8.2 — 2026-09-24
 
 - Rebuilt the 128×128 extension icon as a valid PNG so Chrome Web Store can process the package.
