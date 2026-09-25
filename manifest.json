@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "RStartpage",
-  "version": "1.8.2",
+  "version": "1.8.3",
   "description": "A customizable Chrome start page for bookmarks, notes, sessions, link tools and optional proxy routing.",
   "minimum_chrome_version": "121",
   "permissions": [
