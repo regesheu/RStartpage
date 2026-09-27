@@ -17,10 +17,11 @@ if [[ -n "${DRIVE_CLIENT_ID:-}" ]]; then
   python3 - <<'PY'
 import json
 import os
+import re
 from pathlib import Path
 
 client_id = os.environ['DRIVE_CLIENT_ID']
-if not client_id.endswith('.apps.googleusercontent.com') or not client_id.split('.')[0].replace('-', '').isdigit():
+if not re.fullmatch(r'[0-9]+-[a-z0-9-]+\.apps\.googleusercontent\.com', client_id):
     raise SystemExit('DRIVE_CLIENT_ID must be a Google OAuth client ID')
 path = Path('manifest.json')
 manifest = json.loads(path.read_text(encoding='utf-8'))
