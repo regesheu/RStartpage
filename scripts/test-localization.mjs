@@ -13,6 +13,7 @@ const ctx = vm.createContext({ console, URL, setTimeout, clearTimeout, navigator
 vm.runInContext(read('shared.js') + '\nglobalThis.RS = RStartpage;', ctx, { filename: 'shared.js' });
 const RS = ctx.RS;
 assert.equal((await RS.loadSettings()).language, 'en', 'clean install ignores Russian browser locale');
+assert.equal((await RS.loadSettings()).theme, 'dark', 'clean install starts with dark theme');
 await RS.saveSettings({ language: 'ru' });
 assert.equal((await RS.loadSettings()).language, 'ru', 'explicit Russian choice survives');
 await RS.saveSettings({ language: 'de' });

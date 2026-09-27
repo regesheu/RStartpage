@@ -145,6 +145,7 @@ await RS.saveSettings({ language: 'en', productName: 'Changed' });
 await RS.saveBackgroundImage('');
 await RTransfer.restore(parsed, ['settings'], 'replace');
 assert.equal((await RS.loadSettings()).productName, 'My workspace');
+assert.equal((await RS.loadSettings()).language, 'en', 'archive cannot change current interface language');
 assert.equal(await RS.loadBackgroundImage(), 'data:image/png;base64,YWJj');
 
 const before = JSON.stringify({ sync: sync.values, local: local.values });

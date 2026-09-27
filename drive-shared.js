@@ -1,6 +1,6 @@
 'use strict';
 
-/* Google Drive App Data transport. Set oauth2.client_id in manifest.json before publishing. */
+/* Google Drive App Data transport. The release build injects the extension OAuth client ID. */
 const RDrive = (() => {
   const ROOT = 'rstartpage-drive';
   const META_KEY = 'rstartpageDriveState';

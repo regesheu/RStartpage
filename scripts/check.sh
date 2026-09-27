@@ -34,6 +34,8 @@ if not valid_version:
 client_id = (manifest.get("oauth2") or {}).get("client_id", "")
 if client_id and re.search(r"REPLACE|PLACEHOLDER|YOUR_", client_id, re.I):
     raise SystemExit("Placeholder OAuth client_id must not be shipped")
+if client_id and not re.fullmatch(r"[0-9]+-[a-z0-9-]+\.apps\.googleusercontent\.com", client_id):
+    raise SystemExit("Invalid Google OAuth client_id")
 
 required_sizes = {"16": 16, "32": 32, "48": 48, "128": 128}
 icons = manifest.get("icons") or {}
