@@ -12,7 +12,7 @@
       preview: 'Восстановление', merge: 'Объединить с текущими данными', replace: 'Заменить выбранные разделы', restore: 'Восстановить', cancel: 'Отмена',
       replaceText: 'Текущие данные выбранных разделов будут заменены. Остальные разделы останутся без изменений.', mergeText: 'Данные будут добавлены. Выбранные настройки и фон заменят текущие. Перед восстановлением сохраните локальный архив.',
       done: 'Данные восстановлены.', exported: 'Архив подготовлен.', select: 'Выберите хотя бы один раздел.', invalid: 'Не удалось прочитать архив. Выберите ZIP или JSON, экспортированный из RStartpage.', size: 'Файл слишком большой. Максимум 64 МБ.', failed: 'Операция не завершена. Часть данных могла сохраниться. Проверьте разделы перед повтором.',
-      drive: 'Google Drive', driveHint: 'Резервные копии в папке приложения', connect: 'Подключить Google Drive', disconnect: 'Отключить', connected: 'Подключён', disconnected: 'Не подключён',
+      connecting: 'Подключение Google Drive…', authorizing: 'Ожидаем вход в Google. Окно входа откроется автоматически; это может занять несколько секунд.', checking: 'Вход выполнен. Проверяем доступ к Google Drive…', hideProgress: 'Скрыть', backgroundProgress: 'Подключение продолжится после закрытия этого окна.', drive: 'Google Drive', driveHint: 'Резервные копии в папке приложения', connect: 'Подключить Google Drive', disconnect: 'Отключить', connected: 'Подключён', disconnected: 'Не подключён',
       unavailable: 'В этой сборке подключение Google Drive ещё не настроено. Локальное сохранение и восстановление архивов доступны.',
       offline: 'Подключите Google Drive, чтобы сохранять, скачивать и восстанавливать облачные копии.', online: 'Копии доступны только этому расширению. В каждой копии сохраняются все разделы и фон.',
       create: 'Создать копию всего', refresh: 'Обновить список', empty: 'Резервных копий пока нет', emptyHint: 'После подключения здесь появятся ваши облачные копии.', download: 'Скачать', remove: 'Удалить',
@@ -26,12 +26,12 @@
       bookmarks: 'Links', bookmarksHint: 'Workspaces, groups and bookmarks', notes: 'Notes', notesHint: 'Text, groups, tags and sources', proxies: 'Proxy', proxiesHint: 'Connection profiles', sessions: 'Sessions', sessionsHint: 'Saved windows and tabs', settings: 'Settings and wallpaper', settingsHint: 'Appearance, navigation and image', rules: 'Proxy rules',
       smartRules: 'Smart Proxy Rules', smartRulesHint: 'Included with the Proxy section.', all: 'Select all', passwords: 'Proxy passwords', passwordHint: 'Excluded by default. The archive is not encrypted.', export: 'Save archive', exportHint: 'A ZIP with the selected sections, ready to move to another device.', import: 'Upload archive', importHint: 'A RStartpage ZIP or JSON from earlier versions. Maximum 64 MB.', choose: 'Choose file', preview: 'Restore data', merge: 'Merge with current data', replace: 'Replace selected sections', restore: 'Restore', cancel: 'Cancel',
       replaceText: 'Current data in the selected sections will be replaced. Other sections will stay unchanged.', mergeText: 'Data will be added. Selected settings and wallpaper will replace current preferences. Save a local archive before restoring.', done: 'Data restored.', exported: 'Archive prepared.', select: 'Choose at least one section.', invalid: 'Cannot read this archive. Choose a ZIP or JSON exported from RStartpage.', size: 'The file is too large. Maximum 64 MB.', failed: 'The operation did not finish. Some data may have been saved. Check the sections before trying again.',
-      drive: 'Google Drive', driveHint: 'Backups in the application folder', connect: 'Connect Google Drive', disconnect: 'Disconnect', connected: 'Connected', disconnected: 'Not connected', unavailable: 'Google Drive connection has not been configured in this build. Local archive export and restore are available.', offline: 'Connect Google Drive to save, download and restore cloud backups.', online: 'Only this extension can access these copies. Each backup includes every section and the wallpaper.', create: 'Back up everything', refresh: 'Refresh list', empty: 'No backups yet', emptyHint: 'Your cloud backups will appear here after connecting.', download: 'Download', remove: 'Delete', deleteTitle: 'Delete backup?', deleteText: 'This copy will be permanently deleted from Google Drive. Extension data will be kept.', driveError: 'Google Drive is unavailable. Check your connection and access permission, then reconnect.', saved: 'Backup saved.', deleted: 'Backup deleted.', loading: 'Working…',
+      connecting: 'Connecting Google Drive…', authorizing: 'Waiting for Google sign-in. The sign-in window will open automatically; this may take a few seconds.', checking: 'Signed in. Checking Google Drive access…', hideProgress: 'Hide', backgroundProgress: 'Connecting will continue after you close this window.', drive: 'Google Drive', driveHint: 'Backups in the application folder', connect: 'Connect Google Drive', disconnect: 'Disconnect', connected: 'Connected', disconnected: 'Not connected', unavailable: 'Google Drive connection has not been configured in this build. Local archive export and restore are available.', offline: 'Connect Google Drive to save, download and restore cloud backups.', online: 'Only this extension can access these copies. Each backup includes every section and the wallpaper.', create: 'Back up everything', refresh: 'Refresh list', empty: 'No backups yet', emptyHint: 'Your cloud backups will appear here after connecting.', download: 'Download', remove: 'Delete', deleteTitle: 'Delete backup?', deleteText: 'This copy will be permanently deleted from Google Drive. Extension data will be kept.', driveError: 'Google Drive is unavailable. Check your connection and access permission, then reconnect.', saved: 'Backup saved.', deleted: 'Backup deleted.', loading: 'Working…',
       folder: 'From browser bookmarks', folderHint: 'Copy a Chrome folder into RStartpage links.', copy: 'Copy folder', copied: 'Bookmarks copied.', noFolders: 'No folders available',
       help: 'Help', helpTitle: 'Data help', helpIntro: 'Export, import and backups for every RStartpage section live here.', helpLocal: 'Local archive. Select the sections you need and save a ZIP file to this device. Use Select all for a complete transfer.', helpProxy: 'Proxy. Smart Proxy Rules are included with the Proxy section. Passwords require a separate checkbox because the ZIP archive is not encrypted.', helpRestore: 'Restore. Merge adds data to what you have; Replace overwrites only the selected sections. Save an archive before replacing data.', helpDrive: 'Google Drive. When configured in this build, a cloud backup contains every section and the wallpaper and is available only to this extension.', helpSafety: 'Security. Verify where an archive came from before importing it, and keep archives containing passwords in a protected location.', doneHelp: 'Done', close: 'Close',
     },
   };
-  let lang = 'en', pending = null, busy = false, connected = false;
+  let lang = 'en', pending = null, busy = false, connected = false, connectionPhase = '', restoreDriveFocus = false;
   const $ = id => document.getElementById(id);
   const tr = key => COPY[lang][key] || key;
   const text = key => `<span data-transfer-text="${key}">${tr(key)}</span>`;
@@ -55,8 +55,9 @@
       <div id="transferNotice" class="transfer-notice" role="status" aria-live="polite" hidden></div>
       <section id="archivePreview" class="archive-preview" aria-labelledby="archivePreviewTitle" hidden><h4 id="archivePreviewTitle">${text('preview')}</h4><p id="archiveFilename"></p><fieldset id="importSections" class="transfer-sections"><legend class="sr-only">${text('preview')}</legend></fieldset><label class="field"><select id="archiveMode" class="select" aria-label="${tr('preview')}"><option value="merge">${tr('merge')}</option><option value="replace">${tr('replace')}</option></select></label><div class="appearance-actions"><button id="archiveRestore" class="button primary" type="button">${text('restore')}</button><button id="archiveCancel" class="button" type="button">${text('cancel')}</button></div></section>
       <details class="browser-folder-import"><summary>${text('folder')}</summary><p>${text('folderHint')}</p><div class="appearance-actions"><select id="browserFolder" class="select" aria-label="${tr('folder')}"></select><button id="browserFolderImport" type="button" class="button">${text('copy')}</button></div></details>
-      <section class="drive-settings" aria-labelledby="driveHeading"><div class="data-section-heading"><div><h3 id="driveHeading">${text('drive')}</h3><p>${text('driveHint')}</p></div><span id="driveStatus" class="drive-status"></span></div><p id="driveMessage" class="drive-message"></p><div class="appearance-actions"><button id="driveConnect" class="button" type="button"></button><button id="driveCreate" class="button primary" type="button" disabled>${text('create')}</button><button id="driveRefresh" class="button" type="button" disabled>${text('refresh')}</button></div><div id="driveBackups" class="drive-backups" aria-live="polite"></div></section>`;
+      <section class="drive-settings" aria-labelledby="driveHeading"><div class="data-section-heading"><div><h3 id="driveHeading">${text('drive')}</h3><p>${text('driveHint')}</p></div><span id="driveStatus" class="drive-status" role="status"></span></div><p id="driveMessage" class="drive-message" role="status"></p><div class="appearance-actions"><button id="driveConnect" class="button" type="button"></button><button id="driveCreate" class="button primary" type="button" disabled>${text('create')}</button><button id="driveRefresh" class="button" type="button" disabled>${text('refresh')}</button></div><div id="driveBackups" class="drive-backups" aria-live="polite"></div></section>`;
     $('dataHelpDialog').innerHTML = `<form method="dialog" novalidate><div class="dialog-header"><div><div class="eyebrow">RStartpage</div><h2>${text('helpTitle')}</h2></div><button id="dataHelpClose" class="icon-button small" type="submit" aria-label="${tr('close')}">×</button></div><div class="module-help-content"><p>${text('helpIntro')}</p><p>${text('helpLocal')}</p><p>${text('helpProxy')}</p><p>${text('helpRestore')}</p><p>${text('helpDrive')}</p><p>${text('helpSafety')}</p></div><div class="dialog-actions"><button class="button primary" type="submit">${text('doneHelp')}</button></div></form>`;
+    $('driveConnectDialog').innerHTML = `<form method="dialog" novalidate><h2 id="driveConnectTitle">${text('connecting')}</h2><div class="drive-connect-progress" role="status"><span class="drive-spinner" aria-hidden="true"></span><p id="driveConnectProgress"></p></div><p class="field-hint">${text('backgroundProgress')}</p><div class="dialog-actions"><button class="button" type="submit" autofocus>${text('hideProgress')}</button></div></form>`;
     const module = new URLSearchParams(location.search).get('module');
     if (RTransfer.SECTIONS.includes(module)) $('transferSections').querySelectorAll('input[data-section]').forEach(input => { input.checked = input.dataset.section === module; });
     $('selectAllData').onclick = () => { $('transferSections').querySelectorAll('input[data-section]').forEach(input => { input.checked = true; }); updateButtons(); };
@@ -71,7 +72,7 @@
     };
     $('archiveCancel').onclick = () => { pending = null; $('archivePreview').hidden = true; updateButtons(); };
     $('archiveRestore').onclick = () => run(restore);
-    $('driveConnect').onclick = () => run(async () => { if (connected) await RDrive.disconnect(); else await RDrive.connect(); await refreshDrive(); }, true);
+    $('driveConnect').onclick = () => run(changeDriveConnection, true);
     $('driveRefresh').onclick = () => run(refreshDrive, true);
     $('driveCreate').onclick = () => run(async () => { await RDrive.upload(`rstartpage-archive-${Date.now()}.json`, await RTransfer.collect(RTransfer.SECTIONS, $('transferPasswords').checked)); notice(tr('saved')); await refreshDrive(); }, true);
     $('browserFolderImport').onclick = () => run(async () => { const portable = await RStartpage.portableFromFolderId($('browserFolder').value); await RStartpage.importPortable(portable, { mode: 'merge', skipDuplicates: true, importSettings: false }); notice(tr('copied')); });
@@ -100,6 +101,8 @@
     $('archiveFile').disabled = busy;
     $('transferPasswords').disabled = busy || !$('transferSections').querySelector('input[data-section="proxies"]').checked;
     $('driveConnect').disabled = busy || !RDrive.isConfigured();
+    $('driveConnect').classList.toggle('drive-connecting', !!connectionPhase);
+    $('driveConnect').setAttribute('aria-busy', String(!!connectionPhase));
     $('driveCreate').disabled = busy || !connected;
     $('driveRefresh').disabled = busy || !connected;
     $('browserFolderImport').disabled = busy || !$('browserFolder').value;
@@ -113,7 +116,7 @@
       const message = error.message === 'SYNC_QUOTA' ? (lang === 'ru' ? 'В архиве слишком много заметок с включённой синхронизацией. Лимит Chrome Sync — 70 КБ; данные не изменены.' : 'The archive exceeds the 70 KB Chrome Sync limit for notes. No data was changed.') : error.message === 'NOTES_CAPACITY' ? (lang === 'ru' ? 'После объединения будет превышен лимит 500 заметок или 100 групп. Выберите замену или освободите место.' : 'Merging exceeds the limit of 500 notes or 100 groups. Choose replace or free up space.') : tr(error.message === 'ARCHIVE_INVALID' ? 'invalid' : drive ? 'driveError' : 'failed');
       notice(message, true);
     }
-    finally { busy = false; updateButtons(); }
+    finally { busy = false; updateButtons(); if (restoreDriveFocus) { restoreDriveFocus = false; $('driveConnect').focus(); } }
   }
   function preview(archive, name) {
     pending = archive;
@@ -136,7 +139,42 @@
     // Refresh the settings form as well as the applied theme after restoration.
     if (keys.includes('settings')) document.dispatchEvent(new CustomEvent('rstartpage:restore-settings'));
   }
+  async function changeDriveConnection() {
+    if (connected) {
+      await RDrive.disconnect();
+      await refreshDrive();
+      return;
+    }
+    connectionPhase = 'authorizing';
+    updateDriveLabels(); updateButtons();
+    $('driveConnectDialog').showModal();
+    try {
+      await RDrive.connect(() => {
+        connectionPhase = 'checking';
+        updateDriveLabels();
+      });
+    } catch (error) {
+      // Keep a persistent, local explanation after cancel/error; allow retry.
+      connectionPhase = '';
+      updateDriveLabels();
+      $('driveMessage').textContent = tr('driveError');
+      throw error;
+    } finally {
+      connectionPhase = '';
+      restoreDriveFocus = $('driveConnectDialog').open;
+      $('driveConnectDialog').close();
+      updateButtons();
+    }
+    await refreshDrive();
+  }
   function updateDriveLabels() {
+    if (connectionPhase) {
+      $('driveStatus').textContent = tr('connecting');
+      $('driveStatus').classList.remove('connected');
+      $('driveMessage').textContent = tr(connectionPhase);
+      $('driveConnectProgress').textContent = tr(connectionPhase);
+      return;
+    }
     $('driveStatus').textContent = tr(connected ? 'connected' : 'disconnected');
     $('driveStatus').classList.toggle('connected', connected);
     $('driveConnect').textContent = tr(connected ? 'disconnect' : 'connect');

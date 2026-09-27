@@ -32,7 +32,7 @@ const RDrive = (() => {
     } while (pageToken);
     return { files };
   }
-  async function connect() { await token(true); await list(); await chrome.storage.local.set({ [META_KEY]: { connected: true, account: 'Google Drive', connectedAt: Date.now() } }); return state(); }
+  async function connect(onAuthorized = () => {}) { await token(true); onAuthorized(); await list(); await chrome.storage.local.set({ [META_KEY]: { connected: true, account: 'Google Drive', connectedAt: Date.now() } }); return state(); }
   async function disconnect() { try { const access = await token(false); await chrome.identity.removeCachedAuthToken({ token: access }); } catch (_) {} await chrome.storage.local.set({ [META_KEY]: { connected: false, account: '' } }); }
   async function upload(name, value, existingId = '') {
     const body = JSON.stringify(value);

@@ -168,7 +168,9 @@ context.fetch = async (url, options) => {
   requests.push({ url, options });
   return { ok: true, status: options.method === 'DELETE' ? 204 : 200, json: async () => url.includes('pageToken=next') ? { files: [{ id: 'second' }] } : url.includes('spaces=appDataFolder') ? { nextPageToken: 'next', files: [{ id: 'first' }] } : { id: 'uploaded' } };
 };
-await RDrive.connect();
+let authorizationSteps = 0;
+await RDrive.connect(() => { authorizationSteps++; assert.equal(requests.length, 0, 'authorization feedback precedes the Drive access check'); });
+assert.equal(authorizationSteps, 1);
 assert.equal((await RDrive.state()).connected, true);
 assert.equal((await RDrive.list()).files.length, 2, 'Drive follows pagination');
 await RDrive.upload('rstartpage-archive-test.json', archive);

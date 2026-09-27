@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.8.6 — Unreleased
+
+- Show immediate Google Drive connection feedback in a compact progress dialog and a stable busy button; explain sign-in waiting and access verification in English and Russian.
+- Keep connection errors visible and support retry, keyboard dismissal, focus restoration and reduced motion. Chrome owns the separate Google sign-in window and its dimensions.
+
 ## 1.8.4 — 2026-09-25
 
 - Centered workspace tab icons and overflow controls; replaced font-dependent plus and overflow glyphs with shared SVG masks across Home, Notes, Sessions, Proxy and popup actions.

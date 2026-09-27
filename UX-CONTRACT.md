@@ -160,3 +160,11 @@ Table selection and date controls are not used.
 - Project audit command/result: recorded in task completion.
 - CRUD full-flow evidence: recorded in task completion.
 - Failure-path evidence: invalid JSON, invalid proxy import, failed URL check, and validation failures.
+
+### Google Drive connection (1.8.6)
+
+- `settings-data.js` owns connection feedback; `RDrive.connect(onAuthorized)` reports the transition from authorization to access verification.
+- A compact native `<dialog>` appears synchronously with the click. The button keeps its geometry and cannot start a duplicate request. Status copy is available in English and Russian.
+- Hide / Escape dismisses feedback only; it does not claim to cancel Chrome authorization. On completion the still-open dialog closes and focus returns to the enabled connection action. Errors remain inline and allow retry.
+- `settings.css` uses existing semantic border/green tokens for the spinner and respects reduced motion. The separate Chrome identity window remains browser-owned; `getAuthToken` has no size option.
+- Browser regression: `scripts/test-drive-ui.cjs` (Playwright, with mocked identity and Drive responses); real account consent is a separate manual check in an OAuth-configured extension.
