@@ -11,6 +11,24 @@ if [[ -d "$ROOT_DIR/source-bundle" ]]; then
   bash "$ROOT_DIR/scripts/bootstrap-source.sh"
 fi
 
+# The OAuth client is bound to the published Chrome Web Store extension ID.
+# Keep the repository usable without credentials; require the ID in release CI.
+if [[ -n "${DRIVE_CLIENT_ID:-}" ]]; then
+  python3 - <<'PY'
+import json
+import os
+from pathlib import Path
+
+client_id = os.environ['DRIVE_CLIENT_ID']
+if not client_id.endswith('.apps.googleusercontent.com') or not client_id.split('.')[0].replace('-', '').isdigit():
+    raise SystemExit('DRIVE_CLIENT_ID must be a Google OAuth client ID')
+path = Path('manifest.json')
+manifest = json.loads(path.read_text(encoding='utf-8'))
+manifest['oauth2']['client_id'] = client_id
+path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+PY
+fi
+
 VERSION="$(python3 - <<'PY'
 import json
 print(json.load(open('manifest.json', encoding='utf-8'))['version'])

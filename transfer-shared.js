@@ -85,7 +85,10 @@ const RTransfer = (() => {
     if (keys.includes('sessions')) await RTools.importSessions(data.sessions, { merge });
     if (keys.includes('rules')) await ProxyStore.importRules(data.rules);
     if (keys.includes('settings')) {
-      await RStartpage.saveSettings(data.settings.preferences);
+      // The interface language belongs to this installation, not the archive.
+      // Restoring a Russian backup into an English UI must not switch the UI.
+      const { language } = await RStartpage.loadSettings();
+      await RStartpage.saveSettings({ ...data.settings.preferences, language });
       if (Object.hasOwn(data.settings, 'backgroundImage')) await RStartpage.saveBackgroundImage(data.settings.backgroundImage);
     }
     if (keys.includes('proxies') || keys.includes('rules')) await chrome.runtime.sendMessage({ type: 'proxy:refreshConfig' }).catch(() => {});
