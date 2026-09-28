@@ -16,9 +16,12 @@ jobs:
       - name: Build Opera package
         env:
           OPERA_DRIVE_CLIENT_ID: ${{ secrets.OPERA_DRIVE_CLIENT_ID }}
+          OPERA_PACKAGE_PRIVATE_KEY_PEM: ${{ secrets.OPERA_PACKAGE_PRIVATE_KEY_PEM }}
         run: bash scripts/build.sh opera
       - name: Verify Opera adapters and package
-        run: node scripts/test-opera.mjs
+        run: |
+          node scripts/test-opera.mjs
+          python3 scripts/test-opera-crx.py
       - name: Install Chromium runtime test tools
         run: |
           npm install --prefix "$RUNNER_TEMP/browser-tools" playwright@1.51.1
@@ -37,5 +40,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: RStartpage-Opera
-          path: dist/RStartpage-Opera-*.zip
+          path: |
+            dist/RStartpage-Opera-*.zip
+            dist/RStartpage-Opera-*.crx
           if-no-files-found: error

@@ -6,6 +6,7 @@ from pathlib import Path
 import re
 import shutil
 import sys
+import subprocess
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -125,3 +126,6 @@ with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED) as output:
             info.external_attr = 0o100644 << 16
             output.writestr(info, path.read_bytes())
 print(archive)
+
+if TARGET == 'opera':
+    subprocess.run([sys.executable, str(ROOT / 'scripts/package-opera-crx.py'), str(archive)], check=True)

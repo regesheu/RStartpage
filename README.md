@@ -24,6 +24,8 @@ RStartpage is a local-first Chrome and Firefox New Tab workspace for bookmarks, 
 A separate Opera desktop build uses the same **1.9.0** version as Firefox.
 Build with `bash scripts/build.sh opera` on `opera-support`, or download the
 **RStartpage-Opera** artifact from the **Build Opera** workflow.
+Upload the generated **.crx** to Opera Add-ons; the ZIP is for unpacked installation.
+The CRX3 packaging key stays private and can be supplied as `OPERA_PACKAGE_PRIVATE_KEY_PEM`.
 Google Drive uses a public Web OAuth client configured through
 `OPERA_DRIVE_CLIENT_ID`. See [the step-by-step Opera guide](OPERA_RU.md).
 Opera preferences stay local; Drive provides note sync and full backups.
