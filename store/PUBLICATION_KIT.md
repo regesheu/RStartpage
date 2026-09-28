@@ -125,3 +125,15 @@ Use five 1280×800 screenshots from the actual release:
 5. Tools — Duplicate Finder and/or Link Checker results.
 
 Use the same theme and accent in all shots. Do not show private bookmarks, internal hosts/IPs, proxy credentials, personal session URLs, email addresses or authentication data.
+
+### alarms (1.8.6)
+
+Schedules background note synchronization and checks for daily Google Drive backups while Chrome is running. Pending local changes survive service-worker suspension.
+
+### unlimitedStorage (1.8.6)
+
+Stores notes, offline synchronization state and pre-restore recovery copies locally without the default extension storage quota. Data is not sent to the developer.
+
+### identity / Google Drive (1.8.6)
+
+After an explicit connection, authenticates access to the user's private application-data folder for automatic note synchronization, daily backups and requested backup operations. Automatic and pre-restore backups exclude proxy passwords; changing accounts requires confirmation before local notes are uploaded to a different account.

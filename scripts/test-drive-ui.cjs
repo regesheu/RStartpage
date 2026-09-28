@@ -24,13 +24,14 @@ const root = path.resolve(__dirname, '..');
             },
             removeCachedAuthToken: async () => {},
           },
-          storage: { local: { get: async key => ({ [key]: store[key] }), set: async value => Object.assign(store, value) } },
+          storage: { onChanged:{addListener(){}}, local: { get: async key => Array.isArray(key) ? Object.fromEntries(key.map(k=>[k,store[k]])) : ({ [key]: store[key] }), set: async value => Object.assign(store, value) } },
         };
-        window.fetch = async () => {
+        window.fetch = async url => {
           if (testState.holdAccessCheck) await new Promise(resolve => { testState.finishAccessCheck = resolve; });
-          return { ok: true, status: 200, json: async () => ({ files: [] }) };
+          return { ok: true, status: 200, json: async () => url.includes('/about?') ? {user:{permissionId:'test-account',emailAddress:'test@example.com'}} : ({ files: [] }) };
         };
         window.RStartpage = { loadSettings: async () => ({ language }), getLanguage: () => language, getBookmarkFoldersForImport: async () => [] };
+        window.RBackups = { RECOVERY_KEY:'test-recovery' };
         window.RTransfer = { SECTIONS: ['bookmarks', 'notes', 'proxies', 'sessions', 'settings'] };
       }, { language });
       await page.route('https://rstartpage.test/**', route => {
@@ -43,7 +44,7 @@ const root = path.resolve(__dirname, '..');
       const button = page.locator('#driveConnect');
       const description = page.locator('#driveDescription');
       await description.waitFor();
-      assert.match(await description.textContent(), language === 'ru' ? /автоматической синхронизации изменений через Drive нет/ : /Drive does not sync changes automatically/);
+      assert.match(await description.textContent(), language === 'ru' ? /автоматически синхронизировать/ : /automatically sync/);
       assert.match(await description.textContent(), language === 'ru' ? /всех заметок/ : /all notes/);
       await button.waitFor();
       const width = (await button.boundingBox()).width;
@@ -67,7 +68,7 @@ const root = path.resolve(__dirname, '..');
       assert.match(await page.locator('#driveConnectProgress').textContent(), language === 'ru' ? /Проверяем доступ/ : /Checking Google Drive/);
       await page.evaluate(() => { testState.holdAccessCheck = false; testState.finishAccessCheck(); });
       await page.waitForFunction(() => !document.querySelector('#driveConnect').disabled);
-      assert.equal(await page.locator('#driveStatus').textContent(), language === 'ru' ? 'Подключён' : 'Connected');
+      assert.match(await page.locator('#driveStatus').textContent(), language === 'ru' ? /Подключён/ : /Connected/);
       assert.equal(await page.locator('#driveCreate').isDisabled(), false);
       await button.click(); // disconnect
       await page.waitForFunction(() => !document.querySelector('#driveConnect').disabled);

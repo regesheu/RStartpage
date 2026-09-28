@@ -2,11 +2,14 @@
 
 ## 1.8.6 — Unreleased
 
-- Hide the Notes Chrome Sync quota meter, per-note checkboxes and quota prompt while Google Drive is connected; restore them live on disconnect without changing saved sync choices or open drafts.
-- Explain Google Drive backup benefits, manual creation/restoration and the distinction from automatic sync in English and Russian.
-
-- Show immediate Google Drive connection feedback in a compact progress dialog and a stable busy button; explain sign-in waiting and access verification in English and Russian.
-- Keep connection errors visible and support retry, keyboard dismissal, focus restoration and reduced motion. Chrome owns the separate Google sign-in window and its dimensions.
+- Automatically synchronize all notes, groups, tags and deletions through Google Drive, without Chrome Sync storage limits. Offline changes persist and retry in the background.
+- Track causal versions: sequential edits update in place; concurrent edits keep the newer primary version and a localized conflict copy. Immutable per-device snapshots prevent simultaneous uploads from overwriting one another.
+- Replace the Chrome quota meter with a compact Drive size/status row and retry action. Remove fixed note-count and title/content-length limits, including import/restore paths.
+- Bind synchronization to a verified Google account; confirm merges before switching accounts. After disconnect, all notes remain local and Chrome Sync selections are opt-in again.
+- Create daily full backups when data changes while Chrome is running; retain the latest 10 automatic copies. Show backup kind, device, date and size. Manual and pre-restore copies are not automatically deleted.
+- Save a recovery copy before replacing data, locally and in Drive when connected. Automatic/pre-restore copies exclude proxy passwords; failed safety-copy creation stops the restore.
+- Explain note sync, backup retention, offline behavior and hidden application storage in English and Russian. Update privacy documentation and permission justifications for alarms and unlimited local storage.
+- Show immediate Google Drive connection feedback, sign-in/access-check stages, persistent errors, retry, focus restoration and reduced-motion support.
 
 ## 1.8.4 — 2026-09-25
 

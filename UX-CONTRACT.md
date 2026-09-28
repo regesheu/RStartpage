@@ -143,7 +143,7 @@ Table selection and date controls are not used.
 - The Settings label is Data / Данные. Home, Proxy, Sessions and Notes expose the same icon-only Export / Import shortcut beside a matching Help control; Tools intentionally has no transfer shortcut.
 - One ZIP format contains selected sections; legacy per-module JSON is accepted. Settings include wallpaper. Proxy passwords require opt-in; Google credentials and connection tokens never enter an archive.
 - Smart Proxy Rules are included with Proxy. The sensitive Proxy passwords choice is nested beneath Proxy, remains off by default and is disabled when Proxy is not selected.
-- Restore shows the archive name, selectable sections and merge/replace mode, then confirms the affected sections. Schema, note capacity and sync quota are checked before writes. Runtime storage failures can leave partial writes and are reported explicitly.
+- Restore shows the archive name, selectable sections and merge/replace mode, then confirms the affected sections. Schema and, when Chrome Sync is used, its quota are checked before writes. Runtime storage failures can leave partial writes and are reported explicitly.
 - Note restore preserves IDs, timestamps and sync choices; repeat merge does not create duplicate notes. Unselected sections are untouched.
 - Google Drive follows local transfer controls. Unconfigured OAuth shows an explanation and disabled actions. Connected state exposes creation, refresh, download, restore preview and confirmed deletion. API requests have a timeout and list pagination.
 - Busy state prevents duplicate mutations. Disabled controls explain unavailable connection through adjacent copy; local archives remain usable offline.
@@ -171,8 +171,12 @@ Table selection and date controls are not used.
 
 ### Notes with Google Drive (1.8.6)
 
-- `RDrive.META_KEY` / `RDrive.state()` own the device-local connection state. Notes observes changes without reloading the page or replacing an open draft.
-- A configured, connected Drive hides the Chrome Sync meter, card/editor sync checkboxes and quota suggestion. Disconnect restores them. No note sync preferences or stored data are changed by this visibility rule.
-- Drive remains manual backup/restore, not automatic note synchronization. Settings → Data explains purpose, scope, cross-device restore and the separate Chrome Sync quota in EN/RU. Existing Chrome Sync selections and their quota continue to apply.
-- When a focused sync control is hidden, focus moves to Save in the editor or Edit on its card.
-- Browser regression: `scripts/test-notes-drive-ui.cjs` uses real note storage code with mocked Chrome storage; covers initial and live connection states, draft/sync preservation, creation/editing, focus, EN/RU and narrow viewport.
+- `notes-sync.js` owns device-local causal state; `drive-shared.js` owns verified account sessions; `drive-worker.js` owns debounce, persistent alarms and background retries. Shared Web Locks serialize local mutations across extension pages and worker.
+- Configured, connected Drive replaces the Chrome quota meter with data size, sync state and retry. All notes/groups/tags/deletions sync; Chrome storage.sync is not written by Drive note mutations. The fixed count and title/content caps are removed. Archive input retains its existing 64 MB safety bound.
+- Each device publishes immutable causal snapshots. Sequential versions supersede older ones regardless of wall clock. Concurrent versions choose the newer timestamp with a deterministic tie-break and preserve the other non-identical text as a separate conflict copy. Deletion markers are retained. An open editor carries its observed version to avoid overwriting a downloaded change silently.
+- Edits are saved locally first; dirty state survives offline/restart. Success is shown only after confirmed upload; edits during an upload remain pending. Network sessions use one token checked against the bound account. A changed account pauses sync. Explicit reconnection to a different account asks to merge local notes or cancel.
+- Drive disconnection retains local notes and pending causal state. Chrome Sync choices restart off to avoid applying its quota to large Drive notes; users explicitly opt individual notes back in.
+- `drive-backups.js` creates daily changed-data backups while Chrome is running, retaining the latest 10 automatic copies across devices. Manual and pre-restore copies are excluded from retention. All non-manual copies exclude proxy passwords. Metadata identifies device, size, time and type.
+- Before replace restore, validate and reconcile note state, retain a local recovery copy, and save a cloud recovery copy if connected. Failure stops replacement. Local recovery is downloadable from Settings → Data. Restored notes become new causal versions; old cloud data does not silently undo restore.
+- Notes refresh on local storage events without replacing unsaved editor text or group choice. Hiding a focused sync checkbox moves focus to Save/Edit. Owned copy, statuses and conflict labels ship in EN/RU.
+- Tests: `scripts/test-notes-sync.mjs`, `scripts/test-localization.mjs`, `scripts/test-drive-ui.cjs`, `scripts/test-notes-drive-ui.cjs`. Real OAuth consent remains a separate check in a configured extension.

@@ -58,7 +58,7 @@ const document = {
 };
 let confirmation;
 const note = { id: 'note', title: '', content: 'Example', tags: ['work'], groupId: 'work', updatedAt: 1, createdAt: 1 };
-const noteCtx = vm.createContext({ console, document, window: { addEventListener() {} }, setTimeout: fn => fn(),
+const noteCtx = vm.createContext({ console, document, RNoteSync: { STATUS_KEY:'notes-status' }, chrome: { storage: { local: { get: async () => ({}) } } }, window: { addEventListener() {} }, setTimeout: fn => fn(),
   RStartpage: { pageTitle: value => value, escapeHtml: value => String(value), confirmAction: async value => { confirmation = value; return false; } },
   RDrive: { configured: true, connected: false, isConfigured() { return this.configured; }, async state() { return { connected: this.connected }; } },
   RNotes: {

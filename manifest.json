@@ -13,7 +13,9 @@
     "webRequestAuthProvider",
     "tabs",
     "contextMenus",
-    "identity"
+    "identity",
+    "alarms",
+    "unlimitedStorage"
   ],
   "chrome_url_overrides": {
     "newtab": "newtab.html"

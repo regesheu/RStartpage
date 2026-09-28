@@ -1,0 +1,41 @@
+name: Verify extension changes
+on:
+  push:
+    branches: [release_1.8.6]
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Restore source and verify behavior
+        run: |
+          bash scripts/bootstrap-source.sh
+          bash scripts/check.sh
+      - name: Install browser test tools outside the release directory
+        run: |
+          npm install --prefix "$RUNNER_TEMP/browser-tools" playwright@1.51.1
+          node "$RUNNER_TEMP/browser-tools/node_modules/playwright/cli.js" install --with-deps chromium
+      - name: Browser regressions
+        env:
+          BROWSER_CHANNEL: chromium
+        run: |
+          export PLAYWRIGHT_MODULE="$RUNNER_TEMP/browser-tools/node_modules/playwright"
+          export SCREENSHOT_DIR="$RUNNER_TEMP/screenshots"
+          mkdir -p "$SCREENSHOT_DIR"
+          node scripts/test-drive-ui.cjs
+          node scripts/test-notes-drive-ui.cjs
+      - name: Package extension
+        run: bash scripts/build.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-screenshots
+          path: ${{ runner.temp }}/screenshots
+          if-no-files-found: ignore

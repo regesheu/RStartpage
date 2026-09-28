@@ -57,6 +57,9 @@ REQUIRED_FILES=(
   notes.html
   notes.js
   notes-shared.js
+  notes-sync.js
+  drive-backups.js
+  drive-worker.js
   drive-shared.js
   settings.html
   settings.js

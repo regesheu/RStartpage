@@ -50,7 +50,7 @@ const RTransfer = (() => {
     }
     if (sections.notes) {
       const data = sections.notes;
-      if (!Array.isArray(data.notes) || data.notes.length > 500 || data.notes.some(n => !object(n) || typeof n.content !== 'string' || typeof n.title !== 'string') || (data.groups !== undefined && (!Array.isArray(data.groups) || data.groups.some(g => !object(g) || typeof g.name !== 'string')))) invalid();
+      if (!Array.isArray(data.notes) || data.notes.some(n => !object(n) || typeof n.content !== 'string' || typeof n.title !== 'string') || (data.groups !== undefined && (!Array.isArray(data.groups) || data.groups.some(g => !object(g) || typeof g.name !== 'string')))) invalid();
     }
     if (sections.proxies) {
       const data = sections.proxies;
@@ -78,7 +78,9 @@ const RTransfer = (() => {
     if (keys.includes('rules')) await ProxyStore.prepareRulesImport(archive.sections.rules);
     const data = archive.sections;
     const merge = mode !== 'replace';
+    if (keys.includes('notes') && typeof RNoteSync !== 'undefined' && await RNoteSync.enabled()) await RNoteSync.sync();
     if (keys.includes('notes')) await RNotes.prepareRestore(data.notes, { merge });
+    if (mode === 'replace' && typeof RBackups !== 'undefined') await RBackups.beforeRestore();
     if (keys.includes('bookmarks')) await RStartpage.importPortable(data.bookmarks, { mode, skipDuplicates: true, importSettings: false });
     if (keys.includes('notes')) await RNotes.restoreNotes(data.notes, { merge });
     if (keys.includes('proxies')) await ProxyStore.importData(data.proxies, { merge });

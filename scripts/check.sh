@@ -86,6 +86,7 @@ PY
 
 python3 scripts/validate-ui.py
 node scripts/test-core.mjs
+node scripts/test-notes-sync.mjs
 node scripts/test-localization.mjs
 
 for file in ./*.js; do
