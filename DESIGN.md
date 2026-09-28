@@ -136,6 +136,10 @@ Settings use a 190 px left navigation and a single active panel, collapsing to a
 
 The shared route rail owns product branding, Home, optional Proxy/Sessions/Notes/Tools links, and Settings. It stays sticky on every full page and marks the current route. Bookmark section tabs remain a second, page-specific row. Home, Proxy, Sessions and Notes use the same adjacent 38 px Export / Import and Help icon actions; Tools has no transfer shortcut. Diagnostic results use bordered rows with visible per-item actions and status text; narrow layouts stack records without removing actions.
 
+### Google Drive notes and backups
+
+The Notes quota position is shared by mutually exclusive modes: the existing Chrome Sync meter or a quiet cloud status row. The Drive row uses the existing `--edge`, `--text`, `--muted`, `--green` and `--danger` tokens, an 18 px outline cloud, formatted data size, text status and a compact Sync now/Retry action. It wraps below 520 px; no percentage implies a fixed Drive quota. Settings keeps explanations in existing field-hint typography and backup metadata in the existing list rows.
+
 ### Forms and overlays
 
 Native selects are intentional: this is a Chrome-only extension and platform-owned select popup geometry is accepted. Forms use explicit labels, app-owned validation, `novalidate`, stable error regions, and non-resizable textareas. Shared confirmation dialogs use `<dialog>`, restore focus, support Escape, and remain within the visual viewport. Toasts use one bottom-center live region.

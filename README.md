@@ -15,7 +15,7 @@ RStartpage is a local-first Chrome New Tab workspace for bookmarks, notes, saved
 - **Smart Proxy Rules:** route matching domains, IPs or URL patterns through DIRECT or a selected proxy profile using ordered rules and profile-level exclusions.
 - **Unified Data center:** export selected sections to a ZIP archive, preview imports, merge or replace selected data, import legacy RStartpage JSON and copy an existing Chrome bookmark folder.
 - **Complete backups:** archives can include links, notes, proxy profiles and rules, sessions, settings and the custom wallpaper. Proxy passwords are excluded unless explicitly selected.
-- **Optional Google Drive backups:** builds configured with Google OAuth can create, list, download, restore and delete full backups in the extension's private Drive application data.
+- **Optional Google Drive:** automatic note/group/tag sync, offline edits, conflict copies and deletion tracking without the Chrome Sync quota. Daily full backups keep the latest 10 automatic copies; manual and pre-restore copies remain until deleted. Each backup shows its device, date and size.
 - **Personalization:** English and Russian interfaces, shared navigation, custom product name and tab favicon, light/dark/system themes, accent colors and default or custom wallpapers.
 - **Local-first operation:** no advertising, analytics, remote executable code or developer-operated backend.
 
@@ -29,7 +29,7 @@ RStartpage is a local-first Chrome New Tab workspace for bookmarks, notes, saved
 6. Select the extracted folder containing `manifest.json`.
 7. Optional: pin RStartpage from Chrome's Extensions menu to keep proxy status and quick actions visible next to the address bar.
 
-Chrome will warn about the permissions RStartpage needs for bookmarks, notes, sessions, optional Google Drive backups and proxy functionality. The extension has no developer-operated backend and does not send your data to the developer.
+Chrome will warn about the permissions RStartpage needs for bookmarks, notes, sessions, optional Google Drive sync/backups and proxy functionality. The extension has no developer-operated backend and does not send your data to the developer.
 
 ## Updating
 
@@ -44,7 +44,7 @@ Your bookmarks and RStartpage data are stored by Chrome and are not removed by r
 
 ## Data and privacy model
 
-RStartpage is local-first. Bookmarks remain Chrome Bookmarks. Notes and saved sessions stay on the device by default. Users can opt individual notes into Chrome Sync, export selected data to a local archive, or—in a build configured for Google OAuth—connect Google Drive and create a backup in the extension's private application-data folder.
+RStartpage is local-first. Bookmarks remain Chrome Bookmarks. Notes and saved sessions stay on the device by default. Users can opt individual notes into Chrome Sync, export selected data to a local archive, or—in a build configured for Google OAuth—connect Google Drive for automatic note synchronization and daily backups in the extension's private application-data folder. Notes have no fixed count or title/content-length cap; device/Drive capacity still applies. After disconnecting Drive, notes remain local and Chrome Sync requires an explicit per-note selection again.
 
 Proxy profile definitions and supported settings can use Chrome Sync. Proxy passwords stay local unless the user explicitly enables password sync or includes them in an archive. Google credentials and access tokens are never included in RStartpage archives.
 
@@ -84,3 +84,5 @@ It restores the source bundle, builds the extension and publishes two assets:
 ## Author
 
 Extension made by [regesh](mailto:me@regesh.ru).
+
+Drive background work uses `alarms` while Chrome is running. `unlimitedStorage` removes the extension-local storage quota for offline notes and recovery copies. Google OAuth must still be configured for the published extension ID.

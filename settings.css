@@ -40,3 +40,15 @@
 @media (max-width: 840px) { .settings-section { grid-template-columns: 1fr; gap: 18px; } }
 @media (max-width: 660px) { .settings-page { width: min(calc(100% - 24px), 1180px); padding-top: 28px; } .settings-panel-grid, .appearance-grid, .settings-destinations { grid-template-columns: 1fr; } .settings-panel-grid .span-2 { grid-column: span 1; } .navigation-choices { grid-template-columns: 1fr; } .settings-hero { align-items: flex-start; flex-direction: column; } }
 .settings-card, .settings-section { background: linear-gradient(145deg, rgba(28,40,53,.82), rgba(17,24,33,.72)); border-color: rgba(180,200,214,.16); box-shadow: inset 0 1px 0 rgba(255,255,255,.035); }
+
+/* Drive connection: stable button geometry and a compact progress dialog. */
+.dialog.drive-connect-dialog { width: min(400px, calc(100vw - 32px)); }
+.drive-connect-dialog h2 { margin: 0; font-size: 20px; }
+.drive-connect-progress { display: flex; align-items: center; gap: 14px; min-height: 100px; }
+.drive-connect-progress p { margin: 0; line-height: 1.5; }
+.drive-spinner, .drive-connecting::after { width: 18px; height: 18px; flex: 0 0 18px; box-sizing: border-box; border: 2px solid var(--border); border-top-color: var(--green); border-radius: 50%; animation: drive-connect-spin .8s linear infinite; }
+#driveConnect { position: relative; }
+.drive-connecting { color: transparent !important; }
+.drive-connecting::after { content: ''; position: absolute; left: calc(50% - 9px); top: calc(50% - 9px); }
+@keyframes drive-connect-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .drive-spinner, .drive-connecting::after { animation: none; } }

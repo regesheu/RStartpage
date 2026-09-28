@@ -143,7 +143,7 @@ Table selection and date controls are not used.
 - The Settings label is Data / Данные. Home, Proxy, Sessions and Notes expose the same icon-only Export / Import shortcut beside a matching Help control; Tools intentionally has no transfer shortcut.
 - One ZIP format contains selected sections; legacy per-module JSON is accepted. Settings include wallpaper. Proxy passwords require opt-in; Google credentials and connection tokens never enter an archive.
 - Smart Proxy Rules are included with Proxy. The sensitive Proxy passwords choice is nested beneath Proxy, remains off by default and is disabled when Proxy is not selected.
-- Restore shows the archive name, selectable sections and merge/replace mode, then confirms the affected sections. Schema, note capacity and sync quota are checked before writes. Runtime storage failures can leave partial writes and are reported explicitly.
+- Restore shows the archive name, selectable sections and merge/replace mode, then confirms the affected sections. Schema and, when Chrome Sync is used, its quota are checked before writes. Runtime storage failures can leave partial writes and are reported explicitly.
 - Note restore preserves IDs, timestamps and sync choices; repeat merge does not create duplicate notes. Unselected sections are untouched.
 - Google Drive follows local transfer controls. Unconfigured OAuth shows an explanation and disabled actions. Connected state exposes creation, refresh, download, restore preview and confirmed deletion. API requests have a timeout and list pagination.
 - Busy state prevents duplicate mutations. Disabled controls explain unavailable connection through adjacent copy; local archives remain usable offline.
@@ -160,3 +160,23 @@ Table selection and date controls are not used.
 - Project audit command/result: recorded in task completion.
 - CRUD full-flow evidence: recorded in task completion.
 - Failure-path evidence: invalid JSON, invalid proxy import, failed URL check, and validation failures.
+
+### Google Drive connection (1.8.6)
+
+- `settings-data.js` owns connection feedback; `RDrive.connect(onAuthorized)` reports the transition from authorization to access verification.
+- A compact native `<dialog>` appears synchronously with the click. The button keeps its geometry and cannot start a duplicate request. Status copy is available in English and Russian.
+- Hide / Escape dismisses feedback only; it does not claim to cancel Chrome authorization. On completion the still-open dialog closes and focus returns to the enabled connection action. Errors remain inline and allow retry.
+- `settings.css` uses existing semantic border/green tokens for the spinner and respects reduced motion. The separate Chrome identity window remains browser-owned; `getAuthToken` has no size option.
+- Browser regression: `scripts/test-drive-ui.cjs` (Playwright, with mocked identity and Drive responses); real account consent is a separate manual check in an OAuth-configured extension.
+
+### Notes with Google Drive (1.8.6)
+
+- `notes-sync.js` owns device-local causal state; `drive-shared.js` owns verified account sessions; `drive-worker.js` owns debounce, persistent alarms and background retries. Shared Web Locks serialize local mutations across extension pages and worker.
+- Configured, connected Drive replaces the Chrome quota meter with data size, sync state and retry. All notes/groups/tags/deletions sync; Chrome storage.sync is not written by Drive note mutations. The fixed count and title/content caps are removed. Archive input retains its existing 64 MB safety bound.
+- Each device publishes immutable causal snapshots. Sequential versions supersede older ones regardless of wall clock. Concurrent versions choose the newer timestamp with a deterministic tie-break and preserve the other non-identical text as a separate conflict copy. Deletion markers are retained. An open editor carries its observed version to avoid overwriting a downloaded change silently.
+- Edits are saved locally first; dirty state survives offline/restart. Success is shown only after confirmed upload; edits during an upload remain pending. Network sessions use one token checked against the bound account. A changed account pauses sync. Explicit reconnection to a different account asks to merge local notes or cancel.
+- Drive disconnection retains local notes and pending causal state. Chrome Sync choices restart off to avoid applying its quota to large Drive notes; users explicitly opt individual notes back in.
+- `drive-backups.js` creates daily changed-data backups while Chrome is running, retaining the latest 10 automatic copies across devices. Manual and pre-restore copies are excluded from retention. All non-manual copies exclude proxy passwords. Metadata identifies device, size, time and type.
+- Before replace restore, validate and reconcile note state, retain a local recovery copy, and save a cloud recovery copy if connected. Failure stops replacement. Local recovery is downloadable from Settings → Data. Restored notes become new causal versions; old cloud data does not silently undo restore.
+- Notes refresh on local storage events without replacing unsaved editor text or group choice. Hiding a focused sync checkbox moves focus to Save/Edit. Owned copy, statuses and conflict labels ship in EN/RU.
+- Tests: `scripts/test-notes-sync.mjs`, `scripts/test-localization.mjs`, `scripts/test-drive-ui.cjs`, `scripts/test-notes-drive-ui.cjs`. Real OAuth consent remains a separate check in a configured extension.

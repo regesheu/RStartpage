@@ -215,3 +215,12 @@ select:not([multiple]):not([size]),select[size="1"]:not([multiple]) {
     width:calc(100% - 16px);
   }
 }
+
+/* Notes: quiet, shared-token cloud status replaces the Chrome quota meter. */
+.notes-drive-status { display:flex; align-items:center; flex-wrap:wrap; gap:8px 12px; margin:18px 0; padding:10px 12px; border:1px solid var(--edge); border-radius:var(--radius-sm,9px); color:var(--muted); font-size:12px; }
+.notes-drive-status strong { color:var(--text); font-size:12px; }
+.notes-drive-icon { color:var(--green); font-size:18px; line-height:1; }
+.notes-drive-state { flex:1; min-width:120px; }
+.notes-drive-status[data-phase="error"] .notes-drive-state,.notes-drive-status[data-phase="access"] .notes-drive-state,.notes-drive-status[data-phase="auth"] .notes-drive-state,.notes-drive-status[data-phase="accountChanged"] .notes-drive-state { color:var(--danger); }
+.notes-drive-status[data-phase="syncing"] .notes-drive-icon { opacity:.6; }
+@media(max-width:520px) { .notes-drive-state { flex-basis:100%; } }
