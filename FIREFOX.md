@@ -7,7 +7,7 @@ supported target (the New Tab workspace requires desktop extension pages).
 ## Build and temporarily install
 
 ```bash
-git clone https://github.com/regesheu/RStartpage.git
+git clone --branch firefox-support https://github.com/regesheu/RStartpage.git
 cd RStartpage
 bash scripts/build.sh firefox
 ```
@@ -72,7 +72,8 @@ Firefox's extension sync storage permits 100 KB total, 8 KB per item and 512 ite
 the separate browser bookmark sync is not charged to this quota. Extension sync
 runs about every ten minutes or when the user chooses Sync Now. This is suitable
 for preferences and small selected notes, not complete backups, wallpapers or a
-large note collection. See [Mozilla's sync-storage documentation](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage/sync).
+large note collection. The current selected-note collection uses one item, so
+RStartpage caps its payload at 7 KB in Firefox. Use Drive for larger notes. See [Mozilla's sync-storage documentation](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage/sync).
 
 ## Configure Google Drive (optional)
 
@@ -97,8 +98,12 @@ restore remain available.
 4. Copy only the public client ID (`…apps.googleusercontent.com`). Do not place a
    client secret in the extension, repository, issue or chat.
 5. In GitHub **Settings → Secrets and variables → Actions**, create the repository
-   secret **FIREFOX_DRIVE_CLIENT_ID**. The release workflow embeds this public ID
-   only in the Firefox package. For a local configured build:
+   secret **FIREFOX_DRIVE_CLIENT_ID**. Open the newest **Verify Firefox** run for
+   branch **firefox-support** and select **Re-run all jobs**. Download the
+   **RStartpage-Firefox** artifact after it passes, then extract the inner Firefox
+   ZIP. The workflow embeds the public ID only in the Firefox package; no merge
+   to main is needed. See `FIREFOX_RU.md` for the full no-terminal walkthrough.
+   For a local configured build:
    ```bash
    FIREFOX_DRIVE_CLIENT_ID='your-real-id.apps.googleusercontent.com' bash scripts/build.sh firefox
    ```

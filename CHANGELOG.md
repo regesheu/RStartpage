@@ -2,6 +2,11 @@
 
 ## 1.9.0
 
+- Preserve HTTP URLs in Firefox link/proxy checks and enforce the single-item
+  Firefox Sync note quota before saving. Use Drive for larger note collections.
+- Build configured Firefox artifacts from the branch using `FIREFOX_DRIVE_CLIENT_ID`;
+  add a Russian Google Cloud and GitHub setup walkthrough without terminal steps.
+
 - Add a Firefox 140+ desktop package with a stable add-on ID, background scripts,
   Promise API compatibility and Firefox bookmark-root handling.
 - Route Firefox proxy profiles and Smart Rules with the native proxy API; retain

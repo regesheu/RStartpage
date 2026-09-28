@@ -55,49 +55,132 @@ Firefox Sync не заменяет облачное хранилище резе�
 доступно 100 КБ суммарно, 8 КБ на одну запись и максимум 512 записей. Закладки
 синхронизируются отдельно от этой квоты. Синхронизация данных расширения обычно
 происходит раз в 10 минут либо по команде «Синхронизировать сейчас» в Firefox.
-Большие заметки, сохранённые сессии и обои можно хранить локально и переносить ZIP.
+В этой версии выбранные заметки хранятся одной записью: для них установлен
+лимит 7 КБ с запасом на служебные данные. Большие заметки, сохранённые сессии и обои можно хранить локально и переносить ZIP.
 
 Источник: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage/sync
 
-## 4. Подключить Google Drive — только если нужен
+## 4. Подключить Google Drive
 
-В архиве без отдельного OAuth client ID Google Drive отключён, с пояснением в
-интерфейсе. Существующий Chrome Extension OAuth-клиент для Firefox не подходит.
+Код находится в отдельной ветке `firefox-support`; слияние в `main` не требуется.
+Ниже путь без терминала. Пока Client ID не задан, Drive в сборке отключён.
+Настройку Google Cloud выполняет владелец проекта под своим аккаунтом.
 
-1. В Google Cloud открой тот же проект, в котором настраивался Chrome. Убедись,
-   что включён **Google Drive API** и настроен экран согласия с областью
-   `https://www.googleapis.com/auth/drive.appdata`.
-2. В Firefox открой `about:debugging#/runtime/this-firefox`, нажми **«Исследовать»**
-   рядом с RStartpage и в консоли выполни:
+### A. Получить адрес возврата Firefox
+
+Для ID `rstartpage@regesh.ru` в настоящем Firefox проверен адрес:
+
+```text
+https://8d71feca4d98db35e66853aa0b88f48c3b7efa1f.extensions.allizom.org/
+```
+
+Его можно сразу использовать в шаге B. Чтобы проверить адрес самостоятельно:
+
+1. Установи тестовую сборку по разделу 1.
+2. Открой `about:debugging#/runtime/this-firefox` → **RStartpage → Исследовать**.
+3. Во вкладке **Консоль** введи:
    ```js
    browser.identity.getRedirectURL()
    ```
-3. Скопируй полученный HTTPS-адрес полностью, включая завершающий `/`.
-4. В Google Cloud открой **Google Auth Platform → Clients → Create client**.
-   Тип — **Web application**, название — **RStartpage Firefox**.
-5. В **Authorized redirect URIs** добавь адрес из консоли. Если нужен
-   **Authorized JavaScript origin**, укажи его origin — без завершающего `/`.
-6. Скопируй **Client ID** вида `…apps.googleusercontent.com`.
-   Client Secret присылать или помещать в расширение не нужно.
-7. В GitHub: репозиторий → **Settings → Secrets and variables → Actions →
-   New repository secret**. Имя — `FIREFOX_DRIVE_CLIENT_ID`, значение — Client ID.
-8. После отправки/принятия изменений собери настроенную версию и загрузи её в
-   Firefox. В локальном терминале можно выполнить:
-   ```bash
-   FIREFOX_DRIVE_CLIENT_ID='реальный-client-id.apps.googleusercontent.com' bash scripts/build.sh firefox
-   ```
-9. В расширении: **Settings → Data → Connect Google Drive**. Если OAuth-приложение
-   в режиме Testing, твой Google-аккаунт должен входить в список тестовых пользователей.
-10. Проверь заметку и резервную копию на двух установках. Доступ к данным приложения
-    между Chrome и Firefox нужно подтвердить реальным входом; автоматические тесты
-    этого не доказывают.
+4. Скопируй HTTPS-адрес без кавычек, полностью, включая завершающий `/`.
+   Не копируй адрес `moz-extension://` из адресной строки. Адрес возврата зависит
+   от ID дополнения; сохраняй `rstartpage@regesh.ru` во всех сборках.
 
-Токен Firefox хранится только в памяти браузерной сессии и не попадает в архивы.
-После истечения срока либо перезапуска может потребоваться повторное подключение.
-Реализован клиентский token flow через перехватываемый Firefox redirect; это legacy
-OAuth-механизм Google. Переход на рекомендуемый code flow требует отдельного
-решения для OAuth-сервиса либо поддерживаемого public client, без встраивания
-Client Secret. Подробности и официальные ссылки — в `FIREFOX.md`.
+### B. Создать OAuth-клиент в Google Cloud
+
+1. Открой https://console.cloud.google.com/ и выбери **тот же проект**, где
+   создан OAuth-клиент Chrome-версии RStartpage. Сам Chrome-клиент не меняй.
+2. **APIs & Services → Library → Google Drive API → Enable**. Если API уже
+   включён, переходи дальше.
+3. **Google Auth Platform → Branding**: если проект ещё не настроен, заполни
+   название RStartpage, email поддержки и контактный email разработчика.
+4. **Audience**: для личного Google-аккаунта выбери **External**. В режиме
+   **Testing → Test users → Add users** добавь свой Google email и email
+   остальных людей, которые будут проверять вход.
+5. **Data Access → Add or remove scopes**: добавь
+   `https://www.googleapis.com/auth/drive.appdata` и сохрани.
+   Это доступ только к скрытым данным самого приложения, а не ко всему Диску.
+6. **Clients → Create client → Web application**. Название: **RStartpage Firefox**.
+7. В **Authorized redirect URIs → Add URI** вставь адрес из шага A целиком.
+   В **Authorized JavaScript origins**, если требуется, укажи только его origin
+   (тот же HTTPS-адрес без завершающего `/` и пути).
+8. Нажми **Create** и скопируй **Client ID** вида
+   `123456789-xxxxxxxx.apps.googleusercontent.com`.
+   **Client Secret не нужен: не добавляй его в расширение, GitHub или чат.**
+
+### C. Собрать настроенный архив в GitHub
+
+1. Открой https://github.com/regesheu/RStartpage/settings/secrets/actions.
+2. **New repository secret**: имя `FIREFOX_DRIVE_CLIENT_ID`, значение — скопированный
+   Client ID. Нажми **Add secret**. Client ID публичный и попадёт в расширение;
+   здесь secret используется как настройка сборки.
+3. Открой https://github.com/regesheu/RStartpage/actions?query=branch%3Afirefox-support.
+4. Открой самый новый запуск **Verify Firefox** для ветки **firefox-support**.
+   После окончания запуска нажми **Re-run all jobs** (в меню **Re-run jobs**).
+   Повторный запуск прочитает новый секрет. Не запускай Chrome release workflow.
+5. Дождись зелёного результата. Внизу страницы в **Artifacts** скачай
+   **RStartpage-Firefox**. Если запуск красный, открой упавший шаг и передай его
+   сообщение об ошибке; такой архив не считай проверенной сборкой.
+6. Распакуй скачанный архив GitHub. Внутри будет
+   `RStartpage-Firefox-1.9.0.zip` и отчёт валидатора. Распакуй **внутренний ZIP**:
+   в полученной папке лежит `manifest.json`.
+7. Экспортируй важные данные тестовой установки. Замени содержимое её папки
+   файлами новой сборки и нажми **Перезагрузить** в `about:debugging`.
+   Если дополнение уже удалено после закрытия Firefox, загрузи новый
+   `manifest.json` кнопкой **Загрузить временное дополнение**.
+
+Для локальной сборки, если она нужна, установи Git, Node.js и Python 3,
+затем в Bash выполни:
+
+```bash
+git clone --branch firefox-support https://github.com/regesheu/RStartpage.git
+cd RStartpage
+FIREFOX_DRIVE_CLIENT_ID='реальный-client-id.apps.googleusercontent.com' bash scripts/build.sh firefox
+```
+
+### D. Проверить Google Drive
+
+1. Открой **Settings → Data → Connect Google Drive** (или **Настройки → Данные**).
+2. Войди Google-аккаунтом из списка Test users и разреши доступ данным приложения.
+3. Создай заметку `Проверка Firefox Drive`, дождись статуса «Синхронизировано».
+4. На второй установке RStartpage подключи тот же Google-аккаунт и проверь
+   появление заметки. Измени текст и проверь обратную синхронизацию.
+   Для проверки Chrome ↔ Firefox OAuth-клиенты должны быть в одном проекте.
+5. В разделе «Данные» создай резервную копию в Drive. Проверь, что она появилась
+   в списке и что доступен предварительный просмотр восстановления. Пробное
+   восстановление выполняй в тестовом профиле браузера.
+6. Отключи сеть, измени заметку, верни сеть и проверь отправку изменений.
+7. Перезапусти Firefox; если это временная установка, загрузи дополнение снова.
+   При запросе повторного входа нажми подключение Drive ещё раз.
+
+Файлы хранятся в скрытом `appDataFolder`: в обычном списке файлов Google Drive
+их не видно. Заметки синхронизируются, когда Drive подключён; полный снимок всех
+разделов — отдельная резервная копия. Не удаляй исходные данные до проверки.
+
+Токен хранится только в `storage.session` и не попадает в экспорт или Firefox Sync.
+При истечении токена выполняется попытка тихого входа; если Google требует
+взаимодействия, появится запрос переподключения. Постоянный вход после перезапуска
+не гарантируется. Используется поддерживаемый Firefox клиентский token flow,
+который Google относит к legacy implicit OAuth. Для рекомендуемого code flow
+потребуется отдельный OAuth-сервис или поддерживаемый public client; встраивать
+Client Secret в расширение нельзя.
+
+### Если не получилось
+
+| Сообщение | Что проверить |
+| --- | --- |
+| Drive не настроен | Secret называется ровно `FIREFOX_DRIVE_CLIENT_ID`; после его добавления перезапущены **все** jobs и установлен новый внутренний ZIP. |
+| `redirect_uri_mismatch` | В Web application client добавлен полный результат `getRedirectURL()`, включая `/`; используется ID `rstartpage@regesh.ru`. |
+| `access_denied` / приложение в тестировании | Google-аккаунт добавлен в **Audience → Test users**, доступ не запрещён администратором организации. |
+| `invalid_client` | Используется Client ID типа **Web application**, а не Chrome Extension ID и не Client Secret. |
+| Drive API disabled / `403` | В нужном проекте включён Google Drive API, при входе разрешён scope `drive.appdata`. |
+| Требуется повторное подключение | Нажми Connect в настройках; токен мог истечь или сессия браузера завершилась. |
+| Нет заметок из Chrome | В обоих браузерах один Google-аккаунт, оба OAuth-клиента в одном проекте; проверь статус синхронизации. |
+
+Официальные инструкции:
+- https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/identity/launchWebAuthFlow
+- https://developers.google.com/identity/protocols/oauth2/javascript-implicit-flow
+- https://developers.google.com/workspace/drive/api/guides/appdata
 
 ## 5. Опубликовать постоянную версию
 
@@ -125,7 +208,9 @@ release workflow: он лишь собирает архив. Обновлени�
 - Модульные тесты Firefox: Promise API, схемы прокси, исключения, порядок правил,
   обработка паролей, выключение, разрешения, OAuth state/redirect/scope/expiry.
 - Валидатор Mozilla: ошибок нет; предупреждения требуют просмотра перед отправкой.
+- Браузерный тест прошёл в Firefox 156.0.1: реальные HTTP-прокси, авторизация 407,
+  исключение, восстановление Smart Routing, создание заметки и семь страниц.
 - Подготовлен тест с настоящим Firefox, локальными HTTP-прокси и открытием страниц.
-  Его выполнение в этой среде заблокировано ограничением запуска Firefox;
-  GitHub CI также ещё не запускался, потому что отправка ветки требует подтверждения.
+  Он запускается в GitHub Actions на каждом обновлении `firefox-support`;
+  актуальный результат смотри в последнем запуске **Verify Firefox**.
 - Реальные Google-вход, SOCKS-сервер и подпись Mozilla ещё не проверены.

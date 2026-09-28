@@ -39,6 +39,7 @@ jobs:
         if: always()
         with:
           name: RStartpage-Firefox
+          overwrite: true
           path: |
             dist/RStartpage-Firefox-*.zip
             dist/firefox-lint.json
