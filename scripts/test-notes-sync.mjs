@@ -34,6 +34,10 @@ function client(account = 'account-a') {
   async function disconnect() { await engine.disconnect();await local.set({rstartpageDriveState:{...local.values.rstartpageDriveState,connected:false}}); }
   return {ctx,engine,notes,local,chromeSync,status,connect,disconnect,load};
 }
+const initialEditor=client();await initialEditor.notes.saveNote({id:'pre-connect',title:'Original',content:'base'});
+const beforeConnect=(await initialEditor.notes.listNotes())[0];await initialEditor.connect();
+await initialEditor.notes.saveNote({...beforeConnect,_clock:{},_base:beforeConnect,title:'Edited after connecting'});
+assert.equal((await initialEditor.notes.listNotes()).length,1,'connecting Drive is not an independent edit');
 const a=client(), b=client();
 await a.notes.saveNote({id:'original',title:'Large note',content:'a'.repeat(140000),sync:false});
 await a.connect();const chromeWrites=a.chromeSync.writes;

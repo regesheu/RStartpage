@@ -45,7 +45,7 @@ const root = path.resolve(__dirname, '..');
       const description = page.locator('#driveDescription');
       await description.waitFor();
       assert.match(await description.textContent(), language === 'ru' ? /автоматически синхронизировать/ : /automatically sync/);
-      assert.match(await description.textContent(), language === 'ru' ? /всех заметок/ : /all notes/);
+      assert.match(await description.textContent(), language === 'ru' ? /все заметки/ : /all notes/);
       await button.waitFor();
       const width = (await button.boundingBox()).width;
       await button.click();

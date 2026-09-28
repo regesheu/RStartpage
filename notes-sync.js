@@ -113,7 +113,12 @@ const RNoteSync = (() => {
         const versions = heads(s.doc, kind, key);
         // Editors carry their observed clock. Restores deliberately replace the
         // current version and therefore acknowledge all currently known heads.
-        const base = !options.restore && after.get(key)?._clock || join(versions.map(e => e.clock));
+        let base = !options.restore && after.get(key)?._clock || join(versions.map(e => e.clock));
+        // A draft opened just before Drive was connected has no causal clock.
+        // Match its observed content to the imported version when still present.
+        if(kind === 'note' && options.baseId === key && options.base && !Object.keys(after.get(key)?._clock || {}).length) {
+          base = join(versions.filter(e => canonical(e.value) === canonical(cleanValue(options.base))).map(e => e.clock));
+        }
         s.counter++;
         changes.push({ kind, key, id: uuid(), clock: { ...base, [dev.id]: s.counter }, stamp: Date.now(), value });
       }

@@ -31,6 +31,7 @@ jobs:
           mkdir -p "$SCREENSHOT_DIR"
           node scripts/test-drive-ui.cjs
           node scripts/test-notes-drive-ui.cjs
+          node scripts/test-extension-worker.cjs
       - name: Package extension
         run: bash scripts/build.sh
       - uses: actions/upload-artifact@v4
