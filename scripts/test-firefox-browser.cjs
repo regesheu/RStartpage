@@ -60,6 +60,9 @@ const listen = server => new Promise(resolve => server.listen(0, '127.0.0.1', ()
     (async () => {
       const expect = (value, message) => { if (!value) throw new Error(message); };
       const pages = new Map();
+      const networkErrors = [];
+      browser.webRequest.onErrorOccurred.addListener(details => networkErrors.push({url: details.url, error: details.error}), { urls: ['<all_urls>'] });
+      browser.proxy.onError.addListener(error => networkErrors.push({proxyError: error.message}));
       browser.runtime.onMessage.addListener(message => { if (message.type === 'test:page') pages.set(message.page, message.errors); });
       let result;
       try {
@@ -72,12 +75,15 @@ const listen = server => new Promise(resolve => server.listen(0, '127.0.0.1', ()
         expect((await RNotes.listNotes()).some(item => item.id === note.id), 'Persisted local note');
         const snapshot = await RTransfer.collect(['notes', 'settings']);
         expect(snapshot.sections.notes.notes.length > 0, 'Portable Chrome-compatible archive');
-        expect(RDrive.isConfigured() === false, 'Unconfigured OAuth stays disabled');
+        expect(RDrive.isConfigured() === !!globalThis.RFirefoxConfig.driveClientId, 'OAuth matches build configuration');
         const a = await ProxyStore.saveProfile({ id: 'ff-a', name: 'Fallback', scheme: 'http', host: '127.0.0.1', port: ${proxyPort}, bypass: ['127.0.0.1'] });
         const b = await ProxyStore.saveProfile({ id: 'ff-b', name: 'Authenticated', scheme: 'http', host: '127.0.0.1', port: ${authPort}, username: 'test', bypass: [] }, { password: 'password' });
         await ProxyStore.saveRule({ id: 'ff-rule', pattern: 'route.invalid', targetId: b.id, enabled: true });
         await ProxyStore.applySmartRouting(a);
-        const get = url => fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(10000) }).then(response => response.text());
+        const get = async url => {
+          try { return await (await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(10000) })).text(); }
+          catch (error) { throw new Error(url + ': ' + error); }
+        };
         expect(await get('http://fallback.invalid/test') === 'FALLBACK', 'Smart fallback reaches real proxy');
         expect(await get('http://route.invalid/test') === 'AUTHENTICATED', 'Ordered route and HTTP 407 credentials');
         expect(await get('http://127.0.0.1:${reportPort}/direct') === 'DIRECT', 'Bypass reaches direct server');
@@ -94,7 +100,7 @@ const listen = server => new Promise(resolve => server.listen(0, '127.0.0.1', ()
         }
         expect(__testErrors.length === 0, __testErrors.join('; '));
         result = { ok: true, browser: await browser.runtime.getBrowserInfo(), redirect: browser.identity.getRedirectURL(), pages: [...pages.keys()] };
-      } catch (error) { result = { ok: false, error: String(error), stack: error.stack, backgroundErrors: __testErrors }; }
+      } catch (error) { result = { ok: false, error: String(error), stack: error.stack, backgroundErrors: __testErrors, networkErrors }; }
       await ProxyStore.disable().catch(() => {});
       await fetch('http://127.0.0.1:${reportPort}/report', { method: 'POST', body: JSON.stringify(result) });
     })();`);

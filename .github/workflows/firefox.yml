@@ -16,6 +16,8 @@ jobs:
         with:
           node-version: 22
       - name: Build both browser packages
+        env:
+          FIREFOX_DRIVE_CLIENT_ID: ${{ secrets.FIREFOX_DRIVE_CLIENT_ID }}
         run: |
           bash scripts/build.sh
           bash scripts/build.sh firefox
