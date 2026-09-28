@@ -60,6 +60,7 @@ let confirmation;
 const note = { id: 'note', title: '', content: 'Example', tags: ['work'], groupId: 'work', updatedAt: 1, createdAt: 1 };
 const noteCtx = vm.createContext({ console, document, window: { addEventListener() {} }, setTimeout: fn => fn(),
   RStartpage: { pageTitle: value => value, escapeHtml: value => String(value), confirmAction: async value => { confirmation = value; return false; } },
+  RDrive: { configured: true, connected: false, isConfigured() { return this.configured; }, async state() { return { connected: this.connected }; } },
   RNotes: {
     listNotes: async () => [note], listGroups: async () => [{ id: 'inbox', name: 'Inbox' }, { id: 'work', name: 'Work' }],
     getSyncUsage: async () => ({ used: 0, limit: 71680, percent: 0, count: 0 }),
@@ -98,6 +99,48 @@ vm.runInContext("language = 'ru'; translate()", noteCtx);
 assert.equal(nodes.get('#newGroupButton').textContent, 'Группа');
 vm.runInContext("language = 'en'; translate()", noteCtx);
 assert.equal(nodes.get('#newGroupButton').textContent, 'Group');
+
+// Drive visibility is independent of note content and saved sync preferences.
+await vm.runInContext('refreshDriveState()', noteCtx);
+assert.equal(nodes.get('#notesSyncMeter').hidden, false);
+assert.equal(nodes.get('#noteSyncToggle').hidden, false);
+nodes.get('#noteTitle').value = 'Unsaved draft';
+nodes.get('#noteSync').checked = true;
+await vm.runInContext("syncUsage = { percent: 80 }; updateSyncNotice()", noteCtx);
+assert.equal(nodes.get('#notesNotice').dataset.kind, 'sync-quota');
+await vm.runInContext('RDrive.connected = true; refreshDriveState()', noteCtx);
+assert.equal(nodes.get('#notesSyncMeter').hidden, true);
+assert.equal(nodes.get('#noteSyncToggle').hidden, true);
+assert.equal(nodes.get('#notesNotice').hidden, true);
+assert.equal(nodes.get('#noteTitle').value, 'Unsaved draft');
+assert.equal(nodes.get('#noteSync').checked, true);
+await vm.runInContext('render()', noteCtx);
+assert.match(nodes.get('#notesList').children[0].innerHTML, /class="note-sync-chip" hidden/);
+let savedNote;
+noteCtx.RNotes.saveNote = async value => { savedNote = value; };
+await vm.runInContext('save({preventDefault(){}})', noteCtx);
+assert.equal(savedNote.sync, true, 'hiding the checkbox preserves the sync choice on save');
+assert.equal(savedNote.title, 'Unsaved draft');
+await vm.runInContext('RDrive.connected = false; refreshDriveState()', noteCtx);
+assert.equal(nodes.get('#notesSyncMeter').hidden, false);
+assert.equal(nodes.get('#noteSyncToggle').hidden, false);
+await vm.runInContext('render()', noteCtx);
+assert.doesNotMatch(nodes.get('#notesList').children[0].innerHTML, /class="note-sync-chip" hidden/);
+// Stale stored metadata must not hide controls in an unconfigured build.
+await vm.runInContext('RDrive.connected = true; RDrive.configured = false; refreshDriveState()', noteCtx);
+assert.equal(nodes.get('#notesSyncMeter').hidden, false);
+// Older async state reads cannot override a more recent disconnect.
+noteCtx.RDrive.configured = true;
+const resolveStates = [];
+noteCtx.RDrive.state = () => new Promise(resolve => resolveStates.push(resolve));
+const oldRead = vm.runInContext('refreshDriveState()', noteCtx);
+const newRead = vm.runInContext('refreshDriveState()', noteCtx);
+resolveStates[1]({ connected: false });
+await newRead;
+resolveStates[0]({ connected: true });
+await oldRead;
+assert.equal(nodes.get('#notesSyncMeter').hidden, false);
+console.log('Notes + Drive: visibility, quota notice, draft/sync preservation and stale connection reads passed');
 
 // Test the complete worker with asynchronous, callback-based Chrome 121 menu
 // APIs. Concurrent lifecycle/settings events must leave exactly two current items.

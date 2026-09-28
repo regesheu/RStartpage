@@ -168,3 +168,11 @@ Table selection and date controls are not used.
 - Hide / Escape dismisses feedback only; it does not claim to cancel Chrome authorization. On completion the still-open dialog closes and focus returns to the enabled connection action. Errors remain inline and allow retry.
 - `settings.css` uses existing semantic border/green tokens for the spinner and respects reduced motion. The separate Chrome identity window remains browser-owned; `getAuthToken` has no size option.
 - Browser regression: `scripts/test-drive-ui.cjs` (Playwright, with mocked identity and Drive responses); real account consent is a separate manual check in an OAuth-configured extension.
+
+### Notes with Google Drive (1.8.6)
+
+- `RDrive.META_KEY` / `RDrive.state()` own the device-local connection state. Notes observes changes without reloading the page or replacing an open draft.
+- A configured, connected Drive hides the Chrome Sync meter, card/editor sync checkboxes and quota suggestion. Disconnect restores them. No note sync preferences or stored data are changed by this visibility rule.
+- Drive remains manual backup/restore, not automatic note synchronization. Settings → Data explains purpose, scope, cross-device restore and the separate Chrome Sync quota in EN/RU. Existing Chrome Sync selections and their quota continue to apply.
+- When a focused sync control is hidden, focus moves to Save in the editor or Edit on its card.
+- Browser regression: `scripts/test-notes-drive-ui.cjs` uses real note storage code with mocked Chrome storage; covers initial and live connection states, draft/sync preservation, creation/editing, focus, EN/RU and narrow viewport.

@@ -44,5 +44,5 @@ const RDrive = (() => {
   }
   async function download(id) { const file = await request(`/files/${encodeURIComponent(id)}?alt=media`); return file; }
   async function remove(id) { await request(`/files/${encodeURIComponent(id)}`, { method: 'DELETE' }); }
-  return { ROOT, state, isConfigured, connect, disconnect, list, upload, download, remove };
+  return { ROOT, META_KEY, state, isConfigured, connect, disconnect, list, upload, download, remove };
 })();

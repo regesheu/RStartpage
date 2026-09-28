@@ -2,6 +2,9 @@
 
 ## 1.8.6 — Unreleased
 
+- Hide the Notes Chrome Sync quota meter, per-note checkboxes and quota prompt while Google Drive is connected; restore them live on disconnect without changing saved sync choices or open drafts.
+- Explain Google Drive backup benefits, manual creation/restoration and the distinction from automatic sync in English and Russian.
+
 - Show immediate Google Drive connection feedback in a compact progress dialog and a stable busy button; explain sign-in waiting and access verification in English and Russian.
 - Keep connection errors visible and support retry, keyboard dismissal, focus restoration and reduced motion. Chrome owns the separate Google sign-in window and its dimensions.
 
