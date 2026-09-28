@@ -11,31 +11,6 @@ if [[ -d "$ROOT_DIR/source-bundle" ]]; then
   bash "$ROOT_DIR/scripts/bootstrap-source.sh"
 fi
 
-# The OAuth client is bound to the published Chrome Web Store extension ID.
-# Keep the repository usable without credentials; require the ID in release CI.
-if [[ -n "${DRIVE_CLIENT_ID:-}" ]]; then
-  python3 - <<'PY'
-import json
-import os
-import re
-from pathlib import Path
-
-client_id = os.environ['DRIVE_CLIENT_ID']
-if not re.fullmatch(r'[0-9]+-[a-z0-9-]+\.apps\.googleusercontent\.com', client_id):
-    raise SystemExit('DRIVE_CLIENT_ID must be a Google OAuth client ID')
-path = Path('manifest.json')
-manifest = json.loads(path.read_text(encoding='utf-8'))
-manifest['oauth2']['client_id'] = client_id
-path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-PY
-fi
-
-VERSION="$(python3 - <<'PY'
-import json
-print(json.load(open('manifest.json', encoding='utf-8'))['version'])
-PY
-)"
-
 REQUIRED_FILES=(
   manifest.json
   newtab.html
@@ -94,30 +69,4 @@ for file in ./*.js; do
   echo "Validated $(basename "$file")"
 done
 
-OUT_DIR="$ROOT_DIR/dist"
-OUT_FILE="$OUT_DIR/RStartpage-${VERSION}.zip"
-mkdir -p "$OUT_DIR"
-rm -f "$OUT_FILE"
-
-zip -r "$OUT_FILE" . \
-  -x '.git' '.git/*' \
-     '.github/*' \
-     'dist/*' \
-     'docs/*' \
-     'store/*' \
-     'scripts/*' \
-     'source-bundle/*' \
-     'pw-profile-*' \
-     'pw-tmp/*' \
-     '.gitignore' \
-     'README.md' \
-     'CHANGELOG.md' \
-     'PRIVACY.md' \
-     'STORE_LISTING.md' \
-     'SECURITY.md' \
-     'DESIGN.md' \
-     'UX-CONTRACT.md' \
-     'premium-ui.json' \
-     '*.DS_Store' >/dev/null
-
-echo "$OUT_FILE"
+python3 "$ROOT_DIR/scripts/package-extension.py" "${1:-chrome}"

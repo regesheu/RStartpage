@@ -1,6 +1,6 @@
 # RStartpage
 
-RStartpage is a local-first Chrome New Tab workspace for bookmarks, notes, saved browser sessions, link maintenance, data backups and optional proxy routing.
+RStartpage is a local-first Chrome and Firefox New Tab workspace for bookmarks, notes, saved browser sessions, link maintenance, data backups and optional proxy routing.
 
 [Download latest release](https://github.com/regesheu/RStartpage/releases/latest/download/RStartpage-latest.zip) · [All releases](https://github.com/regesheu/RStartpage/releases) · [Project page](https://regesheu.github.io/RStartpage/) · [Privacy](PRIVACY.md)
 
@@ -19,7 +19,16 @@ RStartpage is a local-first Chrome New Tab workspace for bookmarks, notes, saved
 - **Personalization:** English and Russian interfaces, shared navigation, custom product name and tab favicon, light/dark/system themes, accent colors and default or custom wallpapers.
 - **Local-first operation:** no advertising, analytics, remote executable code or developer-operated backend.
 
-## Install from GitHub
+## Firefox
+
+A dedicated Firefox 140+ desktop build is available from the same codebase:
+`bash scripts/build.sh firefox`. It includes bookmarks, notes, sessions, tools,
+local archives, fixed proxies and Smart Proxy Rules, plus optional separately
+configured Google Drive. Firefox supports SOCKS5 credentials and uses local fallback
+website icons. See [FIREFOX.md](FIREFOX.md) for installation, Chrome data migration,
+OAuth setup, browser differences and Mozilla signing/publication.
+
+## Install from GitHub (Chrome)
 
 1. Download **RStartpage-latest.zip** from the [latest release](https://github.com/regesheu/RStartpage/releases/latest).
 2. Extract it to a permanent folder. Do not install directly from the ZIP.
@@ -76,10 +85,11 @@ bash scripts/set-version.sh 1.9.0
 
 The GitHub Actions release workflow can be started manually from **Actions → Build GitHub Release → Run workflow**, or by pushing a tag such as `v1.9.0`.
 
-It restores the source bundle, builds the extension and publishes two assets:
+It restores the source bundle, builds the extension and publishes browser-specific assets:
 
 - `RStartpage-<version>.zip` — versioned archive.
 - `RStartpage-latest.zip` — stable URL used by the project page and README.
+- `RStartpage-Firefox-<version>.zip` and `RStartpage-Firefox-latest.zip` — unsigned Firefox packages for temporary testing / Mozilla submission.
 
 ## Author
 

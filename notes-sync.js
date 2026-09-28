@@ -80,7 +80,7 @@ const RNoteSync = (() => {
     return lock('rstartpage-device', async () => {
       const saved = (await chrome.storage.local.get(DEVICE_KEY))[DEVICE_KEY];
       if (saved) return saved;
-      const platform = globalThis.navigator?.userAgentData?.platform || 'Chrome';
+      const platform = globalThis.navigator?.userAgentData?.platform || (globalThis.browser?.runtime?.getBrowserInfo ? 'Firefox' : 'Chrome');
       const value = { id: uuid(), name: `${platform} · ${uuid().slice(0, 4)}` };
       await chrome.storage.local.set({ [DEVICE_KEY]: value }); return value;
     });

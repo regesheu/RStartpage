@@ -1,0 +1,42 @@
+name: Verify Firefox
+on:
+  push:
+    branches: [firefox-support]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  firefox:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build both browser packages
+        run: |
+          bash scripts/build.sh
+          bash scripts/build.sh firefox
+          node scripts/test-firefox.mjs
+      - name: Install Firefox test tools
+        run: npm install --prefix "$RUNNER_TEMP/firefox-tools" web-ext@10.7.0 selenium-webdriver@4.49.0
+      - uses: browser-actions/setup-firefox@v1
+        id: firefox
+        with:
+          firefox-version: latest
+      - uses: browser-actions/setup-geckodriver@latest
+      - name: Mozilla validator
+        run: '"$RUNNER_TEMP/firefox-tools/node_modules/.bin/web-ext" lint --source-dir dist/firefox --output json > dist/firefox-lint.json'
+      - name: Firefox integration — real APIs, proxy transport and pages
+        env:
+          FIREFOX_BINARY: ${{ steps.firefox.outputs.firefox-path }}
+        run: NODE_PATH="$RUNNER_TEMP/firefox-tools/node_modules" node scripts/test-firefox-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: RStartpage-Firefox
+          path: |
+            dist/RStartpage-Firefox-*.zip
+            dist/firefox-lint.json

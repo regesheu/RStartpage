@@ -2,7 +2,7 @@
 
 ## Product context
 
-- Audience: desktop Chrome users managing a personal browser workspace.
+- Audience: desktop Chrome and Firefox users managing a personal browser workspace.
 - Primary jobs: open and organize links, restore sessions, diagnose bookmarks, and control proxy routing.
 - Target market(s): international; no market-specific business rules are declared.
 - Active locales: English and Russian. English is the clean-install default and fallback, regardless of browser language; Russian requires an explicit saved choice.
@@ -36,7 +36,7 @@
 
 | Capability | Canonical owner | Source of truth | Allowed variants | Verification |
 |---|---|---|---|---|
-| Select/Listbox | Native Chrome `<select>` | `DESIGN.md` + this contract | native | keyboard + open-popup smoke check |
+| Select/Listbox | Native browser `<select>` | `DESIGN.md` + this contract | native | keyboard + open-popup smoke check |
 | Form | Labeled native controls + page validator | this contract | create / edit / import | validation workflow test |
 | Scrollbar | Global rules in `styles.css` / `popup.css` | `DESIGN.md` | stable-gutter geometry exception | computed style + browser check |
 | Toast | `RStartpage.notify` | this contract | success / warning / info / error | live-region test |
@@ -180,3 +180,11 @@ Table selection and date controls are not used.
 - Before replace restore, validate and reconcile note state, retain a local recovery copy, and save a cloud recovery copy if connected. Failure stops replacement. Local recovery is downloadable from Settings → Data. Restored notes become new causal versions; old cloud data does not silently undo restore.
 - Notes refresh on local storage events without replacing unsaved editor text or group choice. Hiding a focused sync checkbox moves focus to Save/Edit. Owned copy, statuses and conflict labels ship in EN/RU.
 - Tests: `scripts/test-notes-sync.mjs`, `scripts/test-localization.mjs`, `scripts/test-drive-ui.cjs`, `scripts/test-notes-drive-ui.cjs`. Real OAuth consent remains a separate check in a configured extension.
+
+## Firefox port (1.9.0)
+
+Firefox reuses the same tokens, navigation, dialogs and English/Russian dictionaries.
+Build-time browser names adapt Sync/Bookmarks copy. Proxy authentication controls use
+`ProxyStore.supportsAuth` so Firefox can expose SOCKS5 credentials. Unconfigured Drive
+uses the existing disabled state; failed authorization uses the existing reconnect
+flow. Native select popup geometry remains platform-owned on both browsers.

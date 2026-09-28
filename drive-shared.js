@@ -5,8 +5,13 @@ const RDrive = (() => {
   const META_KEY = 'rstartpageDriveState';
   const API = 'https://www.googleapis.com/drive/v3';
   async function state() { return (await chrome.storage.local.get(META_KEY))[META_KEY] || { connected: false, account: '' }; }
-  function isConfigured() { const id = chrome.runtime.getManifest().oauth2?.client_id || ''; return !!chrome.identity?.getAuthToken && id.endsWith('.apps.googleusercontent.com') && !/REPLACE|PLACEHOLDER/i.test(id); }
+  function isConfigured() { if (typeof RFirefoxDriveAuth !== 'undefined') return RFirefoxDriveAuth.isConfigured(); const id = chrome.runtime.getManifest().oauth2?.client_id || ''; return !!chrome.identity?.getAuthToken && id.endsWith('.apps.googleusercontent.com') && !/REPLACE|PLACEHOLDER/i.test(id); }
+  async function removeToken(access) {
+    if (typeof RFirefoxDriveAuth !== 'undefined') return RFirefoxDriveAuth.removeToken();
+    return chrome.identity.removeCachedAuthToken({ token: access });
+  }
   async function token(interactive = false) {
+    if (typeof RFirefoxDriveAuth !== 'undefined') return RFirefoxDriveAuth.token(interactive);
     if (!isConfigured()) throw new Error('DRIVE_NOT_CONFIGURED');
     const result = await chrome.identity.getAuthToken({ interactive });
     const access = typeof result === 'string' ? result : result?.token;
@@ -16,7 +21,7 @@ const RDrive = (() => {
   async function fetchJson(path, options, access, upload = false) {
     const response = await fetch(`${upload ? 'https://www.googleapis.com/upload/drive/v3' : API}${path}`, { ...options, signal: AbortSignal.timeout(25000), headers: { Authorization: `Bearer ${access}`, ...(options?.headers || {}) } });
     if (!response.ok) {
-      if (response.status === 401) await chrome.identity.removeCachedAuthToken({ token: access }).catch(() => {});
+      if (response.status === 401) await removeToken(access).catch(() => {});
       const error = new Error(response.status === 401 ? 'DRIVE_AUTH_REQUIRED' : `DRIVE_HTTP_${response.status}`); error.status = response.status; throw error;
     }
     return response.status === 204 ? null : response.json();
@@ -61,7 +66,10 @@ const RDrive = (() => {
       const old = await state();
       if (typeof RNoteSync !== 'undefined') await RNoteSync.disconnect();
       await chrome.storage.local.set({ [META_KEY]: { ...old, connected: false } });
-      try { const access = await token(false); await chrome.identity.removeCachedAuthToken({ token: access }); } catch (_) { /* Disconnection works offline. */ }
+      try {
+        if (typeof RFirefoxDriveAuth !== 'undefined') await RFirefoxDriveAuth.removeToken();
+        else { const access = await token(false); await removeToken(access); }
+      } catch (_) { /* Disconnection works offline. */ }
     });
   }
   async function upload(name, value, existingId = '', appProperties = {}, access = null) {

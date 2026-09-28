@@ -47,6 +47,13 @@ jobs:
           DRIVE_CLIENT_ID: ${{ secrets.DRIVE_CLIENT_ID }}
         run: bash scripts/build.sh
 
+      - name: Build Firefox ZIP
+        env:
+          FIREFOX_DRIVE_CLIENT_ID: ${{ secrets.FIREFOX_DRIVE_CLIENT_ID }}
+        run: |
+          bash scripts/build.sh firefox
+          node scripts/test-firefox.mjs
+
       - name: Verify release credentials
         env:
           DRIVE_CLIENT_ID: ${{ secrets.DRIVE_CLIENT_ID }}
@@ -66,6 +73,7 @@ jobs:
         shell: bash
         run: |
           cp "dist/RStartpage-${{ steps.version.outputs.version }}.zip" "dist/RStartpage-latest.zip"
+          cp "dist/RStartpage-Firefox-${{ steps.version.outputs.version }}.zip" "dist/RStartpage-Firefox-latest.zip"
 
       - name: Create or update GitHub release
         env:
@@ -82,6 +90,8 @@ jobs:
           gh release create "$TAG" \
             "dist/RStartpage-${VERSION}.zip" \
             "dist/RStartpage-latest.zip" \
+            "dist/RStartpage-Firefox-${VERSION}.zip" \
+            "dist/RStartpage-Firefox-latest.zip" \
             --target "$GITHUB_SHA" \
             --title "RStartpage ${VERSION}" \
             --generate-notes

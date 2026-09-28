@@ -91,7 +91,7 @@ RStartpage should feel like a browser workspace floating over a dark aurora-and-
 - **Audience and primary job:** people who use Chrome as a daily workspace and need fast access to bookmarks, sessions, diagnostics, and optional proxy routing.
 - **Target market(s) and evidence:** general international use; the repository ships English and Russian interfaces and does not declare a country-specific market.
 - **Locale(s) and language policy:** English and Russian. New owned copy must be present in both; English is the fallback.
-- **Usage scene:** desktop Chrome, frequent short interactions, high information density, keyboard and pointer input.
+- **Usage scene:** desktop Chrome and Firefox, frequent short interactions, high information density, keyboard and pointer input.
 - **Register:** product. Task clarity and reliable state take priority over brand expression.
 - **Memorable signature:** the centered glass route rail over the alpine wallpaper, with a teal active marker and compact bookmark surfaces.
 - **Restraint:** forms, proxy controls, diagnostics, confirmations, and dense lists remain flat and utilitarian.
@@ -142,7 +142,7 @@ The Notes quota position is shared by mutually exclusive modes: the existing Chr
 
 ### Forms and overlays
 
-Native selects are intentional: this is a Chrome-only extension and platform-owned select popup geometry is accepted. Forms use explicit labels, app-owned validation, `novalidate`, stable error regions, and non-resizable textareas. Shared confirmation dialogs use `<dialog>`, restore focus, support Escape, and remain within the visual viewport. Toasts use one bottom-center live region.
+Native selects are intentional: this is a desktop Chrome and Firefox/Firefox extension and platform-owned select popup geometry is accepted. Forms use explicit labels, app-owned validation, `novalidate`, stable error regions, and non-resizable textareas. Shared confirmation dialogs use `<dialog>`, restore focus, support Escape, and remain within the visual viewport. Toasts use one bottom-center live region.
 
 ### Iconography
 
@@ -162,3 +162,11 @@ Copy is direct and task-oriented. Button verbs describe the outcome: “Import p
 - **Do:** keep dense functional pages quiet and let status/action hierarchy carry the interface.
 - **Don't:** add per-page header variants, raw accent colors, or decorative cards that compete with the task.
 - **Don't:** hide important controls on hover, clip long forms, or rely on color alone for routing and link-health states.
+
+## Firefox port (1.9.0)
+
+Firefox reuses the same tokens, navigation, dialogs and English/Russian dictionaries.
+Build-time browser names adapt Sync/Bookmarks copy. Proxy authentication controls use
+`ProxyStore.supportsAuth` so Firefox can expose SOCKS5 credentials. Unconfigured Drive
+uses the existing disabled state; failed authorization uses the existing reconnect
+flow. Native select popup geometry remains platform-owned on both browsers.

@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.9.0
+
+- Add a Firefox 140+ desktop package with a stable add-on ID, background scripts,
+  Promise API compatibility and Firefox bookmark-root handling.
+- Route Firefox proxy profiles and Smart Rules with the native proxy API; retain
+  bypass priority, authenticated HTTP/HTTPS and add SOCKS5 credentials.
+- Preserve Smart Routing when restoring background state.
+- Add optional Firefox Google Drive authorization with a separate public OAuth
+  client and session-only access tokens; live Google setup remains required.
+- Add browser-specific packaging, Mozilla validation, Firefox integration CI,
+  installation/migration/publishing instructions and privacy disclosures.
+- Keep Firefox website icons local instead of calling an external favicon service.
+
+
 ## 1.8.6 — Unreleased
 
 - Automatically synchronize all notes, groups, tags and deletions through Google Drive, without Chrome Sync storage limits. Offline changes persist and retry in the background.
