@@ -33,7 +33,7 @@ const browser = {
   },
 };
 const nativeMenus = {};
-const context = vm.createContext({ browser, chrome: { contextMenus: nativeMenus }, URL, URLSearchParams, console, crypto: webcrypto, RFirefoxConfig: { driveClientId: '123-test.apps.googleusercontent.com' } });
+const context = vm.createContext({ browser, chrome: { contextMenus: nativeMenus }, URL, URLSearchParams, TextEncoder, console, crypto: webcrypto, RFirefoxConfig: { driveClientId: '123-test.apps.googleusercontent.com' } });
 function load(file, name) {
   vm.runInContext(fs.readFileSync(new URL(`../${file}`, import.meta.url), 'utf8') + (name ? `\nglobalThis.${name} = ${name};` : ''), context, { filename: file });
   return context[name];
@@ -86,6 +86,13 @@ assert.equal(await adapter.matches('<local>', '', 'printer', () => []), true);
 assert.equal(await adapter.matches('999.0.0.0/8', '', '10.0.0.1', () => []), false);
 
 const auth = load('firefox-drive-auth.js', 'RFirefoxDriveAuth');
+const notes = load('notes-shared.js', 'RNotes');
+await notes.saveNote({ title: 'Small synced note', content: 'Hello', sync: true });
+const beforeQuota = JSON.stringify(await notes.listNotes());
+await assert.rejects(notes.saveNote({ title: 'Too large for one Firefox sync item', content: 'я'.repeat(4096), sync: true }), error => error.code === 'SYNC_QUOTA');
+assert.equal(JSON.stringify(await notes.listNotes()), beforeQuota, 'quota rejection preserves existing notes');
+await notes.saveNote({ title: 'Large offline note', content: 'я'.repeat(4096), sync: false });
+assert.equal((await notes.listNotes()).length, 2);
 assert.equal(auth.isConfigured(), true);
 assert.equal(await auth.token(true), 'fake-token');
 assert.equal(await auth.token(false), 'fake-token');

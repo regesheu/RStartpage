@@ -6,7 +6,9 @@ const RNotes = (() => {
   const SYNC_KEY = 'rstartpageSyncedNotesV2';
   const LEGACY_NOTES_KEY = 'rstartpageNotesV1';
   const LEGACY_GROUPS_KEY = 'rstartpageNoteGroupsV1';
-  const SYNC_LIMIT = 70 * 1024;
+  // Firefox stores this collection as one sync item (8 KB including its key).
+  // Leave room for the record key; larger collections can use Google Drive.
+  const SYNC_LIMIT = globalThis.browser?.runtime?.getBrowserInfo ? 7 * 1024 : 70 * 1024;
 
   function uid(prefix = 'n') { return globalThis.crypto?.randomUUID?.() || `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 9)}`; }
   function cleanTags(tags) { return [...new Set((Array.isArray(tags) ? tags : String(tags || '').split(',')).map((tag) => String(tag).trim().replace(/^#/, '').slice(0, 40)).filter(Boolean))].slice(0, 20); }

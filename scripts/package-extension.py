@@ -32,6 +32,9 @@ for folder in ('assets', 'icons', 'vendor'):
 if TARGET == 'firefox':
     manifest.pop('minimum_chrome_version', None)
     manifest.pop('oauth2', None)
+    # Preserve explicitly requested HTTP link/proxy checks. Firefox MV3's default
+    # upgrade-insecure-requests would silently rewrite them to HTTPS.
+    manifest['content_security_policy'] = {'extension_pages': "script-src 'self'; object-src 'self';"}
     manifest['description'] = manifest['description'].replace('Chrome', 'Firefox')
     manifest['permissions'] = [p for p in manifest['permissions'] if p != 'favicon'] + ['dns', 'webRequestBlocking']
     manifest['browser_specific_settings'] = {'gecko': {
@@ -55,6 +58,8 @@ if TARGET == 'firefox':
             continue
         source = path.read_text()
         source = source.replace('Chrome Sync', 'Firefox Sync').replace('Chrome Bookmarks', 'Firefox Bookmarks')
+        source = source.replace('The 70 KB sync limit has been exceeded.', 'The 7 KB Firefox Sync notes limit has been exceeded.')
+        source = source.replace('Лимит синхронизации 70 КБ превышен.', 'Лимит заметок Firefox Sync 7 КБ превышен.')
         source = source.replace('Chrome does not support credentials for SOCKS profiles.', 'Firefox also supports username/password authentication for SOCKS5; SOCKS4 has no password support in RStartpage.')
         source = source.replace('Chrome не поддерживает авторизацию SOCKS.', 'Firefox также поддерживает логин и пароль SOCKS5; авторизация SOCKS4 в RStartpage недоступна.')
         source = source.replace('Chrome profiles', 'Firefox profiles').replace('профиле Chrome', 'профиле Firefox')
