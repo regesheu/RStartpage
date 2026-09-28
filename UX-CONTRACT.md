@@ -188,3 +188,17 @@ Build-time browser names adapt Sync/Bookmarks copy. Proxy authentication control
 `ProxyStore.supportsAuth` so Firefox can expose SOCKS5 credentials. Unconfigured Drive
 uses the existing disabled state; failed authorization uses the existing reconnect
 flow. Native select popup geometry remains platform-owned on both browsers.
+
+## Opera port (1.9.0)
+
+Opera reuses the existing shared page shell, tokens, native selects and EN/RU
+feedback. `scripts/package-extension.py` owns build-time capability adaptation.
+`opera-storage.js` maps the logical sync area to isolated local preferences and
+remaps change events for existing consumers. No Opera extension sync is promised.
+Note sync controls and password-sync controls are hidden; Drive is the sole note
+sync provider. Imported note sync flags become local notes without truncation.
+`opera-drive-auth.js` owns OAuth redirect/state/scope validation and session-only
+tokens; Settings retains its existing unconfigured/reconnect states. The worker
+loads adapters before shared code. `opera-newtab.js` redirects only known Opera
+start pages and rechecks the current URL; toolbar Home remains available.
+See `OPERA_RU.md` for browser limitations and the real-account verification gate.

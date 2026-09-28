@@ -1,0 +1,41 @@
+name: Build Opera
+on:
+  push:
+    branches: [opera-support]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  opera:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build Opera package
+        env:
+          OPERA_DRIVE_CLIENT_ID: ${{ secrets.OPERA_DRIVE_CLIENT_ID }}
+        run: bash scripts/build.sh opera
+      - name: Verify Opera adapters and package
+        run: node scripts/test-opera.mjs
+      - name: Install Chromium runtime test tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/browser-tools" playwright@1.51.1
+          node "$RUNNER_TEMP/browser-tools/node_modules/playwright/cli.js" install --with-deps chromium
+      - name: Exercise Opera package in Chromium
+        env:
+          PLAYWRIGHT_MODULE: ${{ runner.temp }}/browser-tools/node_modules/playwright
+        run: node scripts/test-opera-browser.cjs
+      - name: Report Drive configuration
+        env:
+          OPERA_DRIVE_CLIENT_ID: ${{ secrets.OPERA_DRIVE_CLIENT_ID }}
+        run: |
+          if [ -z "$OPERA_DRIVE_CLIENT_ID" ]; then
+            echo '::warning::Google Drive is not configured. Add OPERA_DRIVE_CLIENT_ID and rerun this workflow.'
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RStartpage-Opera
+          path: dist/RStartpage-Opera-*.zip
+          if-no-files-found: error

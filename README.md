@@ -19,6 +19,15 @@ RStartpage is a local-first Chrome and Firefox New Tab workspace for bookmarks, 
 - **Personalization:** English and Russian interfaces, shared navigation, custom product name and tab favicon, light/dark/system themes, accent colors and default or custom wallpapers.
 - **Local-first operation:** no advertising, analytics, remote executable code or developer-operated backend.
 
+## Opera
+
+A separate Opera desktop build uses the same **1.9.0** version as Firefox.
+Build with `bash scripts/build.sh opera` on `opera-support`, or download the
+**RStartpage-Opera** artifact from the **Build Opera** workflow.
+Google Drive uses a public Web OAuth client configured through
+`OPERA_DRIVE_CLIENT_ID`. See [the step-by-step Opera guide](OPERA_RU.md).
+Opera preferences stay local; Drive provides note sync and full backups.
+
 ## Firefox
 
 A dedicated Firefox 140+ desktop build is available from the same codebase:
