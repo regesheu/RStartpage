@@ -101,6 +101,23 @@ tabs.set(8,{id:8,url:'opera://startpage/'});
 updated(8,{url:'opera://startpage/'},tabs.get(8));
 await new Promise(resolve=>setImmediate(resolve));
 assert.equal(updates.length,3);
+for (const [index,url] of ['chrome://startpage/', 'chrome://startpageshared/', 'opera://startpageshared/', 'chrome://startpage', 'opera://newtab/?source=plus'].entries()) {
+  const tab={id:20+index,url};tabs.set(tab.id,tab);await created(tab);
+}
+assert.equal(updates.length,8,'both Opera and Chromium start-page aliases redirect');
+// A newly created tab can withhold its URL until the completion event.
+tabs.set(30,{id:30});
+await created(tabs.get(30));
+assert.equal(updates.length,8);
+tabs.set(30,{id:30,url:'chrome://startpage/'});
+updated(30,{status:'complete'},tabs.get(30));
+await new Promise(resolve=>setImmediate(resolve));
+assert.equal(updates.length,9,'late URL is handled on completion');
+for (const [index,url] of ['https://startpage/', 'chrome://startpage.evil/', 'chrome://startpage/settings', 'about:blank'].entries()) {
+  const tab={id:40+index,url};tabs.set(tab.id,tab);await created(tab);
+}
+assert.equal(updates.length,9,'similar and blank URLs are not replaced');
+
 
 const manifest = JSON.parse(source('dist/opera/manifest.json'));
 assert.equal(manifest.version,JSON.parse(source('manifest.json')).version);

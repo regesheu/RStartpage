@@ -82,6 +82,17 @@ def package(archive):
         (temp / 'signature').write_bytes(signature)
         run('dgst', '-sha256', '-verify', temp / 'public.der', '-keyform', 'DER',
             '-signature', temp / 'signature', data=message)
+    # Browsers may intercept direct .crx downloads as installation attempts.
+    # This outer ZIP is only a transport container for the store upload file.
+    download = archive.with_name(archive.stem + '-store.zip')
+    with zipfile.ZipFile(download, 'w', zipfile.ZIP_DEFLATED) as output:
+        output.write(crx, crx.name)
+        output.writestr('UPLOAD-TO-OPERA.txt',
+            'Extract this ZIP and select the .crx file at https://addons.opera.com/developer/\n'
+            'Do not upload this outer ZIP to the store. Do not drag the CRX into the browser.\n'
+            'For local testing, extract the separate unpacked ZIP and use Load unpacked\n'
+            'at opera://extensions, selecting the folder containing manifest.json.\n')
+    print(download)
     print(crx)
     print(f'Packed extension ID: {extension_id}')
     print(f'Keep private packaging key: {key_path} (excluded from extension files)')

@@ -3,7 +3,9 @@
 // Opera does not support the ordinary newtab manifest override. Redirect only
 // its known start-page URLs; never replace arbitrary pages or about:blank tabs.
 (() => {
-  const startPages = new Set(['opera://startpage/', 'opera://startpageshared/', 'opera://newtab/', 'chrome://newtab/']);
+  // Opera may expose its internal pages through either URL scheme.
+  const startPages = new Set(['opera:', 'chrome:'].flatMap(scheme =>
+    ['startpage', 'startpageshared', 'newtab'].map(page => `${scheme}//${page}/`)));
   const pending = new Set();
   const isStartPage = value => {
     try { const url = new URL(value); return startPages.has(`${url.protocol}//${url.host}${url.pathname || '/'}`); }
@@ -23,6 +25,7 @@
   }
   chrome.tabs.onCreated.addListener(redirect);
   chrome.tabs.onUpdated.addListener((id, change, tab) => {
-    if (change.url || change.status === 'loading') redirect({ ...tab, id });
+    // Some Opera builds expose the URL only once the start page completes.
+    if (change.url || change.status === 'loading' || change.status === 'complete') redirect({ ...tab, id });
   });
 })();

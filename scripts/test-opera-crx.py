@@ -65,7 +65,7 @@ with tempfile.TemporaryDirectory(dir=ROOT / 'dist') as folder:
 with zipfile.ZipFile(io.BytesIO(archive)) as package, zipfile.ZipFile(path.with_suffix('.zip')) as unpacked:
     assert 'manifest.json' in package.namelist()
     manifest = json.loads(package.read('manifest.json'))
-    assert manifest['version'] == version == '1.9.0'
+    assert manifest['version'] == version
     assert base64.b64decode(manifest['key']) == public
     assert package.testzip() is None and unpacked.testzip() is None
     assert package.namelist() == unpacked.namelist()
@@ -78,3 +78,8 @@ with zipfile.ZipFile(io.BytesIO(archive)) as package, zipfile.ZipFile(path.with_
     assert development['key'] == (ROOT / 'opera-public-key.txt').read_text().strip()
     assert {k:v for k,v in development.items() if k != 'key'} == {k:v for k,v in manifest.items() if k != 'key'}
 print('Opera CRX3: signature, tamper rejection, package identity, root manifest, version, ZIP parity and private-key exclusion passed')
+
+with zipfile.ZipFile(path.with_name(path.stem + '-store.zip')) as download:
+    assert sorted(download.namelist()) == sorted([path.name, 'UPLOAD-TO-OPERA.txt'])
+    assert download.read(path.name) == crx
+print('Store download ZIP contains the verified CRX and upload instructions only')
