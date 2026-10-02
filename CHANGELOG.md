@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.8.7
+## 1.9.2
 
 - Preserve Smart Proxy Rules when the background worker starts, wakes or updates.
 - Serialize proxy startup, rule refresh, activation, disabling and profile tests

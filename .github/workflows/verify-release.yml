@@ -1,7 +1,7 @@
 name: Verify extension changes
 on:
   push:
-    branches: [release_1.8.6, fix/smart-routing-1.8.7]
+    branches: [release_1.8.6, release_1.9.2]
   pull_request:
     branches: [main]
 permissions:
