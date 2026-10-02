@@ -10,7 +10,7 @@ const listen = server => new Promise(resolve => server.listen(0, '127.0.0.1', ()
 (async () => {
   const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'rstartpage-routing-'));
   const extension = path.join(temp, 'extension');
-  const source = path.resolve(__dirname, '..');
+  const source = path.resolve(__dirname, '../dist/opera');
   const excluded = new Set(['.git', '.github', 'dist', 'scripts', 'source-bundle', 'docs', 'store']);
   fs.cpSync(source, extension, { recursive: true, filter: file => !path.relative(source, file).split(path.sep).some(part => excluded.has(part)) });
   const servers = ['FALLBACK', 'RULE', 'DIRECT'].map(label => http.createServer((req, res) => res.end(label)));
