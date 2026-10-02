@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.9.2
+
+- Preserve Smart Proxy Rules when the background worker starts, wakes or updates.
+- Serialize proxy startup, rule refresh, activation, disabling and profile tests
+  so stale operations cannot overwrite newer routing settings.
+- Refresh routing after saved-state changes and restore the latest profiles/rules
+  after a temporary connectivity test. Test individual profiles in fixed mode.
+- Add regressions for live rule edits, worker restoration and overlapping actions.
+
 ## 1.9.0
 
 - Preserve HTTP URLs in Firefox link/proxy checks and enforce the single-item
@@ -123,3 +132,4 @@ First public release of RStartpage.
 
 ### Privacy
 - No advertising, analytics, remote code or developer-operated backend.
+

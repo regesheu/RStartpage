@@ -170,7 +170,7 @@ const chrome = {
 const bg = vm.createContext({ console: { error: (...args) => errors.push(args) }, chrome, setTimeout, clearTimeout,
   importScripts() {},
   ProxyStore: { getLanguage: async () => currentLanguage, getProductName: async () => 'RStartpage',
-    getState: async () => ({}), getStatus: async () => ({ state: {} }), t: () => 'Proxy is off',
+    getState: async () => ({}), disable: async () => {}, getStatus: async () => ({ state: {} }), t: () => 'Proxy is off',
   },
   OffscreenCanvas: class { getContext() { return new Proxy({}, { get: () => () => ({}) }); } },
 });
