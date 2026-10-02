@@ -35,6 +35,15 @@ jobs:
         env:
           FIREFOX_BINARY: ${{ steps.firefox.outputs.firefox-path }}
         run: NODE_PATH="$RUNNER_TEMP/firefox-tools/node_modules" node scripts/test-firefox-browser.cjs
+      - name: Report Google Drive configuration
+        env:
+          FIREFOX_DRIVE_CLIENT_ID: ${{ secrets.FIREFOX_DRIVE_CLIENT_ID }}
+        run: |
+          if [ -z "$FIREFOX_DRIVE_CLIENT_ID" ]; then
+            echo '::warning::Firefox Google Drive is disabled: add FIREFOX_DRIVE_CLIENT_ID and rerun all jobs before submitting the configured update.'
+          else
+            echo 'Firefox Google Drive client ID is configured. Verify real Google consent before store submission.'
+          fi
       - uses: actions/upload-artifact@v4
         if: always()
         with:
