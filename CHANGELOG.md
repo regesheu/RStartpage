@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.8.7
+
+- Preserve Smart Proxy Rules when the background worker starts, wakes or updates.
+- Serialize proxy startup, rule refresh, activation, disabling and profile tests
+  so stale operations cannot overwrite newer routing settings.
+- Refresh routing after saved-state changes and restore the latest profiles/rules
+  after a temporary connectivity test. Test individual profiles in fixed mode.
+- Add regressions for live rule edits, worker restoration and overlapping actions.
+
 ## 1.8.6 — Unreleased
 
 - Automatically synchronize all notes, groups, tags and deletions through Google Drive, without Chrome Sync storage limits. Offline changes persist and retry in the background.

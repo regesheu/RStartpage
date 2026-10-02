@@ -47,6 +47,16 @@ jobs:
           DRIVE_CLIENT_ID: ${{ secrets.DRIVE_CLIENT_ID }}
         run: bash scripts/build.sh
 
+      - name: Install proxy regression browser
+        run: |
+          npm install --prefix "$RUNNER_TEMP/browser-tools" playwright@1.51.1
+          node "$RUNNER_TEMP/browser-tools/node_modules/playwright/cli.js" install --with-deps chromium
+
+      - name: Verify real proxy routing and worker restart
+        env:
+          PLAYWRIGHT_MODULE: ${{ runner.temp }}/browser-tools/node_modules/playwright
+        run: node scripts/test-proxy-browser.cjs
+
       - name: Verify release credentials
         env:
           DRIVE_CLIENT_ID: ${{ secrets.DRIVE_CLIENT_ID }}

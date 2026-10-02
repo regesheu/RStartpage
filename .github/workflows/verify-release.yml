@@ -1,7 +1,7 @@
 name: Verify extension changes
 on:
   push:
-    branches: [release_1.8.6]
+    branches: [release_1.8.6, fix/smart-routing-1.8.7]
   pull_request:
     branches: [main]
 permissions:
@@ -32,6 +32,7 @@ jobs:
           node scripts/test-drive-ui.cjs
           node scripts/test-notes-drive-ui.cjs
           node scripts/test-extension-worker.cjs
+          node scripts/test-proxy-browser.cjs
       - name: Package extension
         run: bash scripts/build.sh
       - uses: actions/upload-artifact@v4
