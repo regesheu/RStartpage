@@ -79,8 +79,10 @@ const listen = server => new Promise(resolve => server.listen(0, '127.0.0.1', ()
         const a = await ProxyStore.saveProfile({ id: 'ff-a', name: 'Fallback', scheme: 'http', host: '127.0.0.1', port: ${proxyPort}, bypass: ['127.0.0.1'] });
         const b = await ProxyStore.saveProfile({ id: 'ff-b', name: 'Authenticated', scheme: 'http', host: '127.0.0.1', port: ${authPort}, username: 'test', bypass: [] }, { password: 'password' });
         await ProxyStore.saveRule({ id: 'ff-rule', pattern: 'route.invalid', targetId: b.id, enabled: true });
-        expect((await browser.runtime.sendMessage({ type: 'proxy:activate', id: a.id })).ok, 'Activate fallback');
-        expect((await browser.runtime.sendMessage({ type: 'proxy:setSmartRouting', enabled: true })).ok, 'Enable Smart Routing');
+        // runtime.sendMessage excludes the sending background context. Exercise
+        // its queued handlers here; normal extension pages test messaging.
+        expect((await runProxyOperation(() => setActiveProxy(a.id))).ok, 'Activate fallback');
+        await runProxyOperation(() => ProxyStore.setSmartRouting(true));
         const get = async url => {
           try { return await (await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(10000) })).text(); }
           catch (error) { throw new Error(url + ': ' + error); }
@@ -91,9 +93,9 @@ const listen = server => new Promise(resolve => server.listen(0, '127.0.0.1', ()
         await restoreProxyState();
         expect(await get('http://route.invalid/restore') === 'AUTHENTICATED', 'Restart restoration retains Smart Routing');
         await ProxyStore.saveRule({ id: 'ff-rule', pattern: 'route.invalid', targetId: a.id, enabled: true });
-        expect((await browser.runtime.sendMessage({ type: 'proxy:refreshConfig' })).ok, 'Refresh live rule');
+        await runProxyOperation(() => ProxyStore.refreshCurrentConfig());
         expect(await get('http://route.invalid/edited') === 'FALLBACK', 'Live rule edit without toggling');
-        expect((await browser.runtime.sendMessage({ type: 'proxy:test', id: b.id })).ok, 'Temporary profile test');
+        expect((await runProxyOperation(() => testProxy(b.id))).ok, 'Temporary profile test');
         expect(await get('http://route.invalid/after-test') === 'FALLBACK', 'Profile test restores edited rules');
         await ProxyStore.disable();
         for (const page of ['newtab.html', 'notes.html', 'sessions.html', 'tools.html', 'proxy.html', 'settings.html', 'popup.html']) {
