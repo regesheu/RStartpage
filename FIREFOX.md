@@ -13,7 +13,7 @@ bash scripts/build.sh firefox
 ```
 
 The unpacked extension is in `dist/firefox`; the uploadable archive is
-`dist/RStartpage-Firefox-1.9.1.zip`. Do not load the repository's Chrome manifest
+`dist/RStartpage-Firefox-1.9.2.zip`. Do not load the repository's Chrome manifest
 into Firefox.
 
 1. Extract the Firefox ZIP to a folder.
